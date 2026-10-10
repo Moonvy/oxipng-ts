@@ -100,16 +100,13 @@ const seqVal = new Int32Array(512);
 const seqCnt = new Int32Array(512);
 
 /** 4-byte hash of the input at `p` (caller guarantees `p + 4 <= n`). */
-function hashAt(data: Uint8Array, p: number): number {
-  const h = data[p] | (data[p + 1] << 8) | (data[p + 2] << 16) | (data[p + 3] << 24);
+function hashAt(view: DataView, p: number): number {
+  const h = view.getUint32(p, true);
   return (Math.imul(h, 0x9e3779b1) >>> (32 - HASH_BITS)) & HASH_MASK;
 }
 
-/** Unaligned view of the current input, used to compare matches 4 bytes at a time. */
-let dv: DataView | null = null;
-
 /** Longest match at `pos`, packed as `(len << 16) | (dist - 1)`. Optionally inserts `pos`. */
-function findMatch(data: Uint8Array, n: number, pos: number, chain: number, nice: number, insert: boolean): number {
+function findMatch(data: Uint8Array, view: DataView, n: number, pos: number, chain: number, nice: number, insert: boolean): number {
   let bestLen = 0;
   let bestDist = 0;
   const remaining = n - pos;
@@ -117,15 +114,14 @@ function findMatch(data: Uint8Array, n: number, pos: number, chain: number, nice
   if (remaining < 4) return 0;
   const maxLen = remaining < MAX_MATCH ? remaining : MAX_MATCH;
   {
-    // The input view is present whenever at least four bytes remain.
-    const view = dv!;
     const firstWord = view.getUint32(pos, true);
     const h = (Math.imul(firstWord, 0x9e3779b1) >>> (32 - HASH_BITS)) & HASH_MASK;
     let cand = headEpoch[h] === epoch ? head[h] : -1;
     let depth = chain;
     let bestWord = 0;
+    let bestByte = data[pos];
     while (cand >= 0 && depth-- > 0 && pos - cand <= WINDOW) {
-      if (data[cand + bestLen] === data[pos + bestLen]) {
+      if (data[cand + bestLen] === bestByte) {
         let l = 0;
         if (view.getUint32(cand, true) === firstWord) {
           // A candidate must match through bestLen to improve the current
@@ -149,6 +145,7 @@ function findMatch(data: Uint8Array, n: number, pos: number, chain: number, nice
           bestLen = l;
           bestDist = pos - cand;
           if (l >= nice || l >= maxLen) break;
+          bestByte = data[pos + l];
           if (l > 3) bestWord = view.getUint32(pos + l - 3, true);
         }
       }
@@ -396,7 +393,7 @@ function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: numbe
   const n = data.length;
 
   // Fast 4-byte match comparisons (DataView handles unaligned loads).
-  dv = n >= 4 ? new DataView(data.buffer, data.byteOffset, n) : null;
+  const view = n >= 4 ? new DataView(data.buffer, data.byteOffset, n) : null;
 
   if (n === 0) {
     emitStored(bw, true, data, 0, 0);
@@ -437,7 +434,7 @@ function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: numbe
         m = cached;
         cached = -1;
       } else {
-        m = findMatch(data, n, pos, chain, nice, true);
+        m = findMatch(data, view!, n, pos, chain, nice, true);
       }
       let len = m >>> 16;
       let dist = (m & 0xffff) + 1;
@@ -446,7 +443,7 @@ function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: numbe
         // Look ahead one position (inserting it into chains). If it yields a
         // longer match, emit the current byte as a literal and carry the
         // lookahead result.
-        const m2 = findMatch(data, n, pos + 1, chain, nice, true);
+        const m2 = findMatch(data, view!, n, pos + 1, chain, nice, true);
         insertedNext = true;
         if (m2 >>> 16 > len) {
           tLen[count] = data[pos];
@@ -464,7 +461,7 @@ function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: numbe
         const end = pos + len;
         const insLimit = end < n - 3 ? end : n - 3; // insert while p + 4 <= n
         for (let p = pos + (insertedNext ? 2 : 1); p < insLimit; p++) {
-          const h = hashAt(data, p);
+          const h = hashAt(view!, p);
           prev[p & WINDOW_MASK] = headEpoch[h] === epoch ? head[h] : -1;
           headEpoch[h] = epoch;
           head[h] = p;

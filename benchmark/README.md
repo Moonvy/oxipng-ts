@@ -72,3 +72,18 @@ node benchmark/strategy-benchmark.mjs --baseline benchmark/baseline-round2-ring/
 
 See [OPTIMIZATION-ROUND2.md](./OPTIMIZATION-ROUND2.md) for the retained changes,
 validation, memory tradeoffs, and final timings.
+
+## Third-round browser comparison
+
+Run `node benchmark/browser-server.mjs` and open
+http://127.0.0.1:8787/ to compare the saved round-three baseline with the current
+build directly on the browser main thread. Defaults are presets 2 and 6, three
+measured rounds after one warmup, with alternating order. Worker, SharedWorker,
+and WebAssembly access throw; every output requires exact byte parity and
+independent browser Canvas pixel parity. The server only hosts local assets
+and saves successful results to `comparison-round3-browser.json`.
+
+See [BROWSER-ROUND3.md](./BROWSER-ROUND3.md) for URL configuration, validation
+details, and reproducible baseline creation from commit
+`71e2a48d58eed527ee629d7bdf94b0ae648590c0`. Baseline builds and `dist/` may be
+ignored by Git, so create or rebuild the snapshot before starting a comparison.

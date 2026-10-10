@@ -98,3 +98,14 @@ export function deflaterDeflate(deflater: Deflater, data: Uint8Array, maxSize?: 
   const compression = deflater.kind === 'libdeflater' ? deflater.compression : 12;
   return deflate(data, compression, maxSize);
 }
+
+/** Internal exact zlib-size trial, without allocating output or calculating Adler-32. */
+export function deflaterDeflateSize(deflater: Deflater, data: Uint8Array, maxSize?: number): number {
+  const compression = deflater.kind === 'libdeflater' ? deflater.compression : 12;
+  // The byte-aligned zlib header and checksum add six bytes without changing
+  // the DEFLATE parser, block choices, or raw stream alignment.
+  if (maxSize !== undefined && maxSize < 6) throw PngError.deflatedDataTooLong(maxSize);
+  const size = deflateRawSize(data, compression, maxSize === undefined ? undefined : maxSize - 6);
+  if (size === null) throw PngError.deflatedDataTooLong(maxSize!);
+  return size + 6;
+}

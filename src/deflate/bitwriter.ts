@@ -8,17 +8,12 @@ export class SizeLimitExceeded extends Error {
   }
 }
 
-// Exact powers of two for the wide (f64) bit accumulator.
-const POW2 = new Float64Array(56);
-for (let i = 0; i < POW2.length; i++) POW2[i] = 2 ** i;
-
 export class BitWriter {
   private buf: Uint8Array;
   private capacity: number;
   len = 0;
-  // Number accumulator holding `bitCnt` valid bits. Callers write at most 28
-  // bits at a time and `bitCnt` < 8 on entry, so it stays below 2^36 — exact
-  // in an f64.
+  // Fewer than eight pending bits between writes. A write can span 35 bits;
+  // retain its overflow separately while flushing the low 32-bit word.
   private bitBuf = 0;
   private bitCnt = 0;
   private readonly limit: number;
@@ -49,20 +44,22 @@ export class BitWriter {
 
   /** Write the low `count` bits of `value`, least-significant bit first. `count` must be ≤ 28. */
   writeBits(value: number, count: number): void {
-    let bits = this.bitBuf + value * POW2[this.bitCnt];
-    let cnt = this.bitCnt + count;
+    const pending = this.bitCnt;
+    let bits = (this.bitBuf | (value << pending)) >>> 0;
+    let cnt = pending + count;
+    const overflow = cnt > 32 ? value >>> (32 - pending) : 0;
     if (cnt >= 8) {
       this.ensure(cnt >> 3);
       const buf = this.buf;
       let len = this.len;
       do {
         buf[len++] = bits & 0xff;
-        bits = Math.floor(bits / 256);
+        bits >>>= 8;
         cnt -= 8;
       } while (cnt >= 8);
       this.len = len;
     }
-    this.bitBuf = bits;
+    this.bitBuf = bits | overflow;
     this.bitCnt = cnt;
   }
 

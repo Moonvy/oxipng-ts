@@ -1,7 +1,7 @@
 import { colorTypeToString } from './colors.js';
 import type { Deadline } from './deadline.js';
 import { AtomicMin } from './deadline.js';
-import { deflaterDeflate, type Deflater } from './deflate/index.js';
+import { deflaterDeflate, deflaterDeflateSize, type Deflater } from './deflate/index.js';
 import { PngError } from './error.js';
 import { filterStrategyCompare, type FilterStrategy } from './filters/strategies.js';
 import type { PngImage } from './png/index.js';
@@ -68,19 +68,25 @@ export class Evaluator {
     for (const filter of this.filters) {
       if (this.deadline.passed()) return;
       const [filtered, filterUsed] = image.filterImage(filter, this.optimizeAlpha);
-      let idatData: Uint8Array;
+      let idatData: Uint8Array | null = null;
+      let idatSize: number;
       try {
         const bestSize = this.bestCandidateSize.get();
         const limit = bestSize === null ? undefined : bestSize - keyChunksSize;
         if (limit !== undefined && limit < 0) continue;
-        idatData = deflaterDeflate(this.deflater, filtered, limit);
+        if (this.finalRound) {
+          idatData = deflaterDeflate(this.deflater, filtered, limit);
+          idatSize = idatData.length;
+        } else {
+          idatSize = deflaterDeflateSize(this.deflater, filtered, limit);
+        }
       } catch (err) {
         if (err instanceof PngError && err.kind === 'DeflatedDataTooLong') {
           this.trace(`Eval: ${image.ihdr.bitDepth}-bit ${description} >${err.size} bytes`);
         }
         continue;
       }
-      const estimatedOutputSize = image.estimatedOutputSize(idatData);
+      const estimatedOutputSize = idatSize + keyChunksSize;
       this.trace(`Eval: ${image.ihdr.bitDepth}-bit ${description} ${estimatedOutputSize} bytes`);
 
       const bestSize = this.bestCandidateSize.get();
@@ -88,7 +94,7 @@ export class Evaluator {
 
       const candidate: Candidate = {
         image,
-        idatData: this.finalRound ? idatData : null,
+        idatData,
         estimatedOutputSize,
         filter,
         filterUsed,

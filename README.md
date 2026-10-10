@@ -106,9 +106,9 @@ Run `oxipng-ts --help` for the full list of options. Most oxipng flags are suppo
 ## Landing page
 
 `site/` contains a self-contained landing page with a live demo. It runs the optimizer
-entirely in the browser inside a Web Worker — files are never uploaded. You can drop a PNG,
-paste one, or try the built-in samples; it shows the before/after sizes, a comparison slider
-and a download button.
+entirely on the browser's main thread using pure JavaScript, with no Worker or WASM — files
+are never uploaded. You can drop a PNG, paste one, or try the built-in samples; it shows the
+before/after sizes, a comparison slider and a download button.
 
 ```sh
 npm run build      # builds the library and copies site/dist/oxipng-ts.js + samples

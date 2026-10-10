@@ -23,60 +23,24 @@ const els = {
   reset: $('reset'),
 };
 
-let worker = null;
-let nextId = 1;
-const pending = new Map();
-let currentFile = null;
+let currentRequest = 0;
 
-/* ---------------------------------------------------------------- worker ---- */
+/* -------------------------------------------------------------- compression --- */
 
-function getWorker() {
-  if (worker) return worker;
-  try {
-    worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
-    worker.onmessage = (event) => {
-      const { id } = event.data;
-      const entry = pending.get(id);
-      if (!entry) return;
-      pending.delete(id);
-      if (event.data.error) entry.reject(new Error(event.data.error));
-      else entry.resolve({ output: event.data.output, timeMs: event.data.timeMs, size: event.data.size });
-    };
-    worker.onerror = () => {
-      // Fall back to the main thread for any queued work.
-      worker = null;
-    };
-  } catch {
-    worker = null;
-  }
-  return worker;
-}
-
-function optimizeInWorker(buffer, params) {
-  const w = getWorker();
-  if (!w) return optimizeOnMainThread(buffer, params);
-  const id = nextId++;
-  return new Promise((resolve, reject) => {
-    pending.set(id, { resolve, reject });
-    // Transfer the buffer; the caller keeps its own copy for previewing.
-    w.postMessage({ id, buffer, params }, [buffer]);
-  });
-}
-
-function optimizeOnMainThread(buffer, params) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const opts = params.level === 'max' ? Options.maxCompression() : Options.fromPreset(Number(params.level));
-      opts.optimizeAlpha = Boolean(params.alpha);
-      if (params.strip) opts.strip = { mode: 'safe' };
-      if (params.interlace === 'on') opts.interlace = true;
-      else if (params.interlace === 'off') opts.interlace = false;
-      else opts.interlace = null;
-      const t0 = performance.now();
-      const output = optimizeFromMemory(new Uint8Array(buffer), opts);
-      resolve({ output: output.buffer, timeMs: performance.now() - t0, size: output.length });
-    }, 30);
-  });
+async function optimizeOnMainThread(buffer, params, requestId) {
+  // Let the pending status render before synchronous compression begins.
+  await new Promise((resolve) => setTimeout(resolve, 30));
+  if (requestId !== currentRequest) return null;
+  const opts = params.level === 'max' ? Options.maxCompression() : Options.fromPreset(Number(params.level));
+  opts.optimizeAlpha = Boolean(params.alpha);
+  if (params.strip) opts.strip = { mode: 'safe' };
+  if (params.interlace === 'on') opts.interlace = true;
+  else if (params.interlace === 'off') opts.interlace = false;
+  else opts.interlace = null;
+  const t0 = performance.now();
+  const output = optimizeFromMemory(new Uint8Array(buffer), opts);
+  // Preserve the returned view's byteOffset and byteLength when making a Blob.
+  return { output, timeMs: performance.now() - t0, size: output.length };
 }
 
 /* ------------------------------------------------------------------ utils --- */
@@ -103,6 +67,15 @@ function setStatus(html) {
 function clearObjectUrls() {
   if (els.imgOriginal.src) URL.revokeObjectURL(els.imgOriginal.src);
   if (els.imgOptimized.src) URL.revokeObjectURL(els.imgOptimized.src);
+  if (els.download.getAttribute('href')) URL.revokeObjectURL(els.download.href);
+  els.download.removeAttribute('href');
+  els.imgOptimized.onload = null;
+}
+
+function showError(message, detail = '') {
+  setStatus('<p class="error"></p><p class="muted"></p>');
+  els.status.children[0].textContent = message;
+  els.status.children[1].textContent = detail;
 }
 
 /* -------------------------------------------------------------- optimize ---- */
@@ -116,15 +89,16 @@ function readParams() {
   };
 }
 
-async function handleFile(file) {
+async function handleFile(file, requestId = ++currentRequest) {
   if (!file) return;
+  if (requestId !== currentRequest) return;
   const isPng = /\.(png|apng)$/i.test(file.name) || file.type === 'image/png' || file.type === 'image/apng';
   if (!isPng && file.type !== '') {
-    setStatus(`<p class="error">That looks like a ${file.type || 'unknown'} file. Please choose a PNG or APNG.</p>`);
+    showError(`That looks like a ${file.type || 'unknown'} file. Please choose a PNG or APNG.`);
     return;
   }
 
-  currentFile = file;
+  const params = readParams();
   clearObjectUrls();
   const originalUrl = URL.createObjectURL(file);
   els.imgOriginal.src = originalUrl;
@@ -132,9 +106,12 @@ async function handleFile(file) {
 
   setStatus('<div class="spinner"></div><p>Optimizing locally…</p>');
 
-  const arrayBuffer = await file.arrayBuffer();
   try {
-    const { output, timeMs, size } = await optimizeInWorker(arrayBuffer, readParams());
+    const arrayBuffer = await file.arrayBuffer();
+    if (requestId !== currentRequest) return;
+    const result = await optimizeOnMainThread(arrayBuffer, params, requestId);
+    if (requestId !== currentRequest) return;
+    const { output, timeMs, size } = result;
     const optimizedBlob = new Blob([output], { type: 'image/png' });
     const optimizedUrl = URL.createObjectURL(optimizedBlob);
     els.imgOptimized.src = optimizedUrl;
@@ -143,13 +120,28 @@ async function handleFile(file) {
       els.compare.style.setProperty('--pos', '50%');
     };
 
-    renderResult(file.size, size, timeMs, optimizedBlob);
+    renderResult(file, size, timeMs, optimizedBlob);
   } catch (err) {
-    setStatus(`<p class="error">Could not optimize this image.</p><p class="muted">${err.message}</p>`);
+    if (requestId !== currentRequest) return;
+    showError('Could not optimize this image.', err instanceof Error ? err.message : String(err));
   }
 }
 
-function renderResult(originalSize, optimizedSize, timeMs, optimizedBlob) {
+async function loadSample(name) {
+  const requestId = ++currentRequest;
+  try {
+    const res = await fetch(`./samples/${encodeURIComponent(name)}`);
+    if (!res.ok) throw new Error('Sample not found');
+    const blob = await res.blob();
+    await handleFile(new File([blob], name, { type: 'image/png' }), requestId);
+  } catch (err) {
+    if (requestId !== currentRequest) return;
+    showError('Could not load this sample.', err instanceof Error ? err.message : String(err));
+  }
+}
+
+function renderResult(file, optimizedSize, timeMs, optimizedBlob) {
+  const originalSize = file.size;
   const saved = originalSize - optimizedSize;
   const percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
 
@@ -165,7 +157,7 @@ function renderResult(originalSize, optimizedSize, timeMs, optimizedBlob) {
     els.barFill.style.width = `${Math.max(2, Math.min(100, percent))}%`;
   }
 
-  const base = (currentFile && currentFile.name ? currentFile.name : 'image.png').replace(/\.(png|apng)$/i, '');
+  const base = (file.name || 'image.png').replace(/\.(png|apng)$/i, '');
   els.download.href = URL.createObjectURL(optimizedBlob);
   els.download.download = `${base}.optimized.png`;
 
@@ -225,10 +217,7 @@ document.querySelectorAll('[data-sample]').forEach((btn) =>
   btn.addEventListener('click', async () => {
     btn.disabled = true;
     try {
-      const res = await fetch(`./samples/${btn.dataset.sample}`);
-      const blob = await res.blob();
-      const file = new File([blob], btn.dataset.sample, { type: 'image/png' });
-      await handleFile(file);
+      await loadSample(btn.dataset.sample);
     } finally {
       btn.disabled = false;
     }
@@ -240,12 +229,10 @@ els.compareRange.addEventListener('input', () => {
 });
 
 els.reset.addEventListener('click', () => {
-  currentFile = null;
+  currentRequest++;
   clearObjectUrls();
   els.imgOriginal.removeAttribute('src');
   els.imgOptimized.removeAttribute('src');
-  if (els.download.href) URL.revokeObjectURL(els.download.href);
-  els.download.removeAttribute('href');
   setStatus('<p class="placeholder">Your results will appear here.</p>');
   els.fileInput.click();
 });
@@ -270,11 +257,5 @@ setStatus('<p class="placeholder">Your results will appear here.</p>');
 const requestedSample = new URLSearchParams(location.search).get('sample');
 if (requestedSample) {
   const name = requestedSample.split('/').pop();
-  fetch(`./samples/${encodeURIComponent(name)}`)
-    .then((res) => {
-      if (!res.ok) throw new Error('sample not found');
-      return res.blob();
-    })
-    .then((blob) => handleFile(new File([blob], name, { type: 'image/png' })))
-    .catch(() => {});
+  loadSample(name);
 }

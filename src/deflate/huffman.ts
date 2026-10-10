@@ -6,6 +6,7 @@
 const MAX_SYMBOLS = 286;
 const hWeight = new Float64Array(2 * MAX_SYMBOLS);
 const hParent = new Int32Array(2 * MAX_SYMBOLS);
+const hDepth = new Uint16Array(2 * MAX_SYMBOLS);
 const hHeap = new Int32Array(2 * MAX_SYMBOLS);
 const hSyms = new Int32Array(MAX_SYMBOLS);
 let hHeapSize = 0;
@@ -16,35 +17,35 @@ function hLess(a: number, b: number): boolean {
 
 function hPush(x: number): void {
   let i = hHeapSize++;
-  hHeap[i] = x;
   while (i > 0) {
     const p = (i - 1) >> 1;
-    if (!hLess(hHeap[i], hHeap[p])) break;
-    const tmp = hHeap[i];
+    if (!hLess(x, hHeap[p])) break;
     hHeap[i] = hHeap[p];
-    hHeap[p] = tmp;
     i = p;
   }
+  hHeap[i] = x;
 }
 
 function hPop(): number {
   const top = hHeap[0];
   hHeapSize--;
-  hHeap[0] = hHeap[hHeapSize];
+  hReplaceRoot(hHeap[hHeapSize]);
+  return top;
+}
+
+/** Replace the minimum after combining it with the previously popped node. */
+function hReplaceRoot(node: number): void {
   let i = 0;
   for (;;) {
     const l = 2 * i + 1;
+    if (l >= hHeapSize) break;
     const r = l + 1;
-    let m = i;
-    if (l < hHeapSize && hLess(hHeap[l], hHeap[m])) m = l;
-    if (r < hHeapSize && hLess(hHeap[r], hHeap[m])) m = r;
-    if (m === i) break;
-    const tmp = hHeap[i];
-    hHeap[i] = hHeap[m];
-    hHeap[m] = tmp;
-    i = m;
+    const child = r < hHeapSize && hLess(hHeap[r], hHeap[l]) ? r : l;
+    if (!hLess(hHeap[child], node)) break;
+    hHeap[i] = hHeap[child];
+    i = child;
   }
-  return top;
+  hHeap[i] = node;
 }
 
 /**
@@ -72,22 +73,20 @@ export function optimalLengths(freq: Uint32Array, add: number): Uint8Array {
   let next = k;
   while (hHeapSize > 1) {
     const a = hPop();
-    const b = hPop();
+    const b = hHeap[0];
     const node = next++;
     hWeight[node] = hWeight[a] + hWeight[b];
     hParent[a] = node;
     hParent[b] = node;
-    hPush(node);
+    hReplaceRoot(node);
   }
 
+  // Parents are created after their children. Propagate depths once from the
+  // root, instead of walking the parent chain separately for every leaf.
+  hDepth[next - 1] = 0;
+  for (let i = next - 2; i >= 0; i--) hDepth[i] = hDepth[hParent[i]] + 1;
   for (let i = 0; i < k; i++) {
-    let d = 0;
-    let node = i;
-    while (hParent[node] !== -1) {
-      d++;
-      node = hParent[node];
-    }
-    lens[hSyms[i]] = d;
+    lens[hSyms[i]] = hDepth[i];
   }
   return lens;
 }

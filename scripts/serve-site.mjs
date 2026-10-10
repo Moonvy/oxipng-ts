@@ -1,5 +1,4 @@
-// Minimal static file server for the landing page (needed because ES module
-// workers do not run from file:// URLs).
+// Minimal static file server for the landing page and browser ES modules.
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
