@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>oxipng-ts — Lossless PNG optimization in your browser</title>
+    <meta
+      name="description"
+      content="A pure TypeScript port of oxipng. Shrink PNGs losslessly in the browser or on the command line — no uploads, no server, no native code."
+    />
+    <link rel="preconnect" href="https://github.com" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%236366f1'/%3E%3Cpath d='M9 21l5-11 4 7 2-3 3 7z' fill='white'/%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="wrap nav-inner">
+        <a class="brand" href="#top">
+          <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+            <rect width="32" height="32" rx="7" fill="url(#g)" />
+            <path d="M9 21l5-11 4 7 2-3 3 7z" fill="white" />
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6366f1" />
+                <stop offset="1" stop-color="#22d3ee" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <span>oxipng<b>-ts</b></span>
+        </a>
+        <nav class="nav-links">
+          <a href="#demo">Demo</a>
+          <a href="#features">Features</a>
+          <a href="#quickstart">Quickstart</a>
+          <a class="gh" href="https://github.com/oxipng/oxipng" target="_blank" rel="noreferrer">oxipng ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- Hero -->
+      <section class="hero">
+        <div class="wrap hero-inner">
+          <div class="hero-copy">
+            <div class="pill">Pure TypeScript · Browser + Node · CLI + API</div>
+            <h1>Lossless PNG optimization, <span class="grad">right in your browser</span>.</h1>
+            <p class="lede">
+              A faithful TypeScript port of <b>oxipng</b>. Shrink PNG and APNG files without changing a single
+              pixel — all processing happens locally in your browser. No uploads, no server, no native code.
+            </p>
+            <div class="cta-row">
+              <a class="btn primary" href="#demo">Try it now</a>
+              <a class="btn ghost" href="#quickstart">Get the CLI</a>
+            </div>
+            <ul class="hero-stats">
+              <li><b>0</b><span>bytes uploaded</span></li>
+              <li><b>100%</b><span>lossless</span></li>
+              <li><b>ESM + CJS</b><span>+ CLI</span></li>
+            </ul>
+          </div>
+          <div class="hero-card" aria-hidden="true">
+            <div class="mock-row"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+            <pre class="mock-term"><code><span class="c-dim">$</span> oxipng-ts -o 3 --strip safe image.png
+<span class="c-dim">Files processed: 1/1</span>
+Input size:  1.42 MiB (1,489,203 bytes)
+Output size:  1.20 MiB (1,254,912 bytes)
+Total saved: 234 KiB (15.75%)</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Demo -->
+      <section id="demo" class="section">
+        <div class="wrap">
+          <h2>Try it on your own images</h2>
+          <p class="section-lede">
+            Drop a PNG below, or pick a sample. Optimization runs in a Web Worker on your device — nothing is
+            uploaded.
+          </p>
+
+          <div class="demo-grid">
+            <div class="card demo-input">
+              <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Choose or drop a PNG file">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="M12 16V4m0 0L8 8m4-4 4 4" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round" />
+                </svg>
+                <p class="dz-title">Drop a PNG here</p>
+                <p class="dz-sub">or <span class="link">browse files</span> · you can also paste</p>
+                <input id="fileInput" type="file" accept="image/png,image/apng,.png,.apng" hidden />
+              </div>
+
+              <div class="samples">
+                <span class="samples-label">Samples:</span>
+                <button class="chip" data-sample="gradient.png">Gradient</button>
+                <button class="chip" data-sample="shapes.png">Shapes</button>
+                <button class="chip" data-sample="photo.png">Photo</button>
+              </div>
+
+              <div class="controls">
+                <label class="field">
+                  <span>Optimization level</span>
+                  <select id="level">
+                    <option value="0">0 — fastest</option>
+                    <option value="1">1</option>
+                    <option value="2" selected>2 — default</option>
+                    <option value="3">3 — all transforms</option>
+                    <option value="4">4</option>
+                    <option value="5">5 — thorough (slow)</option>
+                    <option value="6">6 — max (slowest)</option>
+                    <option value="max">max</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Interlace</span>
+                  <select id="interlace">
+                    <option value="off" selected>Off</option>
+                    <option value="keep">Keep</option>
+                    <option value="on">On</option>
+                  </select>
+                </label>
+                <label class="check"><input id="alpha" type="checkbox" /> Optimize alpha channel</label>
+                <label class="check"><input id="strip" type="checkbox" /> Strip metadata</label>
+              </div>
+              <p class="hint" id="optionHint">Level 3 enables every reduction. Alpha optimization and stripping can be lossy for metadata / transparent pixels.</p>
+            </div>
+
+            <div class="card demo-output">
+              <div id="status" class="status" role="status" aria-live="polite">
+                <p class="placeholder">Your results will appear here.</p>
+              </div>
+
+              <div id="results" class="results" hidden>
+                <div class="stat-grid">
+                  <div class="stat"><span class="stat-label">Original</span><b id="statOriginal">—</b></div>
+                  <div class="stat"><span class="stat-label">Optimized</span><b id="statOptimized">—</b></div>
+                  <div class="stat good"><span class="stat-label">Saved</span><b id="statSaved">—</b></div>
+                  <div class="stat"><span class="stat-label">Time</span><b id="statTime">—</b></div>
+                </div>
+                <div class="bar" aria-hidden="true"><div class="bar-fill" id="barFill"></div></div>
+
+                <div class="compare" id="compare">
+                  <img class="compare-img" id="imgOriginal" alt="Original image" />
+                  <div class="compare-overlay"><img id="imgOptimized" alt="Optimized image" /></div>
+                  <div class="compare-handle"></div>
+                  <span class="compare-tag left">Original</span>
+                  <span class="compare-tag right">Optimized</span>
+                  <input id="compareRange" class="compare-range" type="range" min="0" max="100" value="50" aria-label="Comparison position" />
+                </div>
+                <p class="compare-note">The two images are pixel-identical — only the encoding changed.</p>
+
+                <div class="result-actions">
+                  <a id="download" class="btn primary" download="optimized.png">Download optimized</a>
+                  <button id="reset" class="btn ghost" type="button">Start over</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section id="features" class="section alt">
+        <div class="wrap">
+          <h2>Everything oxipng does — in TypeScript</h2>
+          <div class="features">
+            <article class="feature"><h3>Faithful port</h3><p>Reductions, filter strategies and the evaluator mirror the Rust original, module for module.</p></article>
+            <article class="feature"><h3>Runs anywhere</h3><p>Pure ESM/CJS with zero native dependencies. Works in modern browsers and Node.js ≥ 20.</p></article>
+            <article class="feature"><h3>CLI + library</h3><p>A full command-line tool and an <code>oxipng(image, options)</code> function, plus a sync API.</p></article>
+            <article class="feature"><h3>Real reductions</h3><p>Colour-type, palette, bit-depth, alpha and grayscale reduction, plus Adam7 interlacing.</p></article>
+            <article class="feature"><h3>9 filter strategies</h3><p>None/Sub/Up/Average/Paeth plus MinSum, Entropy, Bigrams, BigEnt and a brute-force search.</p></article>
+            <article class="feature"><h3>Private by design</h3><p>Files never leave your machine. The demo runs entirely in a Web Worker on your device.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quickstart -->
+      <section id="quickstart" class="section">
+        <div class="wrap">
+          <h2>Quickstart</h2>
+          <div class="quick-grid">
+            <div class="code-card">
+              <div class="code-head"><span>CLI</span><button class="copy" data-copy="cli">Copy</button></div>
+              <pre><code id="code-cli">npm install -g oxipng-ts
+
+# Optimize in place
+oxipng-ts -o 3 image.png
+
+# Recursively, stripping safe-to-remove chunks
+oxipng-ts -r -o 4 --strip safe ./assets</code></pre>
+            </div>
+            <div class="code-card">
+              <div class="code-head"><span>Library</span><button class="copy" data-copy="lib">Copy</button></div>
+              <pre><code id="code-lib">import { oxipng, Options } from 'oxipng-ts';
+
+const input = new Uint8Array(await file.arrayBuffer());
+
+// Lossless, preset 3 (all transformations)
+const optimized = await oxipng(input, Options.fromPreset(3));
+
+// Or run it synchronously
+import { oxipngSync } from 'oxipng-ts';
+const fast = oxipngSync(input, Options.fromPreset(2));</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <p>oxipng-ts — MIT licensed. Ported from <a href="https://github.com/oxipng/oxipng" target="_blank" rel="noreferrer">oxipng</a>.</p>
+        <p class="muted">Compression powered by a pure-JavaScript DEFLATE implementation.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

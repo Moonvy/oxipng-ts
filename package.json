@@ -1,0 +1,61 @@
+{
+  "name": "oxipng-ts",
+  "version": "0.1.0",
+  "description": "A lossless PNG/APNG compression optimizer written in TypeScript, runnable in the browser and Node.js",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "oxipng-ts": "./dist/cli.js"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./node": {
+      "types": "./dist/node.d.ts",
+      "import": "./dist/node.js",
+      "require": "./dist/node.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rslib build && node scripts/postbuild.mjs && node scripts/build-site.mjs",
+    "build:site": "node scripts/build-site.mjs",
+    "dev": "rslib build --watch",
+    "site": "node scripts/serve-site.mjs",
+    "benchmark": "node benchmark/run.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "cli": "node --experimental-strip-types src/cli.ts"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "7.59.4",
+    "@rslib/core": "^1.0.3",
+    "@types/node": "^22.10.0",
+    "@types/pngjs": "6.0.5",
+    "pngjs": "7.0.0",
+    "typescript": "^5.9.0",
+    "vitest": "^5.0.3"
+  },
+  "keywords": [
+    "png",
+    "apng",
+    "compression",
+    "optimizer",
+    "lossless",
+    "image"
+  ]
+}

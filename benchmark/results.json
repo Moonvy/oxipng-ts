@@ -1,0 +1,68 @@
+{
+  "generatedAt": "2026-10-10T13:21:54.906Z",
+  "native": {
+    "bin": "oxipng",
+    "version": "oxipng 10.2.1",
+    "startupMs": 2.9134170000000026
+  },
+  "ts": {
+    "name": "oxipng-ts",
+    "version": "0.1.0",
+    "cliStartupMs": 30.556832999999997
+  },
+  "options": {
+    "opt": "2",
+    "runs": 5,
+    "warmup": 1
+  },
+  "totals": {
+    "files": 4,
+    "originalBytes": 3616704,
+    "nativeBytes": 2473423,
+    "tsBytes": 2673830,
+    "nativeMs": 2700.0951680000026,
+    "tsCliMs": 5297.899500999991,
+    "sizeOverheadPercent": 8.102415155030092,
+    "slowdown": 1.9621158408739412,
+    "nativeStartupMs": 2.9134170000000026,
+    "tsCliStartupMs": 30.556832999999997
+  },
+  "rows": [
+    {
+      "name": "IMG_5112.PNG",
+      "originalSize": 1220437,
+      "nativeSize": 808313,
+      "tsSize": 846944,
+      "sizeDelta": 38631,
+      "nativeMs": 543.8110839999999,
+      "tsCliMs": 973.7162079999998
+    },
+    {
+      "name": "Image Capture.png",
+      "originalSize": 757550,
+      "nativeSize": 551303,
+      "tsSize": 596603,
+      "sizeDelta": 45300,
+      "nativeMs": 616.2046249999985,
+      "tsCliMs": 1097.220541999999
+    },
+    {
+      "name": "Qjiao.png",
+      "originalSize": 827230,
+      "nativeSize": 554704,
+      "tsSize": 615570,
+      "sizeDelta": 60866,
+      "nativeMs": 820.8764170000031,
+      "tsCliMs": 1639.7521669999987
+    },
+    {
+      "name": "Siri AI.png",
+      "originalSize": 811487,
+      "nativeSize": 559103,
+      "tsSize": 614713,
+      "sizeDelta": 55610,
+      "nativeMs": 719.203042000001,
+      "tsCliMs": 1587.210583999993
+    }
+  ]
+}

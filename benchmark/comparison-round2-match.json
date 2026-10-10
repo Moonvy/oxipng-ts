@@ -1,0 +1,24 @@
+{
+  "label": "round2-match",
+  "runs": 3,
+  "baseline": "benchmark/baseline-round2/dist",
+  "presets": [
+    2
+  ],
+  "samples": [
+    "Qjiao.png"
+  ],
+  "exact": true,
+  "timing": "median; in-process; one warmup; alternating order",
+  "rows": [
+    {
+      "preset": 2,
+      "name": "Qjiao.png",
+      "baselineBytes": 615570,
+      "currentBytes": 615570,
+      "baselineMs": 1653.238875000001,
+      "currentMs": 1390.7709999999997,
+      "identical": true
+    }
+  ]
+}

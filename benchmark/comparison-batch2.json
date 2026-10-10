@@ -1,0 +1,79 @@
+{
+  "label": "batch2",
+  "runs": 3,
+  "timing": "median; in-process; one warmup; alternating order",
+  "rows": [
+    {
+      "preset": 2,
+      "name": "IMG_5112.PNG",
+      "baselineBytes": 846944,
+      "currentBytes": 846944,
+      "baselineMs": 1296.8621669999998,
+      "currentMs": 987.0598749999999,
+      "identical": true
+    },
+    {
+      "preset": 2,
+      "name": "Image Capture.png",
+      "baselineBytes": 596603,
+      "currentBytes": 596603,
+      "baselineMs": 1481.026541000001,
+      "currentMs": 1085.4001250000001,
+      "identical": true
+    },
+    {
+      "preset": 2,
+      "name": "Qjiao.png",
+      "baselineBytes": 615570,
+      "currentBytes": 615570,
+      "baselineMs": 2459.2843329999996,
+      "currentMs": 1682.1761670000014,
+      "identical": true
+    },
+    {
+      "preset": 2,
+      "name": "Siri AI.png",
+      "baselineBytes": 614713,
+      "currentBytes": 614713,
+      "baselineMs": 2229.8557079999955,
+      "currentMs": 1638.826208999999,
+      "identical": true
+    },
+    {
+      "preset": 6,
+      "name": "IMG_5112.PNG",
+      "baselineBytes": 837838,
+      "currentBytes": 837838,
+      "baselineMs": 11558.731291999997,
+      "currentMs": 7935.414917000002,
+      "identical": true
+    },
+    {
+      "preset": 6,
+      "name": "Image Capture.png",
+      "baselineBytes": 590345,
+      "currentBytes": 590345,
+      "baselineMs": 11527.010584000003,
+      "currentMs": 8326.446499999991,
+      "identical": true
+    },
+    {
+      "preset": 6,
+      "name": "Qjiao.png",
+      "baselineBytes": 605135,
+      "currentBytes": 605135,
+      "baselineMs": 21046.826750000007,
+      "currentMs": 14730.656625000003,
+      "identical": true
+    },
+    {
+      "preset": 6,
+      "name": "Siri AI.png",
+      "baselineBytes": 594917,
+      "currentBytes": 594917,
+      "baselineMs": 18425.677833000023,
+      "currentMs": 13542.854749999999,
+      "identical": true
+    }
+  ]
+}

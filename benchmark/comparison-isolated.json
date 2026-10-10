@@ -1,0 +1,43 @@
+{
+  "label": "isolated",
+  "runs": 3,
+  "timing": "median; in-process; one warmup; alternating order",
+  "rows": [
+    {
+      "preset": 2,
+      "name": "IMG_5112.PNG",
+      "baselineBytes": 846944,
+      "currentBytes": 846944,
+      "baselineMs": 1233.2960420000004,
+      "currentMs": 919.2592909999998,
+      "identical": true
+    },
+    {
+      "preset": 2,
+      "name": "Image Capture.png",
+      "baselineBytes": 596603,
+      "currentBytes": 596603,
+      "baselineMs": 1378.828625000002,
+      "currentMs": 989.3714579999996,
+      "identical": true
+    },
+    {
+      "preset": 2,
+      "name": "Qjiao.png",
+      "baselineBytes": 615570,
+      "currentBytes": 615570,
+      "baselineMs": 2201.190458000001,
+      "currentMs": 1551.2809579999994,
+      "identical": true
+    },
+    {
+      "preset": 2,
+      "name": "Siri AI.png",
+      "baselineBytes": 614713,
+      "currentBytes": 614713,
+      "baselineMs": 2094.0738749999946,
+      "currentMs": 1490.410625000004,
+      "identical": true
+    }
+  ]
+}

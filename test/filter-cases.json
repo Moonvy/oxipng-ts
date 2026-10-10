@@ -1,0 +1,464 @@
+{
+  "strategies": [
+    {
+      "name": "filter_minsum",
+      "file": "rgb_16_should_be_rgb_16.png",
+      "filter": {
+        "kind": "MinSum",
+        "args": null
+      },
+      "ctIn": 2,
+      "depthIn": 16,
+      "ctOut": 2,
+      "depthOut": 16
+    },
+    {
+      "name": "filter_entropy",
+      "file": "rgb_8_should_be_rgb_8.png",
+      "filter": {
+        "kind": "Entropy",
+        "args": null
+      },
+      "ctIn": 2,
+      "depthIn": 8,
+      "ctOut": 2,
+      "depthOut": 8
+    },
+    {
+      "name": "filter_bigrams",
+      "file": "rgba_8_should_be_rgba_8.png",
+      "filter": {
+        "kind": "Bigrams",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 8,
+      "ctOut": 6,
+      "depthOut": 8
+    },
+    {
+      "name": "filter_bigent",
+      "file": "grayscale_8_should_be_grayscale_8.png",
+      "filter": {
+        "kind": "BigEnt",
+        "args": null
+      },
+      "ctIn": 0,
+      "depthIn": 8,
+      "ctOut": 0,
+      "depthOut": 8
+    },
+    {
+      "name": "filter_brute",
+      "file": "palette_8_should_be_palette_8.png",
+      "filter": {
+        "kind": "Brute",
+        "args": "num_lines: 4,\n            level: 1,"
+      },
+      "ctIn": 3,
+      "depthIn": 8,
+      "ctOut": 3,
+      "depthOut": 8
+    }
+  ],
+  "alpha": [
+    {
+      "name": "alpha_filter_0_for_rgba_16",
+      "file": "filter_0_for_rgba_16.png",
+      "filter": {
+        "kind": "NONE",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 16,
+      "ctOut": 6,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_1_for_rgba_16",
+      "file": "filter_1_for_rgba_16.png",
+      "filter": {
+        "kind": "SUB",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 16,
+      "ctOut": 6,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_2_for_rgba_16",
+      "file": "filter_2_for_rgba_16.png",
+      "filter": {
+        "kind": "UP",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 16,
+      "ctOut": 6,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_3_for_rgba_16",
+      "file": "filter_3_for_rgba_16.png",
+      "filter": {
+        "kind": "AVERAGE",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 16,
+      "ctOut": 6,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_4_for_rgba_16",
+      "file": "filter_4_for_rgba_16.png",
+      "filter": {
+        "kind": "PAETH",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 16,
+      "ctOut": 6,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_5_for_rgba_16",
+      "file": "filter_5_for_rgba_16.png",
+      "filter": {
+        "kind": "MinSum",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 16,
+      "ctOut": 6,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_0_for_rgba_8",
+      "file": "filter_0_for_rgba_8.png",
+      "filter": {
+        "kind": "NONE",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 8,
+      "ctOut": 6,
+      "depthOut": 8
+    },
+    {
+      "name": "alpha_filter_1_for_rgba_8",
+      "file": "filter_1_for_rgba_8.png",
+      "filter": {
+        "kind": "SUB",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 8,
+      "ctOut": 6,
+      "depthOut": 8
+    },
+    {
+      "name": "alpha_filter_2_for_rgba_8",
+      "file": "filter_2_for_rgba_8.png",
+      "filter": {
+        "kind": "UP",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 8,
+      "ctOut": 6,
+      "depthOut": 8
+    },
+    {
+      "name": "alpha_filter_3_for_rgba_8",
+      "file": "filter_3_for_rgba_8.png",
+      "filter": {
+        "kind": "AVERAGE",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 8,
+      "ctOut": 6,
+      "depthOut": 8
+    },
+    {
+      "name": "alpha_filter_4_for_rgba_8",
+      "file": "filter_4_for_rgba_8.png",
+      "filter": {
+        "kind": "PAETH",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 8,
+      "ctOut": 6,
+      "depthOut": 8
+    },
+    {
+      "name": "alpha_filter_5_for_rgba_8",
+      "file": "filter_5_for_rgba_8.png",
+      "filter": {
+        "kind": "MinSum",
+        "args": null
+      },
+      "ctIn": 6,
+      "depthIn": 8,
+      "ctOut": 6,
+      "depthOut": 8
+    },
+    {
+      "name": "alpha_filter_0_for_grayscale_alpha_16",
+      "file": "filter_0_for_grayscale_alpha_16.png",
+      "filter": {
+        "kind": "NONE",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 16,
+      "ctOut": 4,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_1_for_grayscale_alpha_16",
+      "file": "filter_1_for_grayscale_alpha_16.png",
+      "filter": {
+        "kind": "SUB",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 16,
+      "ctOut": 4,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_2_for_grayscale_alpha_16",
+      "file": "filter_2_for_grayscale_alpha_16.png",
+      "filter": {
+        "kind": "UP",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 16,
+      "ctOut": 4,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_3_for_grayscale_alpha_16",
+      "file": "filter_3_for_grayscale_alpha_16.png",
+      "filter": {
+        "kind": "AVERAGE",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 16,
+      "ctOut": 4,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_4_for_grayscale_alpha_16",
+      "file": "filter_4_for_grayscale_alpha_16.png",
+      "filter": {
+        "kind": "PAETH",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 16,
+      "ctOut": 4,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_5_for_grayscale_alpha_16",
+      "file": "filter_5_for_grayscale_alpha_16.png",
+      "filter": {
+        "kind": "MinSum",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 16,
+      "ctOut": 4,
+      "depthOut": 16
+    },
+    {
+      "name": "alpha_filter_0_for_grayscale_alpha_8",
+      "file": "filter_0_for_grayscale_alpha_8.png",
+      "filter": {
+        "kind": "NONE",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 8,
+      "ctOut": 4,
+      "depthOut": 8
+    },
+    {
+      "name": "alpha_filter_1_for_grayscale_alpha_8",
+      "file": "filter_1_for_grayscale_alpha_8.png",
+      "filter": {
+        "kind": "SUB",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 8,
+      "ctOut": 4,
+      "depthOut": 8
+    },
+    {
+      "name": "alpha_filter_2_for_grayscale_alpha_8",
+      "file": "filter_2_for_grayscale_alpha_8.png",
+      "filter": {
+        "kind": "UP",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 8,
+      "ctOut": 4,
+      "depthOut": 8
+    },
+    {
+      "name": "alpha_filter_3_for_grayscale_alpha_8",
+      "file": "filter_3_for_grayscale_alpha_8.png",
+      "filter": {
+        "kind": "AVERAGE",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 8,
+      "ctOut": 4,
+      "depthOut": 8
+    },
+    {
+      "name": "alpha_filter_4_for_grayscale_alpha_8",
+      "file": "filter_4_for_grayscale_alpha_8.png",
+      "filter": {
+        "kind": "PAETH",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 8,
+      "ctOut": 4,
+      "depthOut": 8
+    },
+    {
+      "name": "alpha_filter_5_for_grayscale_alpha_8",
+      "file": "filter_5_for_grayscale_alpha_8.png",
+      "filter": {
+        "kind": "MinSum",
+        "args": null
+      },
+      "ctIn": 4,
+      "depthIn": 8,
+      "ctOut": 4,
+      "depthOut": 8
+    }
+  ],
+  "interlacing": [
+    {
+      "name": "deinterlace_rgb_16",
+      "file": "interlaced_rgb_16_should_be_rgb_16.png",
+      "interlace": false,
+      "ctIn": 2,
+      "depthIn": 16,
+      "ctOut": 2,
+      "depthOut": 16
+    },
+    {
+      "name": "deinterlace_rgb_8",
+      "file": "interlaced_rgb_8_should_be_rgb_8.png",
+      "interlace": false,
+      "ctIn": 2,
+      "depthIn": 8,
+      "ctOut": 2,
+      "depthOut": 8
+    },
+    {
+      "name": "deinterlace_palette_8",
+      "file": "interlaced_palette_8_should_be_palette_8.png",
+      "interlace": false,
+      "ctIn": 3,
+      "depthIn": 8,
+      "ctOut": 3,
+      "depthOut": 8
+    },
+    {
+      "name": "deinterlace_palette_4",
+      "file": "interlaced_palette_4_should_be_palette_4.png",
+      "interlace": false,
+      "ctIn": 3,
+      "depthIn": 4,
+      "ctOut": 3,
+      "depthOut": 4
+    },
+    {
+      "name": "deinterlace_palette_2",
+      "file": "interlaced_palette_2_should_be_palette_2.png",
+      "interlace": false,
+      "ctIn": 3,
+      "depthIn": 2,
+      "ctOut": 3,
+      "depthOut": 2
+    },
+    {
+      "name": "deinterlace_palette_1",
+      "file": "interlaced_palette_1_should_be_palette_1.png",
+      "interlace": false,
+      "ctIn": 3,
+      "depthIn": 1,
+      "ctOut": 3,
+      "depthOut": 1
+    },
+    {
+      "name": "interlace_rgb_16",
+      "file": "rgb_16_should_be_rgb_16.png",
+      "interlace": true,
+      "ctIn": 2,
+      "depthIn": 16,
+      "ctOut": 2,
+      "depthOut": 16
+    },
+    {
+      "name": "interlace_rgb_8",
+      "file": "rgb_8_should_be_rgb_8.png",
+      "interlace": true,
+      "ctIn": 2,
+      "depthIn": 8,
+      "ctOut": 2,
+      "depthOut": 8
+    },
+    {
+      "name": "interlace_palette_8",
+      "file": "palette_8_should_be_palette_8.png",
+      "interlace": true,
+      "ctIn": 3,
+      "depthIn": 8,
+      "ctOut": 3,
+      "depthOut": 8
+    },
+    {
+      "name": "interlace_palette_4",
+      "file": "palette_4_should_be_palette_4.png",
+      "interlace": true,
+      "ctIn": 3,
+      "depthIn": 4,
+      "ctOut": 3,
+      "depthOut": 4
+    },
+    {
+      "name": "interlace_palette_2",
+      "file": "palette_2_should_be_palette_2.png",
+      "interlace": true,
+      "ctIn": 3,
+      "depthIn": 2,
+      "ctOut": 3,
+      "depthOut": 2
+    },
+    {
+      "name": "interlace_palette_1",
+      "file": "palette_1_should_be_palette_1.png",
+      "interlace": true,
+      "ctIn": 3,
+      "depthIn": 1,
+      "ctOut": 3,
+      "depthOut": 1
+    }
+  ]
+}
