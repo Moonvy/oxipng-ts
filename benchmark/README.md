@@ -42,3 +42,33 @@ Additional checks: `node benchmark/deflate-parity.mjs` compares all encoder leve
 against the saved build and independently inflates every result.
 `node benchmark/filters.mjs` measures Paeth, Entropy, and Bigrams filtering on
 Qjiao.png (nine measurements after two warmups), requiring byte-identical output.
+
+## Second optimization round
+
+`baseline-round2/dist/` saves the completed first-round build. The second round
+requires exact output parity, rather than only checking that sizes do not grow:
+
+```sh
+bun run build
+bun run typecheck
+bun run test
+node benchmark/deflate-parity.mjs --baseline benchmark/baseline-round2/dist --extended
+node benchmark/filter-parity.mjs
+node benchmark/compare.mjs --baseline benchmark/baseline-round2/dist --label round2-final --presets 2,6 --runs 3 --exact
+```
+
+`--samples Qjiao.png` limits the comparison to one sample during experiments.
+The extended encoder check covers 390 raw/zlib streams across all levels,
+window boundaries, offset views, late mismatches, and multiple blocks.
+`filter-parity.mjs` checks Brute decisions and transparent-pixel handling on
+five fixture types, also requiring input immutability.
+
+`baseline-round2-ring/dist/` is the intermediate build with the matcher and ring
+optimizations, before Brute sizing. Isolate the Brute sizing improvement with:
+
+```sh
+node benchmark/strategy-benchmark.mjs --baseline benchmark/baseline-round2-ring/dist --label round2-brute-size --runs 3
+```
+
+See [OPTIMIZATION-ROUND2.md](./OPTIMIZATION-ROUND2.md) for the retained changes,
+validation, memory tradeoffs, and final timings.

@@ -1,4 +1,6 @@
-# 优化验证报告
+# 优化验证报告（第一轮）
+
+第二轮结果见 [OPTIMIZATION-ROUND2.md](./OPTIMIZATION-ROUND2.md)。以下保留第一轮测量记录。
 
 日期：2026-10-10（Asia/Taipei）。基线是上一轮计划保存的优化前构建，已复制到 `benchmark/baseline/dist/`，避免依赖临时目录。
 

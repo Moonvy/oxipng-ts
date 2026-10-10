@@ -1,5 +1,5 @@
 import { adler32 } from './adler32.js';
-import { BitWriter } from './bitwriter.js';
+import { BitWriter, SizeLimitExceeded } from './bitwriter.js';
 import { buildCodes, limitedLengths, makeComplete, type CodeSet } from './huffman.js';
 import { DIST_BASE, DIST_EXTRA, LENGTH_BASE, LENGTH_EXTRA } from './inflate.js';
 
@@ -59,6 +59,29 @@ for (let s = 0; s < DIST_BASE.length; s++) {
   }
 }
 const CL_ORDER = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15];
+
+const SIZE_REJECTED = new SizeLimitExceeded();
+
+/** Exact byte count for filter trials, without allocating or writing a stream. */
+class SizeCounter {
+  private bits = 0;
+  constructor(private readonly limit: number) {}
+
+  addBits(bits: number): void {
+    this.bits += bits;
+    if (this.finish() > this.limit) throw SIZE_REJECTED;
+  }
+
+  addStored(bytes: number): void {
+    // Three header bits, byte alignment, LEN/NLEN, then the stored bytes.
+    this.bits = Math.ceil((this.bits + 3) / 8) * 8;
+    this.addBits(32 + bytes * 8);
+  }
+
+  finish(): number {
+    return Math.ceil(this.bits / 8);
+  }
+}
 
 // Reusable scratch (deflate is synchronous, so this is safe).
 const head = new Int32Array(HASH_SIZE);
@@ -206,8 +229,12 @@ function buildCLSequence(hlit: number, hdist: number, litLen: Uint8Array, distLe
   return out;
 }
 
-function emitStored(bw: BitWriter, final: boolean, data: Uint8Array, start: number, end: number): void {
+function emitStored(bw: BitWriter | SizeCounter, final: boolean, data: Uint8Array, start: number, end: number): void {
   const len = end - start;
+  if (bw instanceof SizeCounter) {
+    bw.addStored(len);
+    return;
+  }
   bw.writeBits(final ? 1 : 0, 1);
   bw.writeBits(0, 2);
   bw.alignToByte();
@@ -261,7 +288,7 @@ function writeTokens(bw: BitWriter, litCodes: CodeSet, distCodes: CodeSet, count
 }
 
 function emitBlock(
-  bw: BitWriter,
+  bw: BitWriter | SizeCounter,
   final: boolean,
   data: Uint8Array,
   start: number,
@@ -328,6 +355,12 @@ function emitBlock(
     if (f !== 0) dynBits += f * distLen[s];
   }
 
+  if (bw instanceof SizeCounter) {
+    if (cheap < dynBits && storedBits <= fixedBits) bw.addStored(blockBytes);
+    else bw.addBits(cheap < dynBits ? fixedBits : dynBits);
+    return;
+  }
+
   // Pick the cheapest of stored / fixed / dynamic.
   if (cheap < dynBits) {
     if (storedBits <= fixedBits) {
@@ -359,7 +392,7 @@ function emitBlock(
 }
 
 /** Compress `data` into `bw` as a raw DEFLATE stream at the given level (0-12). */
-function deflateInto(bw: BitWriter, data: Uint8Array, level: number): void {
+function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: number): void {
   const n = data.length;
 
   // Fast 4-byte match comparisons (DataView handles unaligned loads).
@@ -447,6 +480,13 @@ function deflateInto(bw: BitWriter, data: Uint8Array, level: number): void {
     emitBlock(bw, pos >= n, data, blockStart, pos, count);
     blockStart = pos;
   }
+}
+
+/** Internal size-only raw DEFLATE trial, with the same parser and block choices. */
+export function deflateRawSize(data: Uint8Array, level: number, maxSize = Infinity): number {
+  const counter = new SizeCounter(maxSize);
+  deflateInto(counter, data, level);
+  return counter.finish();
 }
 
 /** Compress `data` as a raw DEFLATE stream at the given level (0-12). */

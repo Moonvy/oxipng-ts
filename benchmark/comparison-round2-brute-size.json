@@ -1,0 +1,10 @@
+{
+  "baseline": "benchmark/baseline-round2-ring/dist",
+  "sample": "Qjiao.png",
+  "strategy": "Brute(8,5)",
+  "runs": 3,
+  "timing": "median; in-process; one warmup; alternating order",
+  "baselineMs": 4144.5262920000005,
+  "currentMs": 3864.6224580000016,
+  "identical": true
+}

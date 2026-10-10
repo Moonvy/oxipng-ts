@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import * as compression from '../src/deflate/index.js';
 import {
   AVERAGE,
   BigEnt,
@@ -42,9 +43,15 @@ describe('Brute size-bound ranking', () => {
   });
 
   it('propagates failures other than output-size exhaustion', () => {
-    const evaluator = strategyEvaluator(Brute(3, NaN))!;
+    const evaluator = strategyEvaluator(Brute(3, 5))!;
     evaluator.reset(32);
-    expect(() => evaluator.evaluate(new Uint8Array(32), 0, 32)).toThrow(TypeError);
+    const failure = new Error('encoder failed');
+    const spy = vi.spyOn(compression, 'deflateRawSize').mockImplementationOnce(() => { throw failure; });
+    try {
+      expect(() => evaluator.evaluate(new Uint8Array(32), 0, 32)).toThrow(failure);
+    } finally {
+      spy.mockRestore();
+    }
   });
 });
 

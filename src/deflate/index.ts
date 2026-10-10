@@ -1,6 +1,6 @@
 import { SizeLimitExceeded } from './bitwriter.js';
 import { PngError } from '../error.js';
-import { deflateRaw as deflateRawImpl, zlibCompress } from './deflate.js';
+import { deflateRaw as deflateRawImpl, deflateRawSize as deflateRawSizeImpl, zlibCompress } from './deflate.js';
 import { inflateZlib } from './inflate.js';
 
 export interface ZopfliOptions {
@@ -69,6 +69,16 @@ export function deflateRaw(data: Uint8Array, compression: number, maxSize?: numb
     return deflateRawImpl(data, mapLevel(compression), maxSize);
   } catch (err) {
     if (err instanceof SizeLimitExceeded) throw PngError.deflatedDataTooLong(maxSize!);
+    throw err;
+  }
+}
+
+/** Internal size-only trial: null means the exact output size exceeds the bound. */
+export function deflateRawSize(data: Uint8Array, compression: number, maxSize?: number): number | null {
+  try {
+    return deflateRawSizeImpl(data, mapLevel(compression), maxSize);
+  } catch (err) {
+    if (err instanceof SizeLimitExceeded) return null;
     throw err;
   }
 }

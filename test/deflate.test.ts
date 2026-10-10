@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { inflateRawSync, inflateSync } from 'node:zlib';
 import { createHash } from 'node:crypto';
 import { deflate, deflateRaw, inflate } from '../src/index.js';
+import { deflateRawSize } from '../src/deflate/index.js';
 
 const enc = (s: string) => new TextEncoder().encode(s);
 
@@ -62,6 +63,35 @@ describe('raw deflate', () => {
       const raw = deflateRaw(data, 9);
       const viaNode = new Uint8Array(inflateRawSync(Buffer.from(raw)));
       expect(sameBytes(viaNode, data)).toBe(true);
+    });
+  }
+});
+
+describe('size-only DEFLATE trials', () => {
+  for (const [name, data] of Object.entries(PATTERNS)) {
+    for (const level of LEVELS) {
+      it(`counts the exact raw size and limit: ${name}, level ${level}`, () => {
+        const size = deflateRaw(data, level).length;
+        expect(deflateRawSize(data, level)).toBe(size);
+        expect(deflateRawSize(data, level, size)).toBe(size);
+        expect(deflateRawSize(data, level, size - 1)).toBeNull();
+        // Rejected size-only trials must not affect the writing encoder.
+        expect(sameBytes(new Uint8Array(inflateRawSync(deflateRaw(data, level))), data)).toBe(true);
+      });
+    }
+  }
+
+  for (const level of [1, 6, 12]) {
+    it(`counts alignment between compressed and stored blocks, level ${level}`, () => {
+      const data = new Uint8Array((1 << 19) + 5003);
+      let state = 987654321;
+      for (let i = 0; i < data.length; i++) {
+        state ^= state << 13; state ^= state >>> 17; state ^= state << 5;
+        data[i] = i < (1 << 18) ? i % 31 : state >>> 24;
+      }
+      const size = deflateRaw(data, level).length;
+      expect(deflateRawSize(data, level, size)).toBe(size);
+      expect(deflateRawSize(data, level, size - 1)).toBeNull();
     });
   }
 });

@@ -1,0 +1,11 @@
+{
+  "baseline": "/private/tmp/oxipng-round2-ring-dist",
+  "sample": "Qjiao.png",
+  "strategy": "Brute(8,5)",
+  "runs": 3,
+  "timing": "median; in-process; one warmup; alternating order",
+  "baselineMs": 4217.117291000002,
+  "currentMs": 4342.395791999999,
+  "identical": true,
+  "baselineSaved": "benchmark/baseline-round2-ring/dist"
+}

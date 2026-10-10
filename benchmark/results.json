@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-10-10T13:21:54.906Z",
+  "generatedAt": "2026-10-10T14:08:45.927Z",
   "native": {
     "bin": "oxipng",
     "version": "oxipng 10.2.1",
-    "startupMs": 2.9134170000000026
+    "startupMs": 3.3713339999999974
   },
   "ts": {
     "name": "oxipng-ts",
     "version": "0.1.0",
-    "cliStartupMs": 30.556832999999997
+    "cliStartupMs": 31.078292000000005
   },
   "options": {
     "opt": "2",
@@ -20,12 +20,12 @@
     "originalBytes": 3616704,
     "nativeBytes": 2473423,
     "tsBytes": 2673830,
-    "nativeMs": 2700.0951680000026,
-    "tsCliMs": 5297.899500999991,
+    "nativeMs": 2755.5052070000065,
+    "tsCliMs": 4507.2334590000055,
     "sizeOverheadPercent": 8.102415155030092,
-    "slowdown": 1.9621158408739412,
-    "nativeStartupMs": 2.9134170000000026,
-    "tsCliStartupMs": 30.556832999999997
+    "slowdown": 1.6357194490324165,
+    "nativeStartupMs": 3.3713339999999974,
+    "tsCliStartupMs": 31.078292000000005
   },
   "rows": [
     {
@@ -34,8 +34,8 @@
       "nativeSize": 808313,
       "tsSize": 846944,
       "sizeDelta": 38631,
-      "nativeMs": 543.8110839999999,
-      "tsCliMs": 973.7162079999998
+      "nativeMs": 557.9416659999999,
+      "tsCliMs": 851.6510420000004
     },
     {
       "name": "Image Capture.png",
@@ -43,8 +43,8 @@
       "nativeSize": 551303,
       "tsSize": 596603,
       "sizeDelta": 45300,
-      "nativeMs": 616.2046249999985,
-      "tsCliMs": 1097.220541999999
+      "nativeMs": 624.9608750000007,
+      "tsCliMs": 956.3780000000006
     },
     {
       "name": "Qjiao.png",
@@ -52,8 +52,8 @@
       "nativeSize": 554704,
       "tsSize": 615570,
       "sizeDelta": 60866,
-      "nativeMs": 820.8764170000031,
-      "tsCliMs": 1639.7521669999987
+      "nativeMs": 836.528250000003,
+      "tsCliMs": 1362.8845420000034
     },
     {
       "name": "Siri AI.png",
@@ -61,8 +61,8 @@
       "nativeSize": 559103,
       "tsSize": 614713,
       "sizeDelta": 55610,
-      "nativeMs": 719.203042000001,
-      "tsCliMs": 1587.210583999993
+      "nativeMs": 736.0744160000031,
+      "tsCliMs": 1336.319875000001
     }
   ]
 }

@@ -1,5 +1,4 @@
-import { deflateRaw } from '../deflate/index.js';
-import { PngError } from '../error.js';
+import { deflateRawSize } from '../deflate/index.js';
 import { RowFilter, rowFilterName, type RowFilter as RowFilterType } from './index.js';
 
 /** Filtering strategy for use in {@link Options}. */
@@ -243,14 +242,9 @@ class BruteEvaluator implements StrategyEvaluator {
   }
   evaluate(buf: Uint8Array, _offset: number, end: number): boolean {
     const start = Math.max(0, end - this.limit);
-    let compressed: Uint8Array;
-    try {
-      compressed = deflateRaw(buf.subarray(start, end), this.level, this.bufferSize);
-    } catch (err) {
-      if (err instanceof PngError && err.kind === 'DeflatedDataTooLong') return false;
-      throw err;
-    }
-    this.bufferSize = compressed.length - 1;
+    const size = deflateRawSize(buf.subarray(start, end), this.level, this.bufferSize);
+    if (size === null) return false;
+    this.bufferSize = size - 1;
     return true;
   }
 }
