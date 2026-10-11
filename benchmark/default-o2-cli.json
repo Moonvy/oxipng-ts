@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2026-10-11T14:18:31.052Z",
+  "environment": {
+    "cpu": "Apple M3 Pro",
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.7.0",
+    "rust": "oxipng 10.2.1"
+  },
+  "settings": {
+    "runs": 3,
+    "rust": "oxipng",
+    "output": "benchmark/default-o2-cli.json",
+    "profiles": "baseline-o2",
+    "warmup": 0,
+    "timing": "Fresh CLI process per file; startup included; alternate engines; pixel checks outside timing",
+    "rustThreads": "default"
+  },
+  "bundleSha256": "4cb53b354266da1dd4267604cfda0af18a62ae3894d25e84b8e7a4dc8ea3306d",
+  "complete": true,
+  "rows": [
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "name": "IMG_5112.PNG",
+      "inputBytes": 1220437,
+      "node": {
+        "samplesMs": [
+          1013.561834,
+          1008.4888750000002,
+          1065.0572500000003
+        ],
+        "bytes": 817288,
+        "sha256": "3c6445ee8599041ae8d48e9a6b2c20c0ac0acb01680c48efcca8db7c22f0dd46",
+        "minMs": 1008.4888750000002,
+        "medianMs": 1013.561834
+      }
+    },
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "name": "Image Capture.png",
+      "inputBytes": 757550,
+      "node": {
+        "samplesMs": [
+          1281.2677089999997,
+          1243.1357079999998,
+          1254.8318750000008
+        ],
+        "bytes": 558294,
+        "sha256": "71d0b166045281180814cc0fd7483a6dda2ba7f7ada6668f7cf534b730210b77",
+        "minMs": 1243.1357079999998,
+        "medianMs": 1254.8318750000008
+      }
+    },
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "name": "Qjiao.png",
+      "inputBytes": 827230,
+      "node": {
+        "samplesMs": [
+          1554.6503330000005,
+          1679.804458999999,
+          1617.5353340000001
+        ],
+        "bytes": 562538,
+        "sha256": "a709e289b73cc84c25c7bca3df0c3781732618ca88a25a1d440b4c4f424d0bd3",
+        "minMs": 1554.6503330000005,
+        "medianMs": 1617.5353340000001
+      }
+    },
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "name": "Siri AI.png",
+      "inputBytes": 811487,
+      "node": {
+        "samplesMs": [
+          1679.7931250000001,
+          1506.0542920000007,
+          1419.5045830000017
+        ],
+        "bytes": 563067,
+        "sha256": "15e3ee5df62db2d63f971dbd762f1b2ad5e6926c5b112cbde0787b9b2653ba1c",
+        "minMs": 1419.5045830000017,
+        "medianMs": 1506.0542920000007
+      }
+    },
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "name": "c8005_00.png",
+      "inputBytes": 4029410,
+      "node": {
+        "samplesMs": [
+          6466.966166000002,
+          6211.918458,
+          6186.682584000002
+        ],
+        "bytes": 3745938,
+        "sha256": "446ef97561bc2563e2f445a69ff434f6a106fb04e0182d05037ed23adc9792db",
+        "minMs": 6186.682584000002,
+        "medianMs": 6211.918458
+      }
+    },
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "name": "terminusticket_cutscene_01.png",
+      "inputBytes": 713955,
+      "node": {
+        "samplesMs": [
+          1666.6456250000047,
+          1682.8276669999977,
+          1648.9466660000035
+        ],
+        "bytes": 672741,
+        "sha256": "e5d69c133ad8fdf8cb58e77e5e4d35e9ef8819e259ff3bc8d66c89e6ddd395a8",
+        "minMs": 1648.9466660000035,
+        "medianMs": 1666.6456250000047
+      }
+    },
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "name": "新浪首页.png",
+      "inputBytes": 1337550,
+      "node": {
+        "samplesMs": [
+          2610.472541000003,
+          2672.822457999995,
+          2603.5782089999993
+        ],
+        "bytes": 897822,
+        "sha256": "b0c4306c6b706dbaf2a05bfbe0ca22a0a6b4048565b2ea6b788d3c62f6dee0a3",
+        "minMs": 2603.5782089999993,
+        "medianMs": 2610.472541000003
+      }
+    }
+  ],
+  "totals": [
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "node": {
+        "bytes": 7817688,
+        "minMs": 15664.986958000007,
+        "medianMs": 15881.019959000008
+      }
+    }
+  ]
+}

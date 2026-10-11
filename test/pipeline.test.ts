@@ -1,10 +1,36 @@
 import { describe, expect, it, vi } from 'vitest';
 import { Deadline, Entropy, Evaluator, NONE, Options, PAETH, PngImage, RGBA, SUB,
-  deflate, indexed, libdeflater, performTrials } from '../src/index.ts';
+  deflate, indexed, libdeflater, oxipngSync, performTrials } from '../src/index.ts';
 import { readFixture } from './helpers.ts';
 import { PngData } from '../src/png/index.ts';
 
 describe('filtering and trial pipeline', () => {
+  it('keeps a competitive fixed-filter result and full precision on 16-bit input', () => {
+    const input = readFixture('rgba_16_should_be_rgba_16.png');
+    const opts = Options.fromPreset(2);
+    const fixed = opts.clone();
+    fixed.filters = [SUB];
+    const output = oxipngSync(input, opts);
+    expect(output.length).toBeLessThanOrEqual(oxipngSync(input, fixed).length);
+    const original = PngData.fromSlice(input, opts).raw;
+    const decoded = PngData.fromSlice(output, opts).raw;
+    expect(decoded.ihdr.bitDepth).toBe(16);
+    expect(decoded.data).toEqual(original.data);
+  });
+
+  // Bounds from the stronger evaluation model: protect palette selection,
+  // highly compressed pixels and the one-byte saving on a tiny input.
+  for (const [file, limit] of [
+    ['small_files.png', 89],
+    ['rgb_8_should_be_palette_4.png', 1924],
+    ['rgba_8_should_be_rgba_8.png', 31683],
+    ['interlaced_rgba_8_should_be_rgba_8.png', 31683],
+  ] as const) {
+    it(`keeps a competitive default result on ${file}`, () => {
+      expect(oxipngSync(readFixture(file), Options.fromPreset(2)).length).toBeLessThanOrEqual(limit);
+    });
+  }
+
   it('subtracts palette overhead while retaining candidates tied at the limit', () => {
     const image = new PngImage({ width: 16, height: 1, bitDepth: 8, interlaced: false,
       colorType: indexed([0x000000ff, 0xffffffff]) }, new Uint8Array(16));

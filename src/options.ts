@@ -45,8 +45,8 @@ export class Options {
   scale16 = false;
   /** Which chunks to strip from the PNG file, if any. */
   strip: StripChunks = { mode: 'none' };
-  /** Which DEFLATE algorithm to use for the main trials. */
-  deflater: Deflater = libdeflater(11);
+  /** Main deflater: level 11 with a speed budget; explicit --zc keeps full parsing. */
+  deflater: Deflater = libdeflater(11, true);
   /** Whether to use fast evaluation to pick the best filter. */
   fastEvaluation = true;
   /** Maximum amount of time (in seconds) to spend on optimizations. */
@@ -132,6 +132,7 @@ function preset1(): Options {
 
 function preset3(): Options {
   const o = new Options();
+  o.deflater = libdeflater(11);
   o.filters = filterSetFrom([NONE, SUB, Entropy, Bigrams, BigEnt, Brute(3, 1)]);
   return o;
 }

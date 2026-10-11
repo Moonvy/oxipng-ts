@@ -17,10 +17,13 @@ export interface ZopfliOptions {
  * option is preserved so the CLI/API surface matches oxipng.
  */
 export type Deflater =
-  | { kind: 'libdeflater'; compression: number }
+  // fastOptimal limits level-11 parsing for the default preset's speed budget.
+  // Explicit compression levels retain their original parsing unless opted in.
+  | { kind: 'libdeflater'; compression: number; fastOptimal?: boolean }
   | { kind: 'zopfli'; options: ZopfliOptions };
 
-export function libdeflater(compression: number): Deflater {
+export function libdeflater(compression: number, fastOptimal = false): Deflater {
+  if (fastOptimal) return { kind: 'libdeflater', compression, fastOptimal };
   return { kind: 'libdeflater', compression };
 }
 
@@ -36,7 +39,7 @@ export function zopfli(options: Partial<ZopfliOptions> = {}): Deflater {
 
 export function deflaterEquals(a: Deflater, b: Deflater): boolean {
   if (a.kind !== b.kind) return false;
-  if (a.kind === 'libdeflater' && b.kind === 'libdeflater') return a.compression === b.compression;
+  if (a.kind === 'libdeflater' && b.kind === 'libdeflater') return a.compression === b.compression && Boolean(a.fastOptimal) === Boolean(b.fastOptimal);
   if (a.kind !== 'zopfli' || b.kind !== 'zopfli') return false;
   const bo = b.options;
   return (
@@ -55,9 +58,9 @@ function mapLevel(compression: number): number {
 }
 
 /** Compress `data` as a zlib stream, enforcing the optional `maxSize` bound. */
-export function deflate(data: Uint8Array, compression: number, maxSize?: number): Uint8Array {
+export function deflate(data: Uint8Array, compression: number, maxSize?: number, fastOptimal = false): Uint8Array {
   try {
-    return zlibCompress(data, mapLevel(compression), maxSize);
+    return zlibCompress(data, mapLevel(compression), maxSize, fastOptimal);
   } catch (err) {
     if (err instanceof SizeLimitExceeded) throw PngError.deflatedDataTooLong(maxSize!);
     throw err;
@@ -65,9 +68,9 @@ export function deflate(data: Uint8Array, compression: number, maxSize?: number)
 }
 
 /** Compress `data` as a raw DEFLATE stream (no zlib wrapper). */
-export function deflateRaw(data: Uint8Array, compression: number, maxSize?: number): Uint8Array {
+export function deflateRaw(data: Uint8Array, compression: number, maxSize?: number, fastOptimal = false): Uint8Array {
   try {
-    return deflateRawImpl(data, mapLevel(compression), maxSize);
+    return deflateRawImpl(data, mapLevel(compression), maxSize, fastOptimal);
   } catch (err) {
     if (err instanceof SizeLimitExceeded) throw PngError.deflatedDataTooLong(maxSize!);
     throw err;
@@ -75,9 +78,9 @@ export function deflateRaw(data: Uint8Array, compression: number, maxSize?: numb
 }
 
 /** Internal size-only trial: null means the exact output size exceeds the bound. */
-export function deflateRawSize(data: Uint8Array, compression: number, maxSize?: number): number | null {
+export function deflateRawSize(data: Uint8Array, compression: number, maxSize?: number, fastOptimal = false): number | null {
   try {
-    return deflateRawSizeImpl(data, mapLevel(compression), maxSize);
+    return deflateRawSizeImpl(data, mapLevel(compression), maxSize, fastOptimal);
   } catch (err) {
     if (err instanceof SizeLimitExceeded) return null;
     throw err;
@@ -97,7 +100,7 @@ export function inflate(data: Uint8Array, outSize: number): Uint8Array {
 /** Run the configured deflater over `data`, enforcing the optional `maxSize` bound. */
 export function deflaterDeflate(deflater: Deflater, data: Uint8Array, maxSize?: number): Uint8Array {
   const compression = deflater.kind === 'libdeflater' ? deflater.compression : 12;
-  return deflate(data, compression, maxSize);
+  return deflate(data, compression, maxSize, deflater.kind === 'libdeflater' && deflater.fastOptimal);
 }
 
 /** Internal exact zlib-size trial, without allocating output or calculating Adler-32. */
@@ -106,7 +109,7 @@ export function deflaterDeflateSize(deflater: Deflater, data: Uint8Array, maxSiz
   // The byte-aligned zlib header and checksum add six bytes without changing
   // the DEFLATE parser, block choices, or raw stream alignment.
   if (maxSize !== undefined && maxSize < 6) throw PngError.deflatedDataTooLong(maxSize);
-  const size = deflateRawSize(data, compression, maxSize === undefined ? undefined : maxSize - 6);
+  const size = deflateRawSize(data, compression, maxSize === undefined ? undefined : maxSize - 6, deflater.kind === 'libdeflater' && deflater.fastOptimal);
   if (size === null) throw PngError.deflatedDataTooLong(maxSize!);
   return size + 6;
 }

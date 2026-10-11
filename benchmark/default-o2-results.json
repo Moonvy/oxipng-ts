@@ -1,0 +1,545 @@
+{
+  "generatedAt": "2026-10-11T14:13:25.573Z",
+  "environment": {
+    "cpu": "Apple M3 Pro",
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.7.0"
+  },
+  "settings": {
+    "runs": 3,
+    "warmup": 1,
+    "corpus": "extended",
+    "candidates": "before-o2,current-o2",
+    "output": "benchmark/default-o2-results.json"
+  },
+  "encoderSha256": "3715feb09f7d89ddba2fdb9b2059dffb332aea0e5ae57b538b89730a43c1ae78",
+  "optimizerSha256": "4b90ecf4bc86e28c7df6f05531d7e241383ecb301386de09ad46d6affd04b236",
+  "timing": "In-process API; alternating/rotating candidates; PNG checks outside timing; all bundles built identically",
+  "complete": true,
+  "configurations": [
+    {
+      "name": "before-o2",
+      "compression": 11,
+      "filters": "default",
+      "evaluationLevel": 7
+    },
+    {
+      "name": "current-o2",
+      "compression": 11,
+      "filters": "default"
+    }
+  ],
+  "rows": [
+    {
+      "name": "IMG_5112.PNG",
+      "category": "screenshot",
+      "inputBytes": 1220437,
+      "candidates": {
+        "before-o2": {
+          "bytes": 817288,
+          "medianMs": 1139.525416,
+          "minMs": 1121.5217080000002,
+          "samplesMs": [
+            1139.525416,
+            1121.5217080000002,
+            1147.6590829999996
+          ],
+          "sha256": "3c6445ee8599041ae8d48e9a6b2c20c0ac0acb01680c48efcca8db7c22f0dd46",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 817288,
+          "medianMs": 1009.5560419999997,
+          "minMs": 993.4757079999999,
+          "samplesMs": [
+            1009.5560419999997,
+            993.4757079999999,
+            1010.7139999999999
+          ],
+          "sha256": "3c6445ee8599041ae8d48e9a6b2c20c0ac0acb01680c48efcca8db7c22f0dd46",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "Image Capture.png",
+      "category": "screenshot",
+      "inputBytes": 757550,
+      "candidates": {
+        "before-o2": {
+          "bytes": 558294,
+          "medianMs": 1308.0812499999993,
+          "minMs": 1298.0130420000005,
+          "samplesMs": [
+            1298.0130420000005,
+            1316.2145,
+            1308.0812499999993
+          ],
+          "sha256": "71d0b166045281180814cc0fd7483a6dda2ba7f7ada6668f7cf534b730210b77",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 558294,
+          "medianMs": 1186.7272919999996,
+          "minMs": 1182.9771250000013,
+          "samplesMs": [
+            1182.9771250000013,
+            1186.7272919999996,
+            1192.6955409999973
+          ],
+          "sha256": "71d0b166045281180814cc0fd7483a6dda2ba7f7ada6668f7cf534b730210b77",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "Qjiao.png",
+      "category": "screenshot",
+      "inputBytes": 827230,
+      "candidates": {
+        "before-o2": {
+          "bytes": 562538,
+          "medianMs": 1651.401958999999,
+          "minMs": 1645.6588749999974,
+          "samplesMs": [
+            1645.6588749999974,
+            1651.401958999999,
+            1666.7662090000013
+          ],
+          "sha256": "a709e289b73cc84c25c7bca3df0c3781732618ca88a25a1d440b4c4f424d0bd3",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 562538,
+          "medianMs": 1469.9619999999995,
+          "minMs": 1469.573292000001,
+          "samplesMs": [
+            1470.723958999999,
+            1469.9619999999995,
+            1469.573292000001
+          ],
+          "sha256": "a709e289b73cc84c25c7bca3df0c3781732618ca88a25a1d440b4c4f424d0bd3",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "Siri AI.png",
+      "category": "screenshot",
+      "inputBytes": 811487,
+      "candidates": {
+        "before-o2": {
+          "bytes": 563067,
+          "medianMs": 1529.8862500000032,
+          "minMs": 1529.2214999999997,
+          "samplesMs": [
+            1529.2214999999997,
+            1529.8862500000032,
+            1534.9511249999996
+          ],
+          "sha256": "15e3ee5df62db2d63f971dbd762f1b2ad5e6926c5b112cbde0787b9b2653ba1c",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 563067,
+          "medianMs": 1374.6831670000029,
+          "minMs": 1370.1400829999984,
+          "samplesMs": [
+            1374.6831670000029,
+            1375.1460420000003,
+            1370.1400829999984
+          ],
+          "sha256": "15e3ee5df62db2d63f971dbd762f1b2ad5e6926c5b112cbde0787b9b2653ba1c",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "c8005_00.png",
+      "category": "screenshot",
+      "inputBytes": 4029410,
+      "candidates": {
+        "before-o2": {
+          "bytes": 3745938,
+          "medianMs": 7064.294915999999,
+          "minMs": 7057.851625000003,
+          "samplesMs": [
+            7057.851625000003,
+            7064.294915999999,
+            7066.326874999999
+          ],
+          "sha256": "446ef97561bc2563e2f445a69ff434f6a106fb04e0182d05037ed23adc9792db",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 3745938,
+          "medianMs": 6430.234582999998,
+          "minMs": 6425.474334000013,
+          "samplesMs": [
+            6451.657541999994,
+            6430.234582999998,
+            6425.474334000013
+          ],
+          "sha256": "446ef97561bc2563e2f445a69ff434f6a106fb04e0182d05037ed23adc9792db",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "terminusticket_cutscene_01.png",
+      "category": "screenshot",
+      "inputBytes": 713955,
+      "candidates": {
+        "before-o2": {
+          "bytes": 672741,
+          "medianMs": 1684.2477910000016,
+          "minMs": 1680.427874999994,
+          "samplesMs": [
+            1680.427874999994,
+            1684.2477910000016,
+            1691.4011670000036
+          ],
+          "sha256": "e5d69c133ad8fdf8cb58e77e5e4d35e9ef8819e259ff3bc8d66c89e6ddd395a8",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 672741,
+          "medianMs": 1577.61979099999,
+          "minMs": 1573.7359589999978,
+          "samplesMs": [
+            1573.7359589999978,
+            1577.61979099999,
+            1600.1461249999993
+          ],
+          "sha256": "e5d69c133ad8fdf8cb58e77e5e4d35e9ef8819e259ff3bc8d66c89e6ddd395a8",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "新浪首页.png",
+      "category": "screenshot",
+      "inputBytes": 1337550,
+      "candidates": {
+        "before-o2": {
+          "bytes": 897822,
+          "medianMs": 2577.8985839999805,
+          "minMs": 2562.0439590000024,
+          "samplesMs": [
+            2562.0439590000024,
+            2624.820292000004,
+            2577.8985839999805
+          ],
+          "sha256": "b0c4306c6b706dbaf2a05bfbe0ca22a0a6b4048565b2ea6b788d3c62f6dee0a3",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 897822,
+          "medianMs": 2575.985209000006,
+          "minMs": 2574.2187080000003,
+          "samplesMs": [
+            2574.2187080000003,
+            2629.4289590000117,
+            2575.985209000006
+          ],
+          "sha256": "b0c4306c6b706dbaf2a05bfbe0ca22a0a6b4048565b2ea6b788d3c62f6dee0a3",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "generated/gradient.png",
+      "category": "generated",
+      "inputBytes": 521263,
+      "candidates": {
+        "before-o2": {
+          "bytes": 24141,
+          "medianMs": 812.0376659999893,
+          "minMs": 800.7067079999833,
+          "samplesMs": [
+            800.7067079999833,
+            812.0376659999893,
+            828.4115829999791
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 24141,
+          "medianMs": 732.700125000003,
+          "minMs": 732.4461249999877,
+          "samplesMs": [
+            732.4461249999877,
+            741.4281250000058,
+            732.700125000003
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "generated/shapes.png",
+      "category": "generated",
+      "inputBytes": 8382,
+      "candidates": {
+        "before-o2": {
+          "bytes": 3966,
+          "medianMs": 164.53737500001444,
+          "minMs": 159.78262499999255,
+          "samplesMs": [
+            164.53737500001444,
+            167.96270799997728,
+            159.78262499999255
+          ],
+          "sha256": "2fc0f819fd3da75c7f560b6be4baa18e2d5eb9b770b33f7faca9092652f50445",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 3966,
+          "medianMs": 165.5956249999872,
+          "minMs": 157.14562500000466,
+          "samplesMs": [
+            157.14562500000466,
+            165.5956249999872,
+            167.1748329999973
+          ],
+          "sha256": "2fc0f819fd3da75c7f560b6be4baa18e2d5eb9b770b33f7faca9092652f50445",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "generated/photo.png",
+      "category": "generated",
+      "inputBytes": 354331,
+      "candidates": {
+        "before-o2": {
+          "bytes": 218698,
+          "medianMs": 682.4981250000128,
+          "minMs": 653.2244160000118,
+          "samplesMs": [
+            775.184041999979,
+            682.4981250000128,
+            653.2244160000118
+          ],
+          "sha256": "7c9dcf04bfcac61acf11b6483a417e4726bf5fe626bff1d8c223795361cde2b9",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 218698,
+          "medianMs": 584.6201670000155,
+          "minMs": 537.7407919999969,
+          "samplesMs": [
+            584.6201670000155,
+            587.5245830000204,
+            537.7407919999969
+          ],
+          "sha256": "7c9dcf04bfcac61acf11b6483a417e4726bf5fe626bff1d8c223795361cde2b9",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "fixture/palette_8_should_be_palette_8.png",
+      "category": "fixture",
+      "inputBytes": 32558,
+      "candidates": {
+        "before-o2": {
+          "bytes": 30176,
+          "medianMs": 132.3062079999945,
+          "minMs": 124.83595899998909,
+          "samplesMs": [
+            124.83595899998909,
+            132.3062079999945,
+            133.44958400001633
+          ],
+          "sha256": "7cbf1515d2d9fba238625c3215aadcb85611be34eb1acb743eee2815d46e732d",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 30176,
+          "medianMs": 131.90220799998497,
+          "minMs": 125.5134160000016,
+          "samplesMs": [
+            125.5134160000016,
+            137.27829099999508,
+            131.90220799998497
+          ],
+          "sha256": "7cbf1515d2d9fba238625c3215aadcb85611be34eb1acb743eee2815d46e732d",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "fixture/rgb_trns_8_should_be_palette_8.png",
+      "category": "fixture",
+      "inputBytes": 40736,
+      "candidates": {
+        "before-o2": {
+          "bytes": 30176,
+          "medianMs": 117.16116700001294,
+          "minMs": 115.77774999997928,
+          "samplesMs": [
+            115.77774999997928,
+            117.16116700001294,
+            173.12858300001244
+          ],
+          "sha256": "7cbf1515d2d9fba238625c3215aadcb85611be34eb1acb743eee2815d46e732d",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 30176,
+          "medianMs": 119.78829100000439,
+          "minMs": 115.13145799998892,
+          "samplesMs": [
+            115.13145799998892,
+            119.78829100000439,
+            135.27879199999734
+          ],
+          "sha256": "7cbf1515d2d9fba238625c3215aadcb85611be34eb1acb743eee2815d46e732d",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "fixture/rgba_16_should_be_rgba_16.png",
+      "category": "fixture",
+      "inputBytes": 88684,
+      "candidates": {
+        "before-o2": {
+          "bytes": 82148,
+          "medianMs": 610.0198749999981,
+          "minMs": 600.3134160000191,
+          "samplesMs": [
+            600.3134160000191,
+            610.0198749999981,
+            633.4859580000048
+          ],
+          "sha256": "dd8b86e4db3e49d4d28a460eea71724f885fc6eb7fa2445d8f6fe89273d150d8",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 82148,
+          "medianMs": 625.2616669999843,
+          "minMs": 600.5977910000074,
+          "samplesMs": [
+            600.5977910000074,
+            625.2616669999843,
+            640.6136659999902
+          ],
+          "sha256": "dd8b86e4db3e49d4d28a460eea71724f885fc6eb7fa2445d8f6fe89273d150d8",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "fixture/interlaced_rgba_16_should_be_rgba_16.png",
+      "category": "fixture",
+      "inputBytes": 113711,
+      "candidates": {
+        "before-o2": {
+          "bytes": 82148,
+          "medianMs": 668.6109170000127,
+          "minMs": 667.8520419999841,
+          "samplesMs": [
+            713.8640410000226,
+            667.8520419999841,
+            668.6109170000127
+          ],
+          "sha256": "dd8b86e4db3e49d4d28a460eea71724f885fc6eb7fa2445d8f6fe89273d150d8",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 82148,
+          "medianMs": 658.8044590000063,
+          "minMs": 611.1492499999877,
+          "samplesMs": [
+            611.1492499999877,
+            1476.0869999999995,
+            658.8044590000063
+          ],
+          "sha256": "dd8b86e4db3e49d4d28a460eea71724f885fc6eb7fa2445d8f6fe89273d150d8",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "fixture/small_files.png",
+      "category": "fixture",
+      "inputBytes": 90,
+      "candidates": {
+        "before-o2": {
+          "bytes": 89,
+          "medianMs": 0.19516699999803677,
+          "minMs": 0.1833749999932479,
+          "samplesMs": [
+            0.2227079999865964,
+            0.19516699999803677,
+            0.1833749999932479
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 89,
+          "medianMs": 0.18612500000745058,
+          "minMs": 0.18287499999860302,
+          "samplesMs": [
+            0.20912500002305023,
+            0.18612500000745058,
+            0.18287499999860302
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "fixture/apng_file.png",
+      "category": "fixture",
+      "inputBytes": 63435,
+      "candidates": {
+        "before-o2": {
+          "bytes": 62367,
+          "medianMs": 58.375333999982104,
+          "minMs": 50.98550000000978,
+          "samplesMs": [
+            58.375333999982104,
+            50.98550000000978,
+            60.074041999992914
+          ],
+          "sha256": "aa6c718ae573a4ad486cf51e578834dcfd20a65a99e1a72501328cb83e98bca0",
+          "matchesBaseline": true
+        },
+        "current-o2": {
+          "bytes": 62367,
+          "medianMs": 54.70395900000585,
+          "minMs": 51.69395800001803,
+          "samplesMs": [
+            51.69395800001803,
+            54.70395900000585,
+            57.961292000021785
+          ],
+          "sha256": "aa6c718ae573a4ad486cf51e578834dcfd20a65a99e1a72501328cb83e98bca0",
+          "matchesBaseline": true
+        }
+      }
+    }
+  ],
+  "totals": [
+    {
+      "name": "before-o2",
+      "bytes": 8351597,
+      "medianMs": 20201.077999999998,
+      "minMs": 20068.40037499996
+    },
+    {
+      "name": "current-o2",
+      "bytes": 8351597,
+      "medianMs": 18698.330709999995,
+      "minMs": 18521.196499000005
+    }
+  ]
+}

@@ -128,6 +128,9 @@ const pathLen = new Uint16Array(OPT_BLOCK_SIZE);
 const bestLenTokens = new Uint16Array(OPT_BLOCK_SIZE);
 const bestDistTokens = new Uint16Array(OPT_BLOCK_SIZE);
 const lengthCosts = new Uint8Array(MAX_MATCH + 1);
+const lengthCostEnd = new Uint16Array(MAX_MATCH + 1);
+const previousLiteralCosts = new Uint8Array(286);
+const previousDistanceCosts = new Uint8Array(30);
 const trialLiteralCosts = new Uint8Array(286);
 const trialDistanceCosts = new Uint8Array(30);
 const blockHistogram = new Uint32Array(256);
@@ -287,7 +290,7 @@ function findWideMatch(data: Uint8Array, view: DataView, end: number, pos: numbe
 /** Cache progressively longer matches, preserving the nearer distances. */
 function cacheMatches(
   data: Uint8Array, view: DataView, pos: number, end: number,
-  depth: number, nice: number, record: boolean, knownDistance: number, knownLength: number,
+  depth: number, nice: number,
 ): number {
   const remaining = end - pos;
   if (remaining < 3) return 0;
@@ -299,7 +302,7 @@ function cacheMatches(
   if (short >= 0 && pos - short <= WINDOW && data[short] === data[pos] &&
       data[short + 1] === data[pos + 1] && data[short + 2] === data[pos + 2]) {
     best = 3;
-    if (record) matchCache[cacheCount++] = (3 << 16) | (pos - short - 1);
+    matchCache[cacheCount++] = (3 << 16) | (pos - short - 1);
   }
   head3[h3] = pos;
   head3Epoch[h3] = epoch;
@@ -317,14 +320,23 @@ function cacheMatches(
   const max = Math.min(MAX_MATCH, data.length - pos);
   while (cand >= 0 && pos - cand <= WINDOW && depth-- > 0) {
     let len = Math.min(leftLength, rightLength);
-    // The previous match proves this suffix without rereading long runs.
-    if (pos - cand === knownDistance && knownLength > len) len = knownLength;
-    while (len + 4 <= max && view.getUint32(pos + len, true) === view.getUint32(cand + len, true)) len += 4;
-    while (len < max && data[pos + len] === data[cand + len]) len++;
+    while (len + 4 <= max) {
+      const diff = (len === 0 ? first : view.getUint32(pos + len, true)) ^ view.getUint32(cand + len, true);
+      if (diff !== 0) {
+        len += (31 - Math.clz32(diff & -diff)) >>> 3;
+        break;
+      }
+      len += 4;
+    }
+    // A mismatching word already located the differing byte. Only a tail
+    // shorter than a word still needs byte comparisons.
+    if (len + 4 > max) {
+      while (len < max && data[pos + len] === data[cand + len]) len++;
+    }
     const usable = Math.min(len, remaining);
     if (usable > best) {
       best = usable;
-      if (record) matchCache[cacheCount++] = (usable << 16) | (pos - cand - 1);
+      matchCache[cacheCount++] = (usable << 16) | (pos - cand - 1);
     }
     const slot = (cand & WINDOW_MASK) * 2;
     // At the exact window distance, the candidate shares our ring slot.
@@ -352,8 +364,166 @@ function cacheMatches(
   return best;
 }
 
+/** Insert a skipped match interior without collecting unused matches. */
+function insertTree(
+  data: Uint8Array, view: DataView, pos: number, end: number,
+  depth: number, nice: number, knownDistance: number, knownLength: number,
+): void {
+  const remaining = end - pos;
+  if (remaining < 3) return;
+  const first = remaining >= 4 ? view.getUint32(pos, true) :
+    data[pos] | (data[pos + 1] << 8) | (data[pos + 2] << 16);
+  const h3 = Math.imul(first & 0xffffff, 0x9e3779b1) >>> (32 - HASH_BITS);
+  head3[h3] = pos;
+  head3Epoch[h3] = epoch;
+  if (remaining < 4) return;
+  const hash = Math.imul(first, 0x9e3779b1) >>> (32 - HASH_BITS);
+  let cand = headEpoch[hash] === epoch ? head[hash] : -1;
+  headEpoch[hash] = epoch;
+  head[hash] = pos;
+  let left = (pos & WINDOW_MASK) * 2;
+  let right = left + 1;
+  let leftLength = 0;
+  let rightLength = 0;
+  // Once `nice` bytes match, the original search copies the same children
+  // regardless of the rest of the match; no full match length is needed.
+  const max = Math.min(nice, data.length - pos);
+  while (cand >= 0 && pos - cand <= WINDOW && depth-- > 0) {
+    let len = Math.min(leftLength, rightLength);
+    if (pos - cand === knownDistance && knownLength > len) len = knownLength;
+    while (len + 4 <= max) {
+      const diff = (len === 0 ? first : view.getUint32(pos + len, true)) ^ view.getUint32(cand + len, true);
+      if (diff !== 0) {
+        len += (31 - Math.clz32(diff & -diff)) >>> 3;
+        break;
+      }
+      len += 4;
+    }
+    if (len + 4 > max) {
+      while (len < max && data[pos + len] === data[cand + len]) len++;
+    }
+    const slot = (cand & WINDOW_MASK) * 2;
+    if (pos - cand === WINDOW) break;
+    if (len >= max) {
+      treeChildren[left] = treeChildren[slot];
+      treeChildren[right] = treeChildren[slot + 1];
+      return;
+    }
+    if (data[cand + len] < data[pos + len]) {
+      treeChildren[left] = cand;
+      left = slot + 1;
+      cand = treeChildren[left];
+      leftLength = len;
+    } else {
+      treeChildren[right] = cand;
+      right = slot;
+      cand = treeChildren[right];
+      rightLength = len;
+    }
+  }
+  treeChildren[left] = -1;
+  treeChildren[right] = -1;
+}
+
+/** Query equal-cost length ranges whose suffix costs strictly decrease. */
+function monotoneMatch(i: number, first: number, last: number, best: number): number {
+  let length = 0;
+  for (let len = first; len <= last;) {
+    const end = Math.min(lengthCostEnd[len], last);
+    const trial = lengthCosts[len] + pathCost[i + end];
+    if (trial < best) {
+      best = trial;
+      length = end;
+    }
+    len = end + 1;
+  }
+  // Block costs fit below 2^21; nine low bits retain lengths 0..258.
+  return best * 512 + length;
+}
+
+/** Scalar parser for blocks dominated by short matches. */
+function findOptimalPath(
+  data: Uint8Array, start: number, size: number,
+  literalCosts: Uint8Array, distanceCosts: Uint8Array,
+): void {
+  pathCost[size] = 0;
+  for (let i = size - 1; i >= 0; i--) {
+    let cost = (literalCosts[data[start + i]] || 12) + pathCost[i + 1];
+    let length = 1;
+    let distance = 0;
+    let minLength = MIN_MATCH;
+    for (let m = matchStarts[i]; m < matchStarts[i + 1]; m++) {
+      const match = matchCache[m];
+      const max = Math.min(match >>> 16, size - i);
+      const dist = (match & 0xffff) + 1;
+      const distanceCost = (distanceCosts[distSym[dist]] || 12) + distExtraCnt[dist];
+      let best = cost - distanceCost;
+      for (let len = minLength; len <= max; len++) {
+        const trial = lengthCosts[len] + pathCost[i + len];
+        if (trial < best) {
+          best = trial;
+          length = len;
+          distance = dist;
+        }
+      }
+      cost = best + distanceCost;
+      minLength = max + 1;
+    }
+    pathCost[i] = cost;
+    pathLen[i] = length;
+    matchDist[i] = distance;
+  }
+}
+
+/** Compute a minimum-cost path separately from Huffman model updates. */
+function findOptimalPathRanges(
+  data: Uint8Array, start: number, size: number,
+  literalCosts: Uint8Array, distanceCosts: Uint8Array,
+): void {
+  pathCost[size] = 0;
+  for (let i = size - 1; i >= 0; i--) {
+    let cost = (literalCosts[data[start + i]] || 12) + pathCost[i + 1];
+    let length = 1;
+    let distance = 0;
+    let minLength = MIN_MATCH;
+    for (let m = matchStarts[i]; m < matchStarts[i + 1]; m++) {
+      const match = matchCache[m];
+      // A full cache can end the block earlier than the matcher expected.
+      const max = Math.min(match >>> 16, size - i);
+      const dist = (match & 0xffff) + 1;
+      const distanceCost = (distanceCosts[distSym[dist]] || 12) + distExtraCnt[dist];
+      let best = cost - distanceCost;
+      if (max - minLength >= 16 && matchStarts[i + minLength] === matchStarts[i + max]) {
+        // Literal-only suffix gaps have positive step costs, so the final
+        // length uniquely minimizes each interval of equal length costs.
+        // Equal cumulative cache offsets prove that the gap has no matches.
+        const result = monotoneMatch(i, minLength, max, best);
+        if ((result & 511) !== 0) {
+          best = Math.floor(result / 512);
+          length = result & 511;
+          distance = dist;
+        }
+      } else {
+        for (let len = minLength; len <= max; len++) {
+          const trial = lengthCosts[len] + pathCost[i + len];
+          if (trial < best) {
+            best = trial;
+            length = len;
+            distance = dist;
+          }
+        }
+      }
+      cost = best + distanceCost;
+      minLength = max + 1;
+    }
+    pathCost[i] = cost;
+    pathLen[i] = length;
+    matchDist[i] = distance;
+  }
+}
+
 /** Reparse cached matches using Huffman costs, retaining the smallest trial. */
-function optimalTokens(data: Uint8Array, start: number, end: number, passes: number, minImprovement: number): number {
+function optimalTokens(data: Uint8Array, start: number, end: number, passes: number, minImprovement: number, fastOptimal = false): number {
   const size = end - start;
   let initialCount = 0;
   for (let i = 0; i < size;) {
@@ -366,6 +536,9 @@ function optimalTokens(data: Uint8Array, start: number, end: number, passes: num
     tDist[initialCount++] = len === 1 ? 0 : (match & 0xffff) + 1;
     i += len;
   }
+  // Range queries pay off when greedy tokens span long literal-only gaps.
+  // Keep the scalar hot loop for short-match blocks. Both parsers are exact.
+  const useRanges = initialCount * 32 < size;
   const initialCounter = new SizeCounter(Infinity);
   emitBlock(initialCounter, false, data, start, end, initialCount, true);
   // Seed the cost model from this block's actual symbols, and retain the
@@ -373,38 +546,26 @@ function optimalTokens(data: Uint8Array, start: number, end: number, passes: num
   let literalCosts: Uint8Array = trialLiteralCosts;
   let distanceCosts: Uint8Array = trialDistanceCosts;
   let bestSize = initialCounter.bitLength();
+  // One cost-model pass for the default speed budget. Highly compressible
+  // blocks retain all passes: small absolute changes matter more there.
+  if (fastOptimal && bestSize >= size) passes = 1;
   let bestCount = initialCount;
   bestLenTokens.set(tLen.subarray(0, initialCount));
   bestDistTokens.set(tDist.subarray(0, initialCount));
   for (let pass = 0; pass < passes; pass++) {
+    previousLiteralCosts.set(literalCosts);
+    previousDistanceCosts.set(distanceCosts);
     for (let len = MIN_MATCH; len <= MAX_MATCH; len++) {
       lengthCosts[len] = (literalCosts[lenSym[len]] || 12) + lenExtraCnt[len];
     }
-    pathCost[size] = 0;
-    for (let i = size - 1; i >= 0; i--) {
-      let cost = (literalCosts[data[start + i]] || 12) + pathCost[i + 1];
-      let length = 1;
-      let distance = 0;
-      let minLength = MIN_MATCH;
-      for (let m = matchStarts[i]; m < matchStarts[i + 1]; m++) {
-        const match = matchCache[m];
-        // A full cache can end the block earlier than the matcher expected.
-        const max = Math.min(match >>> 16, size - i);
-        const dist = (match & 0xffff) + 1;
-        const distanceCost = (distanceCosts[distSym[dist]] || 12) + distExtraCnt[dist];
-        for (let len = minLength; len <= max; len++) {
-          const trial = lengthCosts[len] + distanceCost + pathCost[i + len];
-          if (trial < cost) {
-            cost = trial;
-            length = len;
-            distance = dist;
-          }
-        }
-        minLength = max + 1;
+    if (useRanges) {
+      lengthCostEnd[MAX_MATCH] = MAX_MATCH;
+      for (let len = MAX_MATCH - 1; len >= MIN_MATCH; len--) {
+        lengthCostEnd[len] = lengthCosts[len] === lengthCosts[len + 1] ? lengthCostEnd[len + 1] : len;
       }
-      pathCost[i] = cost;
-      pathLen[i] = length;
-      matchDist[i] = distance;
+      findOptimalPathRanges(data, start, size, literalCosts, distanceCosts);
+    } else {
+      findOptimalPath(data, start, size, literalCosts, distanceCosts);
     }
     let count = 0;
     for (let i = 0; i < size;) {
@@ -425,6 +586,18 @@ function optimalTokens(data: Uint8Array, start: number, end: number, passes: num
       bestDistTokens.set(tDist.subarray(0, count));
     }
     if (pass > 0 && improvement < minImprovement) break;
+    // An identical cost model produces the identical path on the next pass.
+    // Size equality alone is insufficient: equally sized parses can differ.
+    let converged = true;
+    for (let s = 0; s < 286; s++) {
+      if (previousLiteralCosts[s] !== trialLiteralCosts[s]) { converged = false; break; }
+    }
+    if (converged) {
+      for (let s = 0; s < 30; s++) {
+        if (previousDistanceCosts[s] !== trialDistanceCosts[s]) { converged = false; break; }
+      }
+    }
+    if (converged) break;
     literalCosts = trialLiteralCosts;
     distanceCosts = trialDistanceCosts;
   }
@@ -458,7 +631,7 @@ function optimalBlockEnd(data: Uint8Array, start: number): number {
 }
 
 /** High levels cache matches once, then optimize the literal/match path. */
-function deflateOptimal(bw: BitWriter | SizeCounter, data: Uint8Array, view: DataView, level: number): void {
+function deflateOptimal(bw: BitWriter | SizeCounter, data: Uint8Array, view: DataView, level: number, fastOptimal = false): void {
   const depth = level >= 12 ? 128 : level >= 11 ? 64 : 32;
   const nice = level >= 12 ? MAX_MATCH : 128;
   const skipLength = level >= 12 ? 128 : 32;
@@ -472,20 +645,20 @@ function deflateOptimal(bw: BitWriter | SizeCounter, data: Uint8Array, view: Dat
         break;
       }
       matchStarts[pos - start] = cacheCount;
-      const len = cacheMatches(data, view, pos, end, depth, nice, true, 0, 0);
+      const len = cacheMatches(data, view, pos, end, depth, nice);
       const next = len >= skipLength ? pos + len : pos + 1;
       const distance = cacheCount > matchStarts[pos - start] ? (matchCache[cacheCount - 1] & 0xffff) + 1 : 0;
       // Update every tree position while skipping long-match interiors in
       // the parse cache. The known suffix avoids comparing the same run again.
       for (let p = pos + 1; p < next; p++) {
         matchStarts[p - start] = cacheCount;
-        cacheMatches(data, view, p, end, depth, nice, false, distance, next - p);
+        insertTree(data, view, p, end, depth, nice, distance, next - p);
       }
       matchStarts[next - start] = cacheCount;
       pos = next;
     }
     matchStarts[end - start] = cacheCount;
-    const count = optimalTokens(data, start, end, level >= 12 ? 4 : 3, level >= 12 ? 1 : level >= 11 ? 16 : 32);
+    const count = optimalTokens(data, start, end, level >= 12 ? 4 : 3, level >= 12 ? 1 : level >= 11 ? 16 : 32, fastOptimal && level === 11);
     emitBlock(bw, end === data.length, data, start, end, count);
     start = end;
   }
@@ -721,7 +894,7 @@ function emitBlock(
 }
 
 /** Compress `data` into `bw` as a raw DEFLATE stream at the given level (0-12). */
-function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: number): void {
+function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: number, fastOptimal = false): void {
   const n = data.length;
 
   // Fast 4-byte match comparisons (DataView handles unaligned loads).
@@ -752,7 +925,7 @@ function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: numbe
   }
   wideMatches = level >= 7;
   if (level >= 10 && n >= 4) {
-    deflateOptimal(bw, data, view!, level);
+    deflateOptimal(bw, data, view!, level, fastOptimal);
     return;
   }
   const chain = params.chain;
@@ -819,24 +992,24 @@ function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: numbe
 }
 
 /** Internal size-only raw DEFLATE trial, with the same parser and block choices. */
-export function deflateRawSize(data: Uint8Array, level: number, maxSize: number = Infinity): number {
+export function deflateRawSize(data: Uint8Array, level: number, maxSize: number = Infinity, fastOptimal = false): number {
   const counter = new SizeCounter(maxSize);
-  deflateInto(counter, data, level);
+  deflateInto(counter, data, level, fastOptimal);
   return counter.finish();
 }
 
 /** Compress `data` as a raw DEFLATE stream at the given level (0-12). */
-export function deflateRaw(data: Uint8Array, level: number, maxSize?: number): Uint8Array {
+export function deflateRaw(data: Uint8Array, level: number, maxSize?: number, fastOptimal = false): Uint8Array {
   const bw = new BitWriter(Math.max(64, data.length >>> 1), maxSize ?? Infinity);
-  deflateInto(bw, data, level);
+  deflateInto(bw, data, level, fastOptimal);
   return bw.finish();
 }
 
 /** Compress `data` as a zlib stream at the given libdeflate-style level (0-12). */
-export function zlibCompress(data: Uint8Array, level: number, maxSize?: number): Uint8Array {
+export function zlibCompress(data: Uint8Array, level: number, maxSize?: number, fastOptimal = false): Uint8Array {
   const bw = new BitWriter(Math.max(64, data.length >>> 1), maxSize ?? Infinity);
   bw.skip(2); // zlib header, written at the end
-  deflateInto(bw, data, level);
+  deflateInto(bw, data, level, fastOptimal);
   const tail = new Uint8Array(4);
   adler32Bytes(data, tail, 1);
   bw.pushBytes(tail);

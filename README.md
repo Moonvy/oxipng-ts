@@ -29,6 +29,13 @@ possible. Presets range from `0` (fastest) to `6` (`Options.maxCompression()`).
 chunk stripping, DEFLATE settings, timeouts, and decompressed size limits.
 `RawImage.createOptimizedPng()` accepts raw pixel data.
 
+Preset `2` retains four filters and level-11 match search, with cheaper filter
+scoring on eligible 8-bit truecolor inputs and one parsing pass for ordinary
+blocks. Highly compressible blocks retain three passes. The speed budget was
+validated within a 5% per-image output increase against the previous preset
+on the checked corpus; this is not a universal size guarantee. Explicit
+`--zc 11` retains full parsing. See the [size/speed measurements](benchmark/O2-BUDGET.md).
+
 For file I/O in Node.js:
 
 ```ts

@@ -38,12 +38,7 @@
         <h2>速度对比</h2>
         <p class="race-subtitle" id="raceSelection">正在读取测量结果…</p>
         <div class="race-lanes" id="raceLanes" aria-label="各实现的相对速度示意"><p class="loading-note">正在读取 benchmark…</p></div>
-        <div class="race-controls">
-          <button class="race-button" id="raceToggle" type="button" disabled aria-pressed="true">暂停动画</button>
-          <button class="race-button icon-button" id="raceReset" type="button" disabled aria-label="让所有弹球从左侧同步重新开始">↺</button>
-          <label class="race-speed">演示倍速 <select id="raceSpeed" aria-label="弹球演示倍速"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
-        </div>
-        <p class="race-note">底色长度表示耗时，最长为 100%；球速与耗时成反比。动画仅作示意。</p>
+        <p class="race-note" id="raceNote">底色长度表示比较口径下的相对耗时；动画仅作示意。</p>
       </div>
     </section>
 
@@ -57,8 +52,9 @@
       <div class="benchmark-meta"><span id="benchmarkContext">正在加载实测环境…</span><span id="benchmarkDate">—</span></div>
       <p id="benchmarkStatus" class="benchmark-status" role="status" aria-live="polite"></p>
       <div class="chart-grid">
-        <article class="chart-card" aria-labelledby="timeTitle"><div class="chart-heading"><div><p class="eyebrow">TIME</p><h3 id="timeTitle">压缩耗时</h3></div><span class="metric-unit">秒</span></div><div id="timeChart" class="chart-body" aria-label="压缩耗时柱状图"><div class="chart-placeholder">读取实测结果后显示</div></div><p class="chart-caption">计入 CLI 进程启动；全部样本取各文件实测耗时之和。</p></article>
-        <article class="chart-card" aria-labelledby="sizeTitle"><div class="chart-heading"><div><p class="eyebrow">SIZE</p><h3 id="sizeTitle">输出文件尺寸</h3></div><span class="metric-unit">MiB</span></div><div id="sizeChart" class="chart-body" aria-label="输出文件尺寸柱状图"><div class="chart-placeholder">读取实测结果后显示</div></div><p class="chart-caption" id="sizeCaption">原始输入与各构建目标的输出使用同一比例尺。</p></article>
+        <article class="chart-card" aria-labelledby="timeTitle"><div class="chart-heading"><div><p class="eyebrow">TIME</p><h3 id="timeTitle">压缩耗时</h3></div><span class="metric-unit" id="timeUnit">秒</span></div><div id="timeChart" class="chart-body" aria-label="压缩耗时实际数值与相对最快项倍率"><div class="chart-placeholder">读取实测结果后显示</div></div><p class="chart-caption" id="timeCaption">读取实测结果后显示测量口径。</p></article>
+        <article class="chart-card" aria-labelledby="sizeTitle"><div class="chart-heading"><div><p class="eyebrow">SIZE</p><h3 id="sizeTitle">输出文件尺寸</h3></div><span class="metric-unit">MiB</span></div><div id="sizeChart" class="chart-body" aria-label="输出尺寸实际数值与相对最小尺寸倍率"><div class="chart-placeholder">读取实测结果后显示</div></div><p class="chart-caption">柱长、刻度和柱旁标签显示实际文件大小；倍率以最小尺寸为 1×。</p></article>
+        <article class="chart-card startup-card" aria-labelledby="startupTitle"><div class="chart-heading"><div><p class="eyebrow">STARTUP</p><h3 id="startupTitle">启动时间</h3></div><span class="metric-unit">毫秒</span></div><div id="startupChart" class="chart-body" aria-label="启动时间实际数值与相对最快项倍率"><div class="chart-placeholder">读取实测结果后显示</div></div><p class="chart-caption">柱长、刻度和柱旁标签显示实际毫秒数；倍率以最快启动为 1×。</p></article>
       </div>
       <div class="benchmark-insight" id="benchmarkInsight"><span class="insight-icon" aria-hidden="true">↗</span><p>正在读取 benchmark…</p></div>
       <details class="methodology"><summary>测量方法<span aria-hidden="true">＋</span></summary><div class="methodology-body"><p id="benchmarkMethod">测量口径随 benchmark 数据一同更新。</p><p>Rust 使用默认线程数；TypeScript 的各构建目标使用同一套 TypeScript 压缩核心，单线程执行。文件无法进一步缩小时保留原始字节。这里比较的是完整 PNG 优化流程，不只是 DEFLATE 内核。</p><p>结果取决于图片内容和运行环境。这组 CLI 实测不代表浏览器内的运行速度，也不与 API 基准计时混用。</p></div></details>

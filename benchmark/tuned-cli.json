@@ -1,0 +1,393 @@
+{
+  "generatedAt": "2026-10-11T13:45:28.201Z",
+  "environment": {
+    "cpu": "Apple M3 Pro",
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.7.0",
+    "rust": "oxipng 10.2.1"
+  },
+  "settings": {
+    "runs": 3,
+    "rust": "oxipng",
+    "output": "benchmark/tuned-cli.json",
+    "profiles": "baseline-o2,two-filters-z11,four-filters-z12,o5-fast",
+    "warmup": 0,
+    "timing": "Fresh CLI process per file; startup included; alternate engines; pixel checks outside timing",
+    "rustThreads": "default"
+  },
+  "bundleSha256": "af5f87b67aa6b056111d5e5cb902d4bd265e9e7c65d01fe32c64cb69e9bbfd86",
+  "complete": true,
+  "rows": [
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "name": "IMG_5112.PNG",
+      "inputBytes": 1220437,
+      "node": {
+        "samplesMs": [
+          1280.7315,
+          1281.772625,
+          1278.9321250000003
+        ],
+        "bytes": 817288,
+        "sha256": "3c6445ee8599041ae8d48e9a6b2c20c0ac0acb01680c48efcca8db7c22f0dd46",
+        "minMs": 1278.9321250000003,
+        "medianMs": 1280.7315
+      }
+    },
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "name": "Image Capture.png",
+      "inputBytes": 757550,
+      "node": {
+        "samplesMs": [
+          1437.862792,
+          1417.183666,
+          1431.1902919999993
+        ],
+        "bytes": 558294,
+        "sha256": "71d0b166045281180814cc0fd7483a6dda2ba7f7ada6668f7cf534b730210b77",
+        "minMs": 1417.183666,
+        "medianMs": 1431.1902919999993
+      }
+    },
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "name": "Qjiao.png",
+      "inputBytes": 827230,
+      "node": {
+        "samplesMs": [
+          1733.7407500000008,
+          1782.778124999999,
+          1757.7267499999998
+        ],
+        "bytes": 562538,
+        "sha256": "a709e289b73cc84c25c7bca3df0c3781732618ca88a25a1d440b4c4f424d0bd3",
+        "minMs": 1733.7407500000008,
+        "medianMs": 1757.7267499999998
+      }
+    },
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "name": "Siri AI.png",
+      "inputBytes": 811487,
+      "node": {
+        "samplesMs": [
+          1727.8290829999987,
+          1749.885624999999,
+          1684.3692919999994
+        ],
+        "bytes": 563067,
+        "sha256": "15e3ee5df62db2d63f971dbd762f1b2ad5e6926c5b112cbde0787b9b2653ba1c",
+        "minMs": 1684.3692919999994,
+        "medianMs": 1727.8290829999987
+      }
+    },
+    {
+      "level": 1,
+      "profile": "two-filters-z11",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "IMG_5112.PNG",
+      "inputBytes": 1220437,
+      "node": {
+        "samplesMs": [
+          1062.6052079999972,
+          1000.4111660000017,
+          1060.7566659999975
+        ],
+        "bytes": 817288,
+        "sha256": "3c6445ee8599041ae8d48e9a6b2c20c0ac0acb01680c48efcca8db7c22f0dd46",
+        "minMs": 1000.4111660000017,
+        "medianMs": 1060.7566659999975
+      }
+    },
+    {
+      "level": 1,
+      "profile": "two-filters-z11",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "Image Capture.png",
+      "inputBytes": 757550,
+      "node": {
+        "samplesMs": [
+          1301.757125,
+          1267.432291000001,
+          1259.5334169999987
+        ],
+        "bytes": 559430,
+        "sha256": "049214b7617137e79aa157ae5fbe6160d0d65ce623451ae1c00b950f289f31b6",
+        "minMs": 1259.5334169999987,
+        "medianMs": 1267.432291000001
+      }
+    },
+    {
+      "level": 1,
+      "profile": "two-filters-z11",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "Qjiao.png",
+      "inputBytes": 827230,
+      "node": {
+        "samplesMs": [
+          1411.8697500000017,
+          1411.1248750000013,
+          1585.3947919999991
+        ],
+        "bytes": 575813,
+        "sha256": "d54124c3863e0b101a2ed0abcf78d22aa00b8169ba7fa583f942a39e3af9726e",
+        "minMs": 1411.1248750000013,
+        "medianMs": 1411.8697500000017
+      }
+    },
+    {
+      "level": 1,
+      "profile": "two-filters-z11",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "Siri AI.png",
+      "inputBytes": 811487,
+      "node": {
+        "samplesMs": [
+          1376.8602919999976,
+          1471.8492499999993,
+          1476.3798749999987
+        ],
+        "bytes": 572052,
+        "sha256": "dd5f023e753ce6a379b3e75747a76908455edad48dfff8e0b2b303229b9fb3ab",
+        "minMs": 1376.8602919999976,
+        "medianMs": 1471.8492499999993
+      }
+    },
+    {
+      "level": 2,
+      "profile": "four-filters-z12",
+      "flags": [
+        "--zc",
+        "12"
+      ],
+      "name": "IMG_5112.PNG",
+      "inputBytes": 1220437,
+      "node": {
+        "samplesMs": [
+          1569.1642079999947,
+          1514.830750000001,
+          1577.1223750000063
+        ],
+        "bytes": 811903,
+        "sha256": "5448e658a4b42bd1c679b21c6785462a1a39f14d760013a41f23a9038812aae0",
+        "minMs": 1514.830750000001,
+        "medianMs": 1569.1642079999947
+      }
+    },
+    {
+      "level": 2,
+      "profile": "four-filters-z12",
+      "flags": [
+        "--zc",
+        "12"
+      ],
+      "name": "Image Capture.png",
+      "inputBytes": 757550,
+      "node": {
+        "samplesMs": [
+          2220.404542000004,
+          2183.004084,
+          2225.5944170000002
+        ],
+        "bytes": 554409,
+        "sha256": "f0a9a449bc303b5e22af6852e52ed9fc0ad9e609c0592495c5b60486cdae7e78",
+        "minMs": 2183.004084,
+        "medianMs": 2220.404542000004
+      }
+    },
+    {
+      "level": 2,
+      "profile": "four-filters-z12",
+      "flags": [
+        "--zc",
+        "12"
+      ],
+      "name": "Qjiao.png",
+      "inputBytes": 827230,
+      "node": {
+        "samplesMs": [
+          2404.8932499999937,
+          2407.8989159999983,
+          2397.110833999999
+        ],
+        "bytes": 557504,
+        "sha256": "7791b7fa4ad3bf5ac4bab03301351a764730cfa281da862c59b8b334614ecaf4",
+        "minMs": 2397.110833999999,
+        "medianMs": 2404.8932499999937
+      }
+    },
+    {
+      "level": 2,
+      "profile": "four-filters-z12",
+      "flags": [
+        "--zc",
+        "12"
+      ],
+      "name": "Siri AI.png",
+      "inputBytes": 811487,
+      "node": {
+        "samplesMs": [
+          2676.4919579999987,
+          2157.015625,
+          2487.056457999999
+        ],
+        "bytes": 558388,
+        "sha256": "ba565b2cc56726dbec745701e2f7184e7e9fc65546fca27ddfb593f8cf354add",
+        "minMs": 2157.015625,
+        "medianMs": 2487.056457999999
+      }
+    },
+    {
+      "level": 5,
+      "profile": "o5-fast",
+      "flags": [
+        "--fast"
+      ],
+      "name": "IMG_5112.PNG",
+      "inputBytes": 1220437,
+      "node": {
+        "samplesMs": [
+          2731.865666999998,
+          2951.7072090000074,
+          3094.630541000006
+        ],
+        "bytes": 807183,
+        "sha256": "2eebb5334754377bde7a37b6d20e37cc80c5b362ff92c37606c1aa0f62c36961",
+        "minMs": 2731.865666999998,
+        "medianMs": 2951.7072090000074
+      }
+    },
+    {
+      "level": 5,
+      "profile": "o5-fast",
+      "flags": [
+        "--fast"
+      ],
+      "name": "Image Capture.png",
+      "inputBytes": 757550,
+      "node": {
+        "samplesMs": [
+          3630.1104579999956,
+          3715.8967919999996,
+          3348.2951669999893
+        ],
+        "bytes": 552104,
+        "sha256": "18ee66b927a0dc02425003bdb5cd25703ecb098bc6ea4fe95873aa08197e23c0",
+        "minMs": 3348.2951669999893,
+        "medianMs": 3630.1104579999956
+      }
+    },
+    {
+      "level": 5,
+      "profile": "o5-fast",
+      "flags": [
+        "--fast"
+      ],
+      "name": "Qjiao.png",
+      "inputBytes": 827230,
+      "node": {
+        "samplesMs": [
+          4070.3331670000043,
+          3988.379792000007,
+          3964.266125000009
+        ],
+        "bytes": 556199,
+        "sha256": "37a51cb19571c7b624ab8bce25633a45c47bde23d983e272fa6a1823f9c50f87",
+        "minMs": 3964.266125000009,
+        "medianMs": 3988.379792000007
+      }
+    },
+    {
+      "level": 5,
+      "profile": "o5-fast",
+      "flags": [
+        "--fast"
+      ],
+      "name": "Siri AI.png",
+      "inputBytes": 811487,
+      "node": {
+        "samplesMs": [
+          3556.1523339999985,
+          3574.153084000005,
+          3612.870999999999
+        ],
+        "bytes": 549941,
+        "sha256": "d33521a268ba893cceffc6602da3def7768257491dd3a28433dbf27f9f08011d",
+        "minMs": 3556.1523339999985,
+        "medianMs": 3574.153084000005
+      }
+    }
+  ],
+  "totals": [
+    {
+      "level": 2,
+      "profile": "baseline-o2",
+      "flags": [],
+      "node": {
+        "bytes": 2501187,
+        "minMs": 6114.225833,
+        "medianMs": 6197.477624999998
+      }
+    },
+    {
+      "level": 1,
+      "profile": "two-filters-z11",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "node": {
+        "bytes": 2524583,
+        "minMs": 5047.929749999999,
+        "medianMs": 5211.907956999999
+      }
+    },
+    {
+      "level": 2,
+      "profile": "four-filters-z12",
+      "flags": [
+        "--zc",
+        "12"
+      ],
+      "node": {
+        "bytes": 2482204,
+        "minMs": 8251.961293,
+        "medianMs": 8681.518457999991
+      }
+    },
+    {
+      "level": 5,
+      "profile": "o5-fast",
+      "flags": [
+        "--fast"
+      ],
+      "node": {
+        "bytes": 2465427,
+        "minMs": 13600.579292999995,
+        "medianMs": 14144.350543000015
+      }
+    }
+  ]
+}

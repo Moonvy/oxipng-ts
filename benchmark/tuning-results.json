@@ -1,0 +1,472 @@
+{
+  "generatedAt": "2026-10-11T13:41:39.480Z",
+  "environment": {
+    "cpu": "Apple M3 Pro",
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.7.0"
+  },
+  "settings": {
+    "runs": 3,
+    "warmup": 1,
+    "corpus": "sample",
+    "candidates": "baseline-o2,two-filters-z11,four-filters-z10,four-filters-z12,o5-fast,depth32-passes3,depth64-passes2",
+    "output": "benchmark/tuning-results.json"
+  },
+  "encoderSha256": "3715feb09f7d89ddba2fdb9b2059dffb332aea0e5ae57b538b89730a43c1ae78",
+  "timing": "In-process API; alternating/rotating candidates; PNG checks outside timing; all bundles built identically",
+  "complete": true,
+  "configurations": [
+    {
+      "name": "baseline-o2",
+      "compression": 11,
+      "filters": "default"
+    },
+    {
+      "name": "two-filters-z11",
+      "compression": 11,
+      "filters": "bigrams"
+    },
+    {
+      "name": "four-filters-z10",
+      "compression": 10,
+      "filters": "default"
+    },
+    {
+      "name": "four-filters-z12",
+      "compression": 12,
+      "filters": "default"
+    },
+    {
+      "name": "o5-fast",
+      "preset": 5,
+      "compression": 12,
+      "filters": "default",
+      "fastEvaluation": true
+    },
+    {
+      "name": "depth32-passes3",
+      "compression": 11,
+      "filters": "default",
+      "depth": 32,
+      "passes": 3
+    },
+    {
+      "name": "depth64-passes2",
+      "compression": 11,
+      "filters": "default",
+      "depth": 64,
+      "passes": 2
+    }
+  ],
+  "rows": [
+    {
+      "name": "IMG_5112.PNG",
+      "category": "screenshot",
+      "inputBytes": 1220437,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 817288,
+          "medianMs": 1106.5903749999998,
+          "minMs": 1099.3488750000033,
+          "samplesMs": [
+            1106.5903749999998,
+            1108.781500000001,
+            1099.3488750000033
+          ],
+          "sha256": "3c6445ee8599041ae8d48e9a6b2c20c0ac0acb01680c48efcca8db7c22f0dd46",
+          "matchesBaseline": true
+        },
+        "two-filters-z11": {
+          "bytes": 817288,
+          "medianMs": 921.4888749999991,
+          "minMs": 917.2349590000013,
+          "samplesMs": [
+            921.4888749999991,
+            938.8612499999981,
+            917.2349590000013
+          ],
+          "sha256": "3c6445ee8599041ae8d48e9a6b2c20c0ac0acb01680c48efcca8db7c22f0dd46",
+          "matchesBaseline": true
+        },
+        "four-filters-z10": {
+          "bytes": 818115,
+          "medianMs": 1091.141042000001,
+          "minMs": 1076.1446250000008,
+          "samplesMs": [
+            1091.141042000001,
+            1091.2527910000026,
+            1076.1446250000008
+          ],
+          "sha256": "94125c058e9451ec5f2e67058c7a9a1b1b43eb1482799c9ec830a89a204945cd",
+          "matchesBaseline": false
+        },
+        "four-filters-z12": {
+          "bytes": 811903,
+          "medianMs": 1427.2499169999992,
+          "minMs": 1425.6845840000024,
+          "samplesMs": [
+            1427.2499169999992,
+            1429.0029170000016,
+            1425.6845840000024
+          ],
+          "sha256": "5448e658a4b42bd1c679b21c6785462a1a39f14d760013a41f23a9038812aae0",
+          "matchesBaseline": false
+        },
+        "o5-fast": {
+          "bytes": 807183,
+          "medianMs": 2817.7778340000004,
+          "minMs": 2812.4557920000007,
+          "samplesMs": [
+            2831.5080830000024,
+            2817.7778340000004,
+            2812.4557920000007
+          ],
+          "sha256": "2eebb5334754377bde7a37b6d20e37cc80c5b362ff92c37606c1aa0f62c36961",
+          "matchesBaseline": false
+        },
+        "depth32-passes3": {
+          "bytes": 818115,
+          "medianMs": 1068.0063750000008,
+          "minMs": 1060.2699999999968,
+          "samplesMs": [
+            1074.8082920000015,
+            1068.0063750000008,
+            1060.2699999999968
+          ],
+          "sha256": "94125c058e9451ec5f2e67058c7a9a1b1b43eb1482799c9ec830a89a204945cd",
+          "matchesBaseline": false
+        },
+        "depth64-passes2": {
+          "bytes": 822214,
+          "medianMs": 1031.5424999999996,
+          "minMs": 1022.591167000006,
+          "samplesMs": [
+            1036.552291,
+            1031.5424999999996,
+            1022.591167000006
+          ],
+          "sha256": "6293d69f28f709fd1118afe6af02dd758a2964987f3ebf54bcbcb003a358655b",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Image Capture.png",
+      "category": "screenshot",
+      "inputBytes": 757550,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 558294,
+          "medianMs": 1296.4770409999983,
+          "minMs": 1295.7667090000032,
+          "samplesMs": [
+            1296.4770409999983,
+            1298.492667000006,
+            1295.7667090000032
+          ],
+          "sha256": "71d0b166045281180814cc0fd7483a6dda2ba7f7ada6668f7cf534b730210b77",
+          "matchesBaseline": true
+        },
+        "two-filters-z11": {
+          "bytes": 559430,
+          "medianMs": 1078.804833999995,
+          "minMs": 1073.4920420000053,
+          "samplesMs": [
+            1073.4920420000053,
+            1088.4507500000036,
+            1078.804833999995
+          ],
+          "sha256": "049214b7617137e79aa157ae5fbe6160d0d65ce623451ae1c00b950f289f31b6",
+          "matchesBaseline": false
+        },
+        "four-filters-z10": {
+          "bytes": 558821,
+          "medianMs": 1255.2849160000042,
+          "minMs": 1241.4810829999988,
+          "samplesMs": [
+            1241.4810829999988,
+            1255.2849160000042,
+            1266.029125000001
+          ],
+          "sha256": "175e17e9b3d0420a24c2b77d6335e5e62ac0cfddf72d2969ae318e30f225a4ed",
+          "matchesBaseline": false
+        },
+        "four-filters-z12": {
+          "bytes": 554409,
+          "medianMs": 2002.8737499999988,
+          "minMs": 2002.3921669999982,
+          "samplesMs": [
+            2002.3921669999982,
+            2007.2504999999946,
+            2002.8737499999988
+          ],
+          "sha256": "f0a9a449bc303b5e22af6852e52ed9fc0ad9e609c0592495c5b60486cdae7e78",
+          "matchesBaseline": false
+        },
+        "o5-fast": {
+          "bytes": 552104,
+          "medianMs": 3292.1661250000034,
+          "minMs": 3292.021832999999,
+          "samplesMs": [
+            3292.021832999999,
+            3292.1661250000034,
+            3309.6432500000083
+          ],
+          "sha256": "18ee66b927a0dc02425003bdb5cd25703ecb098bc6ea4fe95873aa08197e23c0",
+          "matchesBaseline": false
+        },
+        "depth32-passes3": {
+          "bytes": 558821,
+          "medianMs": 1212.1507500000007,
+          "minMs": 1197.5175830000007,
+          "samplesMs": [
+            1197.5175830000007,
+            1212.1507500000007,
+            1218.6481670000067
+          ],
+          "sha256": "175e17e9b3d0420a24c2b77d6335e5e62ac0cfddf72d2969ae318e30f225a4ed",
+          "matchesBaseline": false
+        },
+        "depth64-passes2": {
+          "bytes": 562129,
+          "medianMs": 1206.1512090000033,
+          "minMs": 1195.550374999999,
+          "samplesMs": [
+            1195.550374999999,
+            1208.189707999998,
+            1206.1512090000033
+          ],
+          "sha256": "fb7106c275d045f3309da3ad4b825caf13e0983c3587805abfda6b8deec7a196",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Qjiao.png",
+      "category": "screenshot",
+      "inputBytes": 827230,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 562538,
+          "medianMs": 1634.026582999999,
+          "minMs": 1626.536374999996,
+          "samplesMs": [
+            1626.536374999996,
+            1634.026582999999,
+            1668.4542910000018
+          ],
+          "sha256": "a709e289b73cc84c25c7bca3df0c3781732618ca88a25a1d440b4c4f424d0bd3",
+          "matchesBaseline": true
+        },
+        "two-filters-z11": {
+          "bytes": 575813,
+          "medianMs": 1381.9203330000164,
+          "minMs": 1359.6250419999997,
+          "samplesMs": [
+            1359.6250419999997,
+            1418.8810000000085,
+            1381.9203330000164
+          ],
+          "sha256": "d54124c3863e0b101a2ed0abcf78d22aa00b8169ba7fa583f942a39e3af9726e",
+          "matchesBaseline": false
+        },
+        "four-filters-z10": {
+          "bytes": 562971,
+          "medianMs": 1692.7514159999992,
+          "minMs": 1675.4364170000044,
+          "samplesMs": [
+            1675.4364170000044,
+            1708.6349999999948,
+            1692.7514159999992
+          ],
+          "sha256": "d6724d4addd06311bf6ce6f938feaa67844556107a2fab4a70b2ccce32c72221",
+          "matchesBaseline": false
+        },
+        "four-filters-z12": {
+          "bytes": 557504,
+          "medianMs": 2328.849875,
+          "minMs": 2295.4344169999968,
+          "samplesMs": [
+            2295.4344169999968,
+            2336.555833000006,
+            2328.849875
+          ],
+          "sha256": "7791b7fa4ad3bf5ac4bab03301351a764730cfa281da862c59b8b334614ecaf4",
+          "matchesBaseline": false
+        },
+        "o5-fast": {
+          "bytes": 556199,
+          "medianMs": 3757.413292000012,
+          "minMs": 3755.263208000004,
+          "samplesMs": [
+            3755.263208000004,
+            3787.5482499999925,
+            3757.413292000012
+          ],
+          "sha256": "37a51cb19571c7b624ab8bce25633a45c47bde23d983e272fa6a1823f9c50f87",
+          "matchesBaseline": false
+        },
+        "depth32-passes3": {
+          "bytes": 562971,
+          "medianMs": 1569.3373750000028,
+          "minMs": 1557.4384169999976,
+          "samplesMs": [
+            1557.4384169999976,
+            1569.3373750000028,
+            1600.1097080000036
+          ],
+          "sha256": "d6724d4addd06311bf6ce6f938feaa67844556107a2fab4a70b2ccce32c72221",
+          "matchesBaseline": false
+        },
+        "depth64-passes2": {
+          "bytes": 566211,
+          "medianMs": 1487.4377079999977,
+          "minMs": 1487.1020420000132,
+          "samplesMs": [
+            1487.1020420000132,
+            1487.4377079999977,
+            1521.783334000007
+          ],
+          "sha256": "76dad94d7a241cb9d4251ee284098659132b235d279975d72f8058168089ed5e",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Siri AI.png",
+      "category": "screenshot",
+      "inputBytes": 811487,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 563067,
+          "medianMs": 1520.2077910000226,
+          "minMs": 1505.9311250000028,
+          "samplesMs": [
+            1520.2077910000226,
+            1505.9311250000028,
+            1573.367916999996
+          ],
+          "sha256": "15e3ee5df62db2d63f971dbd762f1b2ad5e6926c5b112cbde0787b9b2653ba1c",
+          "matchesBaseline": true
+        },
+        "two-filters-z11": {
+          "bytes": 572052,
+          "medianMs": 1255.3372080000117,
+          "minMs": 1254.5433329999796,
+          "samplesMs": [
+            1254.5433329999796,
+            1255.3372080000117,
+            1342.4557499999937
+          ],
+          "sha256": "dd5f023e753ce6a379b3e75747a76908455edad48dfff8e0b2b303229b9fb3ab",
+          "matchesBaseline": false
+        },
+        "four-filters-z10": {
+          "bytes": 563516,
+          "medianMs": 1566.7482920000039,
+          "minMs": 1564.2147920000134,
+          "samplesMs": [
+            1566.7482920000039,
+            1564.2147920000134,
+            1571.824041999993
+          ],
+          "sha256": "075d13de4e26344d33f70b9c8988768e9b75a1a8954a38a8cf1a54e0abb5f1bc",
+          "matchesBaseline": false
+        },
+        "four-filters-z12": {
+          "bytes": 558388,
+          "medianMs": 2135.249332999985,
+          "minMs": 2127.5010839999886,
+          "samplesMs": [
+            2135.6918750000186,
+            2135.249332999985,
+            2127.5010839999886
+          ],
+          "sha256": "ba565b2cc56726dbec745701e2f7184e7e9fc65546fca27ddfb593f8cf354add",
+          "matchesBaseline": false
+        },
+        "o5-fast": {
+          "bytes": 549941,
+          "medianMs": 3510.468333000026,
+          "minMs": 3505.539625000005,
+          "samplesMs": [
+            3510.468333000026,
+            3505.539625000005,
+            3682.6410000000033
+          ],
+          "sha256": "d33521a268ba893cceffc6602da3def7768257491dd3a28433dbf27f9f08011d",
+          "matchesBaseline": false
+        },
+        "depth32-passes3": {
+          "bytes": 563516,
+          "medianMs": 1456.5502500000002,
+          "minMs": 1443.1385829999927,
+          "samplesMs": [
+            1456.5502500000002,
+            1443.1385829999927,
+            1536.4312079999945
+          ],
+          "sha256": "075d13de4e26344d33f70b9c8988768e9b75a1a8954a38a8cf1a54e0abb5f1bc",
+          "matchesBaseline": false
+        },
+        "depth64-passes2": {
+          "bytes": 567708,
+          "medianMs": 1390.6448329999985,
+          "minMs": 1384.0063329999975,
+          "samplesMs": [
+            1390.6448329999985,
+            1384.0063329999975,
+            1493.7751249999856
+          ],
+          "sha256": "8194461e7e47335749339c703bc0c84d5fbcd1eaf7bc65decf8a2681378ad884",
+          "matchesBaseline": false
+        }
+      }
+    }
+  ],
+  "totals": [
+    {
+      "name": "baseline-o2",
+      "bytes": 2501187,
+      "medianMs": 5557.3017900000195,
+      "minMs": 5527.583084000005
+    },
+    {
+      "name": "two-filters-z11",
+      "bytes": 2524583,
+      "medianMs": 4637.551250000022,
+      "minMs": 4604.895375999986
+    },
+    {
+      "name": "four-filters-z10",
+      "bytes": 2503423,
+      "medianMs": 5605.925666000008,
+      "minMs": 5557.276917000017
+    },
+    {
+      "name": "four-filters-z12",
+      "bytes": 2482204,
+      "medianMs": 7894.222874999983,
+      "minMs": 7851.012251999986
+    },
+    {
+      "name": "o5-fast",
+      "bytes": 2465427,
+      "medianMs": 13377.825584000042,
+      "minMs": 13365.280458000008
+    },
+    {
+      "name": "depth32-passes3",
+      "bytes": 2503423,
+      "medianMs": 5306.044750000005,
+      "minMs": 5258.364582999988
+    },
+    {
+      "name": "depth64-passes2",
+      "bytes": 2518262,
+      "medianMs": 5115.776249999999,
+      "minMs": 5089.249917000016
+    }
+  ]
+}

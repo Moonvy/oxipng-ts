@@ -74,6 +74,12 @@ for (const { name, category, path } of files) {
   const measurements = Object.fromEntries(cases.map(v => [v.name, {
     bytes: v.output.length, medianMs: median(v.times), minMs: Math.min(...v.times), samplesMs: v.times,
   }]));
+  const baseline = cases.find(v => v.name === 'baseline');
+  if (baseline) {
+    for (const variant of cases) {
+      if (variant !== baseline) measurements[variant.name].matchesBaseline = variant.output.equals(baseline.output);
+    }
+  }
   // Rust is a size reference only: CLI timing is not comparable to API timing.
   if (settings.rust) {
     const dir = mkdtempSync(join(tmpdir(), 'oxipng-ts-core-'));

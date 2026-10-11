@@ -1,0 +1,360 @@
+{
+  "generatedAt": "2026-10-11T14:52:18.792Z",
+  "environment": {
+    "cpu": "Apple M3 Pro",
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.7.0",
+    "rust": "oxipng 10.2.1"
+  },
+  "settings": {
+    "runs": 3,
+    "rust": "oxipng",
+    "output": "benchmark/o2-budget-cli.json",
+    "profiles": "budget-before,budget-current",
+    "warmup": 0,
+    "timing": "Fresh CLI process per file; startup included; alternate engines; pixel checks outside timing",
+    "rustThreads": "default"
+  },
+  "bundleSha256": "460825e83d15bb18ae02f593594b9754b0370a2967aab0c20f20062c2f11e8e3",
+  "complete": true,
+  "rows": [
+    {
+      "level": 2,
+      "profile": "budget-before",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "Anime.png",
+      "inputBytes": 1220437,
+      "node": {
+        "samplesMs": [
+          1097.546958,
+          1044.699625,
+          1060.5705830000002
+        ],
+        "bytes": 817288,
+        "sha256": "3c6445ee8599041ae8d48e9a6b2c20c0ac0acb01680c48efcca8db7c22f0dd46",
+        "minMs": 1044.699625,
+        "medianMs": 1060.5705830000002
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-before",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "Game.png",
+      "inputBytes": 4107582,
+      "node": {
+        "samplesMs": [
+          6590.476790999999,
+          7417.377041999998,
+          7973.390500000001
+        ],
+        "bytes": 3768706,
+        "sha256": "1c120485aa0e978db071616b6142ee2472495f537ff4934ae4d52d4479af7f28",
+        "minMs": 6590.476790999999,
+        "medianMs": 7417.377041999998
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-before",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "Icon0.png",
+      "inputBytes": 811487,
+      "node": {
+        "samplesMs": [
+          1509.9337500000001,
+          1562.499791000002,
+          1867.5395409999983
+        ],
+        "bytes": 563067,
+        "sha256": "15e3ee5df62db2d63f971dbd762f1b2ad5e6926c5b112cbde0787b9b2653ba1c",
+        "minMs": 1509.9337500000001,
+        "medianMs": 1562.499791000002
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-before",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "Icon1.png",
+      "inputBytes": 757550,
+      "node": {
+        "samplesMs": [
+          1341.9440420000028,
+          1345.7081249999974,
+          1325.296000000002
+        ],
+        "bytes": 558294,
+        "sha256": "71d0b166045281180814cc0fd7483a6dda2ba7f7ada6668f7cf534b730210b77",
+        "minMs": 1325.296000000002,
+        "medianMs": 1341.9440420000028
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-before",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "Icon2.png",
+      "inputBytes": 827230,
+      "node": {
+        "samplesMs": [
+          1707.903207999996,
+          1791.068290999996,
+          1616.5075419999994
+        ],
+        "bytes": 562538,
+        "sha256": "a709e289b73cc84c25c7bca3df0c3781732618ca88a25a1d440b4c4f424d0bd3",
+        "minMs": 1616.5075419999994,
+        "medianMs": 1707.903207999996
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-before",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "Web.png",
+      "inputBytes": 1337550,
+      "node": {
+        "samplesMs": [
+          2931.886542,
+          2902.248958999997,
+          2694.1113330000007
+        ],
+        "bytes": 897822,
+        "sha256": "b0c4306c6b706dbaf2a05bfbe0ca22a0a6b4048565b2ea6b788d3c62f6dee0a3",
+        "minMs": 2694.1113330000007,
+        "medianMs": 2902.248958999997
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-before",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "icon-samll.png",
+      "inputBytes": 8563,
+      "node": {
+        "samplesMs": [
+          88.9185839999991,
+          94.88791700000002,
+          91.15383300000394
+        ],
+        "bytes": 6291,
+        "sha256": "8ebada1af48dcbcd8af7e1625808a12ab8526d9d6d14f47216254d94e7b596f2",
+        "minMs": 88.9185839999991,
+        "medianMs": 91.15383300000394
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-before",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "name": "icon-small2.png",
+      "inputBytes": 78637,
+      "node": {
+        "samplesMs": [
+          363.4257910000015,
+          364.8117920000004,
+          364.9012500000026
+        ],
+        "bytes": 41135,
+        "sha256": "47c68545c64513383d3be7a90f18325a0b05d94d7926b44e39d789bafffd4021",
+        "minMs": 363.4257910000015,
+        "medianMs": 364.8117920000004
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-current",
+      "flags": [],
+      "name": "Anime.png",
+      "inputBytes": 1220437,
+      "node": {
+        "samplesMs": [
+          919.9543330000015,
+          922.9016660000052,
+          905.6947080000027
+        ],
+        "bytes": 831762,
+        "sha256": "0d9a2e90b44a3b4b904d996cc8f2e7fb1ced9fd176a50c07ec6b772638d8b60c",
+        "minMs": 905.6947080000027,
+        "medianMs": 919.9543330000015
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-current",
+      "flags": [],
+      "name": "Game.png",
+      "inputBytes": 4107582,
+      "node": {
+        "samplesMs": [
+          5776.500166999998,
+          6073.041208000002,
+          5911.466207999998
+        ],
+        "bytes": 3861490,
+        "sha256": "b7b7bd42bec94aee9c2ea6eb6c4949a264c2235c509b87a4ca05325bb5027dc8",
+        "minMs": 5776.500166999998,
+        "medianMs": 5911.466207999998
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-current",
+      "flags": [],
+      "name": "Icon0.png",
+      "inputBytes": 811487,
+      "node": {
+        "samplesMs": [
+          1225.5477919999976,
+          1208.396916999991,
+          1224.405666999999
+        ],
+        "bytes": 580339,
+        "sha256": "17149348ad09a8dff925b6c0418f6c2badafefc04753b7a505e0dbd62df6c390",
+        "minMs": 1208.396916999991,
+        "medianMs": 1224.405666999999
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-current",
+      "flags": [],
+      "name": "Icon1.png",
+      "inputBytes": 757550,
+      "node": {
+        "samplesMs": [
+          1228.4036249999917,
+          1140.2882910000044,
+          1165.9652500000084
+        ],
+        "bytes": 571901,
+        "sha256": "5f2c8b10696bd5d03029dcedc8bf628cfbb957ad2c5921276f5ab8729c38eeab",
+        "minMs": 1140.2882910000044,
+        "medianMs": 1165.9652500000084
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-current",
+      "flags": [],
+      "name": "Icon2.png",
+      "inputBytes": 827230,
+      "node": {
+        "samplesMs": [
+          1318.3916250000038,
+          1370.2220839999936,
+          1329.4745419999963
+        ],
+        "bytes": 579562,
+        "sha256": "9f6ee6fbbc6e6bb8fffba87150849bb5caf43208d8e04d12896f8c2803b1faa7",
+        "minMs": 1318.3916250000038,
+        "medianMs": 1329.4745419999963
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-current",
+      "flags": [],
+      "name": "Web.png",
+      "inputBytes": 1337550,
+      "node": {
+        "samplesMs": [
+          2699.029500000004,
+          2758.0125410000037,
+          2726.6841669999994
+        ],
+        "bytes": 909096,
+        "sha256": "d62393ec186f2fd9ac57adf27aa4200bdc9404f9404bd5aaf3e04d42b71bf7e4",
+        "minMs": 2699.029500000004,
+        "medianMs": 2726.6841669999994
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-current",
+      "flags": [],
+      "name": "icon-samll.png",
+      "inputBytes": 8563,
+      "node": {
+        "samplesMs": [
+          94.51970799999253,
+          93.42183300000033,
+          94.17254100000719
+        ],
+        "bytes": 6373,
+        "sha256": "99a9d8f1728f7e48e9fb7c66761173eb2675479673d2df88ba6d4c1e9f8865e1",
+        "minMs": 93.42183300000033,
+        "medianMs": 94.17254100000719
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-current",
+      "flags": [],
+      "name": "icon-small2.png",
+      "inputBytes": 78637,
+      "node": {
+        "samplesMs": [
+          346.4787919999944,
+          353.48566700000083,
+          359.83695899999293
+        ],
+        "bytes": 42002,
+        "sha256": "f660efd30267addc8ccfd85a2bdbaf0525fe9ab1ac8e70a28b5ca497b050b96d",
+        "minMs": 346.4787919999944,
+        "medianMs": 353.48566700000083
+      }
+    }
+  ],
+  "totals": [
+    {
+      "level": 2,
+      "profile": "budget-before",
+      "flags": [
+        "--zc",
+        "11"
+      ],
+      "node": {
+        "bytes": 7215141,
+        "minMs": 15233.369416000001,
+        "medianMs": 16448.509250000003
+      }
+    },
+    {
+      "level": 2,
+      "profile": "budget-current",
+      "flags": [],
+      "node": {
+        "bytes": 7382525,
+        "minMs": 13488.201833,
+        "medianMs": 13725.60837500001
+      }
+    }
+  ]
+}

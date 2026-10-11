@@ -418,53 +418,6 @@ button {
   }
 }
 
-.race-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-top: 11px;
-  border-top: 1px solid #4b695245;
-}
-
-.race-button {
-  background: #284b3d;
-  color: #e0eada;
-  border: 1px solid #55705b;
-  border-radius: 5px;
-  font-size: 10px;
-  height: 29px;
-  padding: 3px 10px;
-}
-
-.race-button:hover {
-  background: #365c49;
-}
-
-.icon-button {
-  font-size: 16px;
-  width: 29px;
-  padding: 0;
-}
-
-.race-speed {
-  font-size: 10px;
-  color: #b2c6b0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: auto;
-}
-
-.race-speed select {
-  background: #284b3d;
-  color: #e0eada;
-  border: 1px solid #55705b;
-  border-radius: 5px;
-  height: 29px;
-  padding: 0 6px;
-  font: 11px var(--mono);
-}
-
 .race-note {
   font-size: 10px;
   line-height: 1.8;
@@ -591,15 +544,15 @@ button {
 
 .chart-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .chart-card {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 25px 25px 19px;
+  padding: 18px 17px 14px;
   min-width: 0;
 }
 
@@ -608,7 +561,11 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  margin-bottom: 25px;
+  margin-bottom: 16px;
+}
+
+.chart-heading h3 {
+  font-size: 19px;
 }
 
 .chart-heading .eyebrow {
@@ -626,16 +583,16 @@ button {
 }
 
 .chart-body {
-  min-height: 224px;
+  min-height: 0;
 }
 
 .chart-row {
   display: grid;
-  grid-template-columns: 94px minmax(0,1fr) 68px;
+  grid-template-columns: minmax(74px, 0.85fr) minmax(58px, 1.35fr) 50px;
   align-items: center;
-  gap: 12px;
-  min-height: 40px;
-  margin-bottom: 4px;
+  gap: 6px;
+  min-height: 34px;
+  margin-bottom: 2px;
 }
 
 .chart-row-label {
@@ -644,7 +601,36 @@ button {
   gap: 7px;
   font-size: 11px;
   font-weight: 500;
+  min-width: 0;
+}
+
+.chart-label-copy {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.chart-engine-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.chart-actual {
+  position: absolute;
+  left: calc(100% + 5px);
+  top: 50%;
+  z-index: 1;
+  padding-left: 4px;
+  transform: translateY(-50%);
+  color: var(--ink);
+  font: 9px var(--mono);
+  white-space: nowrap;
+}
+
+.chart-actual-before {
+  left: calc(100% - 4px);
+  transform: translate(-100%, -50%);
 }
 
 .legend-swatch {
@@ -661,26 +647,34 @@ button {
 }
 
 .chart-rail {
-  height: 22px;
+  height: 16px;
   position: relative;
   background: repeating-linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),#dee2d760 calc(25% - 1px),#dee2d760 25%);
   border-left: 1px solid #dde3d6;
 }
 
 .chart-bar {
-  height: 22px;
   width: var(--bar-width);
   min-width: 2px;
+  height: 16px;
+  position: relative;
+  transition: width .35s ease;
+}
+
+.chart-bar-fill {
+  display: block;
+  width: 100%;
+  height: 16px;
   border-radius: 0 3px 3px 0;
   background: var(--engine-color);
-  transition: width .35s ease;
-  position: relative;
 }
 
 .chart-value {
   text-align: right;
+  color: var(--green);
   font: 11px var(--mono);
-  font-weight: 500;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .chart-value small {
@@ -690,9 +684,9 @@ button {
 
 .chart-axis {
   display: grid;
-  grid-template-columns: 94px minmax(0,1fr) 68px;
-  gap: 12px;
-  margin-top: 9px;
+  grid-template-columns: minmax(74px, 0.85fr) minmax(58px, 1.35fr) 50px;
+  gap: 6px;
+  margin-top: 7px;
 }
 
 .axis-ticks {
@@ -702,10 +696,14 @@ button {
   color: #8c9787;
 }
 
+.axis-ticks > span {
+  white-space: nowrap;
+}
+
 .chart-caption {
   font-size: 10px;
   color: var(--muted);
-  margin-top: 20px;
+  margin-top: 12px;
   line-height: 1.8;
 }
 
@@ -1308,11 +1306,11 @@ button {
     padding: 22px;
   }
   .chart-card {
-    padding: 22px 17px 17px;
+    padding: 18px 17px 14px;
   }
   .chart-row,.chart-axis {
-    grid-template-columns: 83px minmax(0,1fr) 64px;
-    gap: 8px;
+    grid-template-columns: minmax(70px, 0.9fr) minmax(50px, 1.3fr) 46px;
+    gap: 6px;
   }
   .chart-row-label {
     font-size: 10px;
@@ -1337,6 +1335,15 @@ button {
   }
   .controls {
     gap: 15px 12px;
+  }
+}
+
+@media(max-width:1050px) {
+  .chart-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .startup-card {
+    grid-column: 1 / -1;
   }
 }
 
@@ -1429,12 +1436,15 @@ button {
   .chart-grid {
     grid-template-columns: 1fr;
   }
+  .startup-card {
+    grid-column: auto;
+  }
   .chart-card {
-    padding: 25px 23px 21px;
+    padding: 18px 17px 14px;
   }
   .chart-row,.chart-axis {
-    grid-template-columns: 94px minmax(0,1fr) 76px;
-    gap: 12px;
+    grid-template-columns: minmax(82px, 0.95fr) minmax(65px, 1.4fr) 52px;
+    gap: 8px;
   }
   .chart-row-label {
     font-size: 11px;
@@ -1443,7 +1453,7 @@ button {
     font-size: 11px;
   }
   .chart-body {
-    min-height: 215px;
+    min-height: 0;
   }
   .metric-unit {
     font-size: 10px;
@@ -1522,11 +1532,11 @@ button {
     font-size: 9px;
   }
   .chart-card {
-    padding: 22px 16px 18px;
+    padding: 16px 14px 12px;
   }
   .chart-row,.chart-axis {
-    grid-template-columns: 80px minmax(0,1fr) 62px;
-    gap: 7px;
+    grid-template-columns: minmax(66px, 0.9fr) minmax(48px, 1.2fr) 44px;
+    gap: 5px;
   }
   .chart-row-label,.chart-value {
     font-size: 10px;

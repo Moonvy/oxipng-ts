@@ -1,146 +1,117 @@
 {
-  "generatedAt": "2026-10-11T10:46:56.836Z",
+  "generatedAt": "2026-10-11T15:04:30.796Z",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M3 Pro",
+    "node": "v26.7.0"
+  },
+  "options": {
+    "opt": "2",
+    "runs": 3,
+    "warmup": 0,
+    "startupRuns": 3,
+    "timeAggregation": "drop-fastest-mean",
+    "comparisonAggregation": "geomean-per-image-vs-rust"
+  },
+  "totals": {
+    "files": 8,
+    "originalBytes": 9149036,
+    "nativeBytes": 7080182,
+    "nativeMs": 7829.392728500003,
+    "nativeStartupMs": 5.509458000000009,
+    "tsBytes": 7382525,
+    "tsCliMs": 14147.974728999998,
+    "tsCliStartupMs": 39.55387499999999,
+    "sizeOverheadPercent": 4.2702715834140985,
+    "nativeVsNativeTimeRatio": 1,
+    "nativeVsNodeTimeRatio": 0.46438268779654585,
+    "tsVsNativeTimeRatio": 2.153396382507087,
+    "tsVsNodeTimeRatio": 1,
+    "slowdown": 2.153396382507087
+  },
+  "rows": [
+    {
+      "name": "Anime.png",
+      "originalSize": 1220437,
+      "nativeSize": 808313,
+      "nativeMs": 581.1688750000001,
+      "tsSize": 831762,
+      "tsCliMs": 911.301354,
+      "sizeDelta": 23449
+    },
+    {
+      "name": "Game.png",
+      "originalSize": 4107582,
+      "nativeSize": 3683431,
+      "nativeMs": 3676.6432705,
+      "tsSize": 3861490,
+      "tsCliMs": 6203.951687000001,
+      "sizeDelta": 178059
+    },
+    {
+      "name": "Icon0.png",
+      "originalSize": 811487,
+      "nativeSize": 559103,
+      "nativeMs": 782.745812000001,
+      "tsSize": 580339,
+      "tsCliMs": 1243.7408544999998,
+      "sizeDelta": 21236
+    },
+    {
+      "name": "Icon1.png",
+      "originalSize": 757550,
+      "nativeSize": 551303,
+      "nativeMs": 671.265437500002,
+      "tsSize": 571901,
+      "tsCliMs": 1188.8031875000015,
+      "sizeDelta": 20598
+    },
+    {
+      "name": "Icon2.png",
+      "originalSize": 827230,
+      "nativeSize": 554704,
+      "nativeMs": 895.6945625000008,
+      "tsSize": 579562,
+      "tsCliMs": 1373.8797709999963,
+      "sizeDelta": 24858
+    },
+    {
+      "name": "Web.png",
+      "originalSize": 1337550,
+      "nativeSize": 878403,
+      "nativeMs": 1070.2355419999985,
+      "tsSize": 909096,
+      "tsCliMs": 2770.5628749999996,
+      "sizeDelta": 30693
+    },
+    {
+      "name": "icon-samll.png",
+      "originalSize": 8563,
+      "nativeSize": 6098,
+      "nativeMs": 16.20262499999808,
+      "tsSize": 6373,
+      "tsCliMs": 95.18512499999633,
+      "sizeDelta": 275
+    },
+    {
+      "name": "icon-small2.png",
+      "originalSize": 78637,
+      "nativeSize": 38827,
+      "nativeMs": 135.43660400000226,
+      "tsSize": 42002,
+      "tsCliMs": 360.54987500000425,
+      "sizeDelta": 3175
+    }
+  ],
   "native": {
     "bin": "oxipng",
     "version": "oxipng 10.2.1",
-    "startupMs": 3.3175409999999985
+    "startupMs": 5.509458000000009
   },
   "ts": {
     "name": "oxipng-ts",
     "version": "0.1.0",
-    "cliStartupMs": 38.171625
-  },
-  "porffor": {
-    "bin": "/Users/sxcc/四喜茶茶文件/个人文件/AI/Oxipng-ts/oxipng-ts/dist/oxipng-ts-porffor",
-    "version": "oxipng-ts 0.1.0",
-    "startupMs": 3.751416000000006
-  },
-  "scriptc": {
-    "bin": "/Users/sxcc/四喜茶茶文件/个人文件/AI/Oxipng-ts/oxipng-ts/dist/oxipng-ts-scriptc",
-    "version": "oxipng-ts 0.1.0",
-    "startupMs": 4.331542000000013,
-    "build": {
-      "compiler": "scriptc",
-      "version": "0.2.8",
-      "mode": "static (LLVM, no JavaScript engine)",
-      "optimization": "speed",
-      "compilerFixes": [
-        "ArrayOwnership initialization order"
-      ],
-      "staticStatements": 3760,
-      "cliReachableStatements": 3691,
-      "dynamicStatements": 0,
-      "failedStatements": 0,
-      "platform": "darwin",
-      "arch": "arm64",
-      "bytes": 1262240
-    }
-  },
-  "environment": {
-    "platform": "darwin",
-    "arch": "arm64",
-    "cpu": "Apple M1",
-    "node": "v24.21.0"
-  },
-  "options": {
-    "opt": "2",
-    "runs": 1,
-    "warmup": 0
-  },
-  "totals": {
-    "files": 4,
-    "originalBytes": 3616704,
-    "nativeBytes": 2473423,
-    "tsBytes": 2501187,
-    "nativeMs": 3386.1884569999947,
-    "tsCliMs": 7578.441207999993,
-    "porfforBytes": 2501187,
-    "porfforMs": 44068.780751000006,
-    "scriptcBytes": 2501187,
-    "scriptcMs": 32851.505541,
-    "sizeOverheadPercent": 1.1224929985691894,
-    "slowdown": 2.2380447232148852,
-    "nativeStartupMs": 3.3175409999999985,
-    "tsCliStartupMs": 38.171625,
-    "porfforStartupMs": 3.751416000000006,
-    "porfforSizeOverheadPercent": 1.1224929985691894,
-    "porfforVsNativeTimeRatio": 13.014272923853415,
-    "porfforVsNodeTimeRatio": 5.815019149911712,
-    "porfforMatchesTs": true,
-    "scriptcStartupMs": 4.331542000000013,
-    "scriptcSizeOverheadPercent": 1.1224929985691894,
-    "scriptcVsNativeTimeRatio": 9.701617602850405,
-    "scriptcVsNodeTimeRatio": 4.334863151847259,
-    "scriptcMatchesTs": true
-  },
-  "rows": [
-    {
-      "name": "IMG_5112.PNG",
-      "originalSize": 1220437,
-      "nativeSize": 808313,
-      "tsSize": 817288,
-      "sizeDelta": 8975,
-      "nativeMs": 657.591166,
-      "tsCliMs": 1474.1107499999998,
-      "porfforSize": 817288,
-      "porfforSizeDelta": 8975,
-      "porfforMs": 8381.879292,
-      "porfforMatchesTs": true,
-      "scriptcSize": 817288,
-      "scriptcSizeDelta": 8975,
-      "scriptcMs": 6511.208708,
-      "scriptcMatchesTs": true
-    },
-    {
-      "name": "Image Capture.png",
-      "originalSize": 757550,
-      "nativeSize": 551303,
-      "tsSize": 558294,
-      "sizeDelta": 6991,
-      "nativeMs": 774.3964579999993,
-      "tsCliMs": 1815.0290419999983,
-      "porfforSize": 558294,
-      "porfforSizeDelta": 6991,
-      "porfforMs": 10504.197375,
-      "porfforMatchesTs": true,
-      "scriptcSize": 558294,
-      "scriptcSizeDelta": 6991,
-      "scriptcMs": 7804.1836250000015,
-      "scriptcMatchesTs": true
-    },
-    {
-      "name": "Qjiao.png",
-      "originalSize": 827230,
-      "nativeSize": 554704,
-      "tsSize": 562538,
-      "sizeDelta": 7834,
-      "nativeMs": 1066.7122079999972,
-      "tsCliMs": 2215.216708,
-      "porfforSize": 562538,
-      "porfforSizeDelta": 7834,
-      "porfforMs": 13045.403750000005,
-      "porfforMatchesTs": true,
-      "scriptcSize": 562538,
-      "scriptcSizeDelta": 7834,
-      "scriptcMs": 9568.638749999998,
-      "scriptcMatchesTs": true
-    },
-    {
-      "name": "Siri AI.png",
-      "originalSize": 811487,
-      "nativeSize": 559103,
-      "tsSize": 563067,
-      "sizeDelta": 3964,
-      "nativeMs": 887.4886249999981,
-      "tsCliMs": 2074.084707999995,
-      "porfforSize": 563067,
-      "porfforSizeDelta": 3964,
-      "porfforMs": 12137.300334,
-      "porfforMatchesTs": true,
-      "scriptcSize": 563067,
-      "scriptcSizeDelta": 3964,
-      "scriptcMs": 8967.474457999997,
-      "scriptcMatchesTs": true
-    }
-  ]
+    "cliStartupMs": 39.55387499999999
+  }
 }

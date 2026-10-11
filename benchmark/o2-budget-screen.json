@@ -1,0 +1,875 @@
+{
+  "generatedAt": "2026-10-11T14:36:30.695Z",
+  "environment": {
+    "cpu": "Apple M3 Pro",
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.7.0"
+  },
+  "settings": {
+    "runs": 1,
+    "warmup": 1,
+    "corpus": "extended",
+    "candidates": "baseline-o2,depth64-passes0,depth64-passes1,depth32-passes1",
+    "output": "benchmark/o2-budget-screen.json"
+  },
+  "encoderSha256": "3715feb09f7d89ddba2fdb9b2059dffb332aea0e5ae57b538b89730a43c1ae78",
+  "optimizerSha256": "4b90ecf4bc86e28c7df6f05531d7e241383ecb301386de09ad46d6affd04b236",
+  "timing": "In-process API; alternating/rotating candidates; PNG checks outside timing; all bundles built identically",
+  "complete": true,
+  "configurations": [
+    {
+      "name": "baseline-o2",
+      "compression": 11,
+      "filters": "default"
+    },
+    {
+      "name": "depth64-passes0",
+      "compression": 11,
+      "filters": "default",
+      "depth": 64,
+      "passes": 0
+    },
+    {
+      "name": "depth64-passes1",
+      "compression": 11,
+      "filters": "default",
+      "depth": 64,
+      "passes": 1
+    },
+    {
+      "name": "depth32-passes1",
+      "compression": 11,
+      "filters": "default",
+      "depth": 32,
+      "passes": 1
+    }
+  ],
+  "rows": [
+    {
+      "name": "Anime.png",
+      "category": "screenshot",
+      "inputBytes": 1220437,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 817288,
+          "medianMs": 1051.0895409999998,
+          "minMs": 1051.0895409999998,
+          "samplesMs": [
+            1051.0895409999998
+          ],
+          "sha256": "3c6445ee8599041ae8d48e9a6b2c20c0ac0acb01680c48efcca8db7c22f0dd46",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 930564,
+          "medianMs": 781.5191249999998,
+          "minMs": 781.5191249999998,
+          "samplesMs": [
+            781.5191249999998
+          ],
+          "sha256": "3ed4ff7a6abc3ae79bd09e0575488482256b8b103b5e480665bf1bd3702ebb39",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 831782,
+          "medianMs": 877.6209579999995,
+          "minMs": 877.6209579999995,
+          "samplesMs": [
+            877.6209579999995
+          ],
+          "sha256": "5b67fb180141929502d750a380f161a332b34775a3f330c711ae6084ce9af9a6",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 832575,
+          "medianMs": 828.0897079999995,
+          "minMs": 828.0897079999995,
+          "samplesMs": [
+            828.0897079999995
+          ],
+          "sha256": "4736b62dd1ec24cbffecd2e2088b464ae6649e2525cb4273b831b492aada0aca",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Game.png",
+      "category": "screenshot",
+      "inputBytes": 4107582,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 3768706,
+          "medianMs": 6847.414083000003,
+          "minMs": 6847.414083000003,
+          "samplesMs": [
+            6847.414083000003
+          ],
+          "sha256": "1c120485aa0e978db071616b6142ee2472495f537ff4934ae4d52d4479af7f28",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 4106838,
+          "medianMs": 5252.354292000004,
+          "minMs": 5252.354292000004,
+          "samplesMs": [
+            5252.354292000004
+          ],
+          "sha256": "e784db99758751d6fef9b1b042ba34a0decefb8243558d570fe29a3a1dcc5c30",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 3861793,
+          "medianMs": 5957.6472920000015,
+          "minMs": 5957.6472920000015,
+          "samplesMs": [
+            5957.6472920000015
+          ],
+          "sha256": "fa3a2e78b0a01e3a026569b97d2a4f80ee13aa807c509930a6c0776953f6afe4",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 3865451,
+          "medianMs": 5073.251667000004,
+          "minMs": 5073.251667000004,
+          "samplesMs": [
+            5073.251667000004
+          ],
+          "sha256": "0bf33f3bf24c8e2a9fc44484b84188446ff8423dc789b11cc91bc9acbfe3443c",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Icon0.png",
+      "category": "screenshot",
+      "inputBytes": 811487,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 563067,
+          "medianMs": 1459.479916999997,
+          "minMs": 1459.479916999997,
+          "samplesMs": [
+            1459.479916999997
+          ],
+          "sha256": "15e3ee5df62db2d63f971dbd762f1b2ad5e6926c5b112cbde0787b9b2653ba1c",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 685074,
+          "medianMs": 1032.4670409999962,
+          "minMs": 1032.4670409999962,
+          "samplesMs": [
+            1032.4670409999962
+          ],
+          "sha256": "ca5df4001ab867aca3db1cf9d73ba12b1d481c1ca39b34e0e622d918d891cd31",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 580829,
+          "medianMs": 1165.1033339999994,
+          "minMs": 1165.1033339999994,
+          "samplesMs": [
+            1165.1033339999994
+          ],
+          "sha256": "698bdf8bc9ca32e32a10264858b955f250bc48f2d3912050c60cf4f051e7fe15",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 581201,
+          "medianMs": 1092.793458,
+          "minMs": 1092.793458,
+          "samplesMs": [
+            1092.793458
+          ],
+          "sha256": "0ce334b82199d78a525e1c09eac8311f48acbd8e9fffb1035fb6f7df5c5a5299",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Icon1.png",
+      "category": "screenshot",
+      "inputBytes": 757550,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 558294,
+          "medianMs": 1234.155375000002,
+          "minMs": 1234.155375000002,
+          "samplesMs": [
+            1234.155375000002
+          ],
+          "sha256": "71d0b166045281180814cc0fd7483a6dda2ba7f7ada6668f7cf534b730210b77",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 678365,
+          "medianMs": 961.8749580000003,
+          "minMs": 961.8749580000003,
+          "samplesMs": [
+            961.8749580000003
+          ],
+          "sha256": "3dfc8f0273041728159cb8149d84ed77f0e6721ddf22945b7f08bac3e0a55438",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 573676,
+          "medianMs": 1053.7266249999957,
+          "minMs": 1053.7266249999957,
+          "samplesMs": [
+            1053.7266249999957
+          ],
+          "sha256": "88368bf67c58efee6c11c537ce75ea6ed84b4f45bd22853b0e900aaa15d2d84a",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 574287,
+          "medianMs": 972.5226669999975,
+          "minMs": 972.5226669999975,
+          "samplesMs": [
+            972.5226669999975
+          ],
+          "sha256": "d7bbc7c1178957b8d3740253e23162b7a9ce329dce05f87a3f953869fe7415ec",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Icon2.png",
+      "category": "screenshot",
+      "inputBytes": 827230,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 562538,
+          "medianMs": 1568.2780420000054,
+          "minMs": 1568.2780420000054,
+          "samplesMs": [
+            1568.2780420000054
+          ],
+          "sha256": "a709e289b73cc84c25c7bca3df0c3781732618ca88a25a1d440b4c4f424d0bd3",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 680533,
+          "medianMs": 1108.1159999999945,
+          "minMs": 1108.1159999999945,
+          "samplesMs": [
+            1108.1159999999945
+          ],
+          "sha256": "f1ef8e36daa9076523b6a2869236d4fa6272775d1e02bee789cc7cd5e5e0b77d",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 579720,
+          "medianMs": 1266.8770000000077,
+          "minMs": 1266.8770000000077,
+          "samplesMs": [
+            1266.8770000000077
+          ],
+          "sha256": "586ed0c20b1cdd41ea77438b0f3ec9bd0a8bda223f2133e01803c93bf5dad501",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 580282,
+          "medianMs": 1213.7569579999981,
+          "minMs": 1213.7569579999981,
+          "samplesMs": [
+            1213.7569579999981
+          ],
+          "sha256": "c90dfb0a8e0f19de546b63d02d9e5a9cabb59a0250cf0e647102a26c401761a0",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Web.png",
+      "category": "screenshot",
+      "inputBytes": 1337550,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 897822,
+          "medianMs": 2712.356541999994,
+          "minMs": 2712.356541999994,
+          "samplesMs": [
+            2712.356541999994
+          ],
+          "sha256": "b0c4306c6b706dbaf2a05bfbe0ca22a0a6b4048565b2ea6b788d3c62f6dee0a3",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 1138974,
+          "medianMs": 2379.9091659999976,
+          "minMs": 2379.9091659999976,
+          "samplesMs": [
+            2379.9091659999976
+          ],
+          "sha256": "e6b3986d8f1613ebcab32c98d6036332876a644a8cf55adf4711cfc04ee71125",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 915566,
+          "medianMs": 2501.8197079999954,
+          "minMs": 2501.8197079999954,
+          "samplesMs": [
+            2501.8197079999954
+          ],
+          "sha256": "45fabf4c9b75a0c117c404d3674d38535ae161318a256aafd67ff8206875ed06",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 920635,
+          "medianMs": 2224.693333999996,
+          "minMs": 2224.693333999996,
+          "samplesMs": [
+            2224.693333999996
+          ],
+          "sha256": "69b9a6ce0e5f404ac725afeb45ebfa313037726a52b5fdad937693b4208235c5",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "icon-samll.png",
+      "category": "screenshot",
+      "inputBytes": 8563,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 6291,
+          "medianMs": 26.433167000010144,
+          "minMs": 26.433167000010144,
+          "samplesMs": [
+            26.433167000010144
+          ],
+          "sha256": "8ebada1af48dcbcd8af7e1625808a12ab8526d9d6d14f47216254d94e7b596f2",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 8563,
+          "medianMs": 15.28566699998919,
+          "minMs": 15.28566699998919,
+          "samplesMs": [
+            15.28566699998919
+          ],
+          "sha256": "69a4abdf6ffc41170862d52821205873e3d956bde8637e6437d7ec0b9b023b82",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 6384,
+          "medianMs": 17.37050000000454,
+          "minMs": 17.37050000000454,
+          "samplesMs": [
+            17.37050000000454
+          ],
+          "sha256": "1d528ef1003276d7026c1002dcbcf0d6608c5d2f9cec93653d41a2c0230fb438",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 6404,
+          "medianMs": 14.448957999993581,
+          "minMs": 14.448957999993581,
+          "samplesMs": [
+            14.448957999993581
+          ],
+          "sha256": "68e1997a3b2cc98799fecdfe98cfa1cb936c71c1b0796b172925eb8cb30d915c",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "icon-small2.png",
+      "category": "screenshot",
+      "inputBytes": 78637,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 41135,
+          "medianMs": 271.3468750000029,
+          "minMs": 271.3468750000029,
+          "samplesMs": [
+            271.3468750000029
+          ],
+          "sha256": "47c68545c64513383d3be7a90f18325a0b05d94d7926b44e39d789bafffd4021",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 78589,
+          "medianMs": 210.40654099998937,
+          "minMs": 210.40654099998937,
+          "samplesMs": [
+            210.40654099998937
+          ],
+          "sha256": "e1f9762a0c1a5e3294c85ff721b26996c8d968310d948ee4deedc17ba89c1bb9",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 42076,
+          "medianMs": 242.94362499999988,
+          "minMs": 242.94362499999988,
+          "samplesMs": [
+            242.94362499999988
+          ],
+          "sha256": "231593e1e8a3da8209e0b82bfda814ec29b2a2f6e9346f6d96990f86ea480030",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 42546,
+          "medianMs": 226.71145899999829,
+          "minMs": 226.71145899999829,
+          "samplesMs": [
+            226.71145899999829
+          ],
+          "sha256": "765c32c6ffe02ea0b8a547d5901f7d98564a9971f91aae6b750f490a6442b626",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "generated/gradient.png",
+      "category": "generated",
+      "inputBytes": 521263,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 24141,
+          "medianMs": 757.7171250000101,
+          "minMs": 757.7171250000101,
+          "samplesMs": [
+            757.7171250000101
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 31718,
+          "medianMs": 726.7145000000019,
+          "minMs": 726.7145000000019,
+          "samplesMs": [
+            726.7145000000019
+          ],
+          "sha256": "e8f4108f9efe82fed1dc31b0745c61aaef6ac016f1c38667551f48a752cc6231",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 24301,
+          "medianMs": 739.2725000000064,
+          "minMs": 739.2725000000064,
+          "samplesMs": [
+            739.2725000000064
+          ],
+          "sha256": "3d7c187c1b256c6bf028c892123e77d9475755db0f9663f89af6ac079c4b8af8",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 33005,
+          "medianMs": 569.0109170000069,
+          "minMs": 569.0109170000069,
+          "samplesMs": [
+            569.0109170000069
+          ],
+          "sha256": "a6b071e3193bb17184ed7edb8dcd3651494d28c7b92f55eebde3c103dde88f1f",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "generated/shapes.png",
+      "category": "generated",
+      "inputBytes": 8382,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 3966,
+          "medianMs": 163.770583000005,
+          "minMs": 163.770583000005,
+          "samplesMs": [
+            163.770583000005
+          ],
+          "sha256": "2fc0f819fd3da75c7f560b6be4baa18e2d5eb9b770b33f7faca9092652f50445",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 7041,
+          "medianMs": 155.82925000000978,
+          "minMs": 155.82925000000978,
+          "samplesMs": [
+            155.82925000000978
+          ],
+          "sha256": "e52a285323953634a0090d10fa27c627b755c76a38231944100451340fcfe32e",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 3997,
+          "medianMs": 159.94024999999965,
+          "minMs": 159.94024999999965,
+          "samplesMs": [
+            159.94024999999965
+          ],
+          "sha256": "c1b106a49c9d68483d48d0e2aebd974fd9a6f1aa4e53051fb6a851021ba6b5e1",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 4383,
+          "medianMs": 130.10274999999092,
+          "minMs": 130.10274999999092,
+          "samplesMs": [
+            130.10274999999092
+          ],
+          "sha256": "7c7329f946e6e18324f3eb5f9400575a28f6a8f1c5fb81b9ab2d5d9b4ccdf467",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "generated/photo.png",
+      "category": "generated",
+      "inputBytes": 354331,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 218698,
+          "medianMs": 562.3556669999962,
+          "minMs": 562.3556669999962,
+          "samplesMs": [
+            562.3556669999962
+          ],
+          "sha256": "7c9dcf04bfcac61acf11b6483a417e4726bf5fe626bff1d8c223795361cde2b9",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 301728,
+          "medianMs": 336.55920800000604,
+          "minMs": 336.55920800000604,
+          "samplesMs": [
+            336.55920800000604
+          ],
+          "sha256": "8134acdc5e7fe43f39df4d4119a6c049aa6714f4ad54ff4bf1bbf8b713f0f8cb",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 222579,
+          "medianMs": 411.7022500000021,
+          "minMs": 411.7022500000021,
+          "samplesMs": [
+            411.7022500000021
+          ],
+          "sha256": "49bb6a68110adbf10f07817db5c1966f787d2112973d6d32cd4db46846f2b990",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 222563,
+          "medianMs": 413.67866700000013,
+          "minMs": 413.67866700000013,
+          "samplesMs": [
+            413.67866700000013
+          ],
+          "sha256": "06fce76dbd9f9e4ea21a96bcd1b8bb15049754140a0fc38c2402e74e5db088e2",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/palette_8_should_be_palette_8.png",
+      "category": "fixture",
+      "inputBytes": 32558,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 30176,
+          "medianMs": 135.4862090000097,
+          "minMs": 135.4862090000097,
+          "samplesMs": [
+            135.4862090000097
+          ],
+          "sha256": "7cbf1515d2d9fba238625c3215aadcb85611be34eb1acb743eee2815d46e732d",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 32558,
+          "medianMs": 97.66245800000615,
+          "minMs": 97.66245800000615,
+          "samplesMs": [
+            97.66245800000615
+          ],
+          "sha256": "bd72f9ebda597a02626ef4ce2759e3c367c55be8510ba96fefe009557decad01",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 30688,
+          "medianMs": 122.79695799999172,
+          "minMs": 122.79695799999172,
+          "samplesMs": [
+            122.79695799999172
+          ],
+          "sha256": "f13eb9c8a4224318c8966367a0cfceeb0ce9b237ca3d7d8ea0ced84b6b27b254",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 30887,
+          "medianMs": 118.19145899999421,
+          "minMs": 118.19145899999421,
+          "samplesMs": [
+            118.19145899999421
+          ],
+          "sha256": "e491d674ea44143c573c2d6fc0f03df76f732d861997ac73057fd05ec68f64ec",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/rgb_trns_8_should_be_palette_8.png",
+      "category": "fixture",
+      "inputBytes": 40736,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 30176,
+          "medianMs": 131.9370840000047,
+          "minMs": 131.9370840000047,
+          "samplesMs": [
+            131.9370840000047
+          ],
+          "sha256": "7cbf1515d2d9fba238625c3215aadcb85611be34eb1acb743eee2815d46e732d",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 40736,
+          "medianMs": 102.38320899999235,
+          "minMs": 102.38320899999235,
+          "samplesMs": [
+            102.38320899999235
+          ],
+          "sha256": "f5818af9ea2933ae1fe4e76ea8c778e329af4dc08ff2d1eee4fb8ff4bd238c80",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 30688,
+          "medianMs": 118.79629199999908,
+          "minMs": 118.79629199999908,
+          "samplesMs": [
+            118.79629199999908
+          ],
+          "sha256": "f13eb9c8a4224318c8966367a0cfceeb0ce9b237ca3d7d8ea0ced84b6b27b254",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 30887,
+          "medianMs": 111.05895799999416,
+          "minMs": 111.05895799999416,
+          "samplesMs": [
+            111.05895799999416
+          ],
+          "sha256": "e491d674ea44143c573c2d6fc0f03df76f732d861997ac73057fd05ec68f64ec",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/rgba_16_should_be_rgba_16.png",
+      "category": "fixture",
+      "inputBytes": 88684,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 82148,
+          "medianMs": 636.676833000005,
+          "minMs": 636.676833000005,
+          "samplesMs": [
+            636.676833000005
+          ],
+          "sha256": "dd8b86e4db3e49d4d28a460eea71724f885fc6eb7fa2445d8f6fe89273d150d8",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 88684,
+          "medianMs": 551.518333,
+          "minMs": 551.518333,
+          "samplesMs": [
+            551.518333
+          ],
+          "sha256": "228fb96fb19269f55073b96e4f6e22c4db31aaf6e834a04b3d113b9b20f3b1d4",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 83382,
+          "medianMs": 603.4645829999936,
+          "minMs": 603.4645829999936,
+          "samplesMs": [
+            603.4645829999936
+          ],
+          "sha256": "f59829848a66c4052094b4c581b4ed6429e3cac46c6f8c415efef332351c5a1b",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 84144,
+          "medianMs": 494.7562089999992,
+          "minMs": 494.7562089999992,
+          "samplesMs": [
+            494.7562089999992
+          ],
+          "sha256": "043422f31ad2fde4dcbc8fe4c45042fae5a554ab6bb744747262440da7ff11a9",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/interlaced_rgba_16_should_be_rgba_16.png",
+      "category": "fixture",
+      "inputBytes": 113711,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 82148,
+          "medianMs": 633.9781660000008,
+          "minMs": 633.9781660000008,
+          "samplesMs": [
+            633.9781660000008
+          ],
+          "sha256": "dd8b86e4db3e49d4d28a460eea71724f885fc6eb7fa2445d8f6fe89273d150d8",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 105142,
+          "medianMs": 597.5971669999999,
+          "minMs": 597.5971669999999,
+          "samplesMs": [
+            597.5971669999999
+          ],
+          "sha256": "fae40f37306ddf6be49dbe11eaef786e26e78048ad14ca1e410b333fd6b7c6a1",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 83382,
+          "medianMs": 603.2097079999949,
+          "minMs": 603.2097079999949,
+          "samplesMs": [
+            603.2097079999949
+          ],
+          "sha256": "f59829848a66c4052094b4c581b4ed6429e3cac46c6f8c415efef332351c5a1b",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 84144,
+          "medianMs": 496.0290840000089,
+          "minMs": 496.0290840000089,
+          "samplesMs": [
+            496.0290840000089
+          ],
+          "sha256": "043422f31ad2fde4dcbc8fe4c45042fae5a554ab6bb744747262440da7ff11a9",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/small_files.png",
+      "category": "fixture",
+      "inputBytes": 90,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 89,
+          "medianMs": 0.34691700000257697,
+          "minMs": 0.34691700000257697,
+          "samplesMs": [
+            0.34691700000257697
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 89,
+          "medianMs": 0.33637499999895226,
+          "minMs": 0.33637499999895226,
+          "samplesMs": [
+            0.33637499999895226
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "depth64-passes1": {
+          "bytes": 89,
+          "medianMs": 0.34491699999489356,
+          "minMs": 0.34491699999489356,
+          "samplesMs": [
+            0.34491699999489356
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "depth32-passes1": {
+          "bytes": 89,
+          "medianMs": 0.2742080000025453,
+          "minMs": 0.2742080000025453,
+          "samplesMs": [
+            0.2742080000025453
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "fixture/apng_file.png",
+      "category": "fixture",
+      "inputBytes": 63435,
+      "candidates": {
+        "baseline-o2": {
+          "bytes": 62367,
+          "medianMs": 52.419000000008964,
+          "minMs": 52.419000000008964,
+          "samplesMs": [
+            52.419000000008964
+          ],
+          "sha256": "aa6c718ae573a4ad486cf51e578834dcfd20a65a99e1a72501328cb83e98bca0",
+          "matchesBaseline": true
+        },
+        "depth64-passes0": {
+          "bytes": 63435,
+          "medianMs": 13.870584000003873,
+          "minMs": 13.870584000003873,
+          "samplesMs": [
+            13.870584000003873
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": false
+        },
+        "depth64-passes1": {
+          "bytes": 63435,
+          "medianMs": 14.326541999995243,
+          "minMs": 14.326541999995243,
+          "samplesMs": [
+            14.326541999995243
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": false
+        },
+        "depth32-passes1": {
+          "bytes": 63435,
+          "medianMs": 10.749125000002095,
+          "minMs": 10.749125000002095,
+          "samplesMs": [
+            10.749125000002095
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": false
+        }
+      }
+    }
+  ],
+  "totals": [
+    {
+      "name": "baseline-o2",
+      "bytes": 7749050,
+      "medianMs": 18245.24112600006,
+      "minMs": 18245.24112600006
+    },
+    {
+      "name": "depth64-passes0",
+      "bytes": 8978631,
+      "medianMs": 14324.403873999989,
+      "minMs": 14324.403873999989
+    },
+    {
+      "name": "depth64-passes1",
+      "bytes": 7934367,
+      "medianMs": 15856.963041999981,
+      "minMs": 15856.963041999981
+    },
+    {
+      "name": "depth32-passes1",
+      "bytes": 7956918,
+      "medianMs": 13990.119585999986,
+      "minMs": 13990.119585999986
+    }
+  ]
+}

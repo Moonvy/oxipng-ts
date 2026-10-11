@@ -12,14 +12,15 @@ Install Rust oxipng (`brew install oxipng` on macOS) and follow the
 ```sh
 npm run build:ts
 npm run build:bin -- porffor scriptc
-npm run benchmark                            # -o 2, five runs, one warmup
+npm run benchmark                            # -o 2, three runs, no warmup
 npm run benchmark:min                        # Rust + Node only, three runs, no warmup
 npm run benchmark -- --opt 6 --runs 3
-npm run benchmark -- --runs 1 --warmup 0       # faster, noisier smoke run
 ```
 
-`benchmark:min` compares only Rust Native and the Node.js TypeScript build,
-with three measured runs per image and no warmup; it takes the fastest run.
+`benchmark:min` compares only Rust Native and the Node.js TypeScript build.
+Each image and engine is measured three times without warmup; the fastest time
+is discarded and the other two are averaged. `--runs` can increase the number
+of measurements but must be at least three. `--warmup` accepts only `0`.
 Run `npm run build:ts` after source changes. It writes the same `REPORT.md` and
 `results.json` as the full benchmark; use `--output-dir` to keep a separate report.
 
@@ -44,12 +45,18 @@ external binaries without metadata are reported as unknown mode.
 
 ## Measurements
 
-Times are the fastest of the measured runs after warmup. Every file run starts a
-fresh process and includes startup; `--version` startup is also reported separately.
+Every file run starts a fresh process and includes startup. For each image and
+engine, the benchmark discards the fastest of three measured times and averages
+the other two; there is no warmup. With a custom `--runs` value, it discards the
+fastest time and averages the rest. Startup is measured separately by compressing
+the 1×1 PNG at `test/files/fully_optimized.png` in three fresh processes; the
+fastest result is reported, with no warmup.
+The all-images comparison sums each engine's per-image times and compares those
+totals, so longer-running images contribute more to the result.
 Byte parity checks run outside the timed region.
 
 Console output shows discovery, startup timing, the current image and engine,
-warmup/measured round counts, completed rounds, elapsed time, byte checks and
+measured round counts, completed rounds, elapsed time, byte checks and
 report generation. Terminals update the active line every second; redirected
 logs print a heartbeat every 15 seconds. Long-running rounds remain visible
 without an estimated completion time. Ctrl+C stops the active child process,
@@ -167,3 +174,25 @@ The baseline encoder's SHA-256 is
 `a198f9461d469674699879b416bc87c713e90d01bb6e9b09bdf0fd8c0c080a8f`.
 These API measurements exclude startup and validate full-precision pixels,
 APNG frames and controls, and deterministic output independently of timing.
+
+## Presets and speed/size tuning
+
+See [PRESETS.md](PRESETS.md) for the complete Rust/Node `-o 0–6` CLI matrix,
+filter/compression/depth/pass experiments, and additional PNG/APNG validation.
+The subsequent default `-o 2` budget change, including the seven-file sample
+corpus and broader fixture checks, is recorded in [DEFAULT-O2.md](DEFAULT-O2.md).
+These scripts write separate artifacts and preserve the main CLI report:
+
+```sh
+npm run build:ts
+node benchmark/presets.mjs --runs 3 --output benchmark/presets.json
+node benchmark/tune.mjs --output benchmark/tuning-screen.json
+```
+
+`presets.mjs` also accepts `--profiles` with named public CLI combinations;
+`tune.mjs` accepts `--candidates`, `--runs`, `--warmup`, and
+`--corpus pilot|sample|extended|validation|fixtures`. `validation` contains only the nine
+additional generated/fixture files; `fixtures` audits 8-bit fixtures with at
+least 64 KiB of raw pixels and records invalid input skips. Experimental encoder parameters are applied
+to temporary bundles, without changing production defaults. Both scripts check
+decoded pixels and deterministic output outside measured intervals.

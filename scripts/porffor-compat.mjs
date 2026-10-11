@@ -82,9 +82,9 @@ export function porfforCompatibleSource(source, fileName, program) {
     return (node) => ts.visitNode(node, visit);
   }]);
   try {
-    // The optimal binary-tree matcher adds one prefix load and two bounded
-    // word comparisons. All 17 loads use the checked native reader.
-    if (isDeflate && wordReads !== 17) throw new Error(`DEFLATE word reads changed (${wordReads}); review the native reader contract.`);
+    // Search and insertion both use bounded prefix/word comparisons in the
+    // binary-tree matcher. All 20 loads use the checked native reader.
+    if (isDeflate && wordReads !== 20) throw new Error(`DEFLATE word reads changed (${wordReads}); review the native reader contract.`);
     return ts.createPrinter().printFile(transformed.transformed[0]);
   }
   finally { transformed.dispose(); }

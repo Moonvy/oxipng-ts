@@ -20,8 +20,14 @@ export function normalizeBenchmark(report) {
   }
   const runs = number(report.options?.runs, 'runs', 1);
   const warmup = number(report.options?.warmup, 'warmup');
+  const startupRuns = report.options?.startupRuns == null
+    ? null
+    : number(report.options.startupRuns, 'startupRuns', 1);
+  const timeAggregation = report.options?.timeAggregation ?? 'fastest';
   const opt = String(report.options?.opt ?? '');
-  if (!/^[0-6]$/.test(opt) || !Number.isInteger(runs) || !Number.isInteger(warmup)) {
+  if (!/^[0-6]$/.test(opt) || !Number.isInteger(runs) || !Number.isInteger(warmup) ||
+      (startupRuns !== null && !Number.isInteger(startupRuns)) ||
+      !['fastest', 'drop-fastest-mean'].includes(timeAggregation)) {
     throw new Error('benchmark 测量选项无效');
   }
   const activeEngines = ENGINES.filter(engine => ['rust', 'node'].includes(engine.id) ||
@@ -44,9 +50,21 @@ export function normalizeBenchmark(report) {
       ms: rows.reduce((sum, row) => sum + row.engines[index].ms, 0),
     })),
   };
+  const startupValues = {
+    rust: report.native?.startupMs ?? report.totals?.nativeStartupMs,
+    node: report.ts?.cliStartupMs ?? report.totals?.tsCliStartupMs,
+    porffor: report.porffor?.startupMs ?? report.totals?.porfforStartupMs,
+    scriptc: report.scriptc?.startupMs ?? report.totals?.scriptcStartupMs,
+  };
+  const startups = activeEngines.map(engine => {
+    const value = startupValues[engine.id];
+    return { ...engine, startupMs: value == null ? null : number(value, `${engine.label} 启动耗时`) };
+  });
   const environment = report.environment ?? {};
   return {
-    generatedAt: report.generatedAt, options: { opt, runs, warmup }, rows, all,
+    generatedAt: report.generatedAt,
+    options: { opt, runs, warmup, startupRuns, timeAggregation },
+    rows, all, startups,
     environment: {
       cpu: typeof environment.cpu === 'string' ? environment.cpu : '未记录 CPU',
       platform: typeof environment.platform === 'string' ? environment.platform : '未记录系统',

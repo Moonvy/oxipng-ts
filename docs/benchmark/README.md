@@ -12,10 +12,13 @@ Install Rust oxipng (`brew install oxipng` on macOS) and follow the
 ```sh
 npm run build:ts
 npm run build:bin -- porffor scriptc
-npm run benchmark                            # -o 2, five runs, one warmup
+npm run benchmark                            # -o 2, three runs, no warmup
 npm run benchmark -- --opt 6 --runs 3
-npm run benchmark -- --runs 1 --warmup 0       # faster, noisier smoke run
 ```
+
+Each image and engine is measured three times without warmup; the fastest time
+is discarded and the other two are averaged. `--runs` can increase the number
+of measurements but must be at least three. `--warmup` accepts only `0`.
 
 Build outputs are independent: `build:ts` clears `dist/js`, `build:bin` clears
 `dist/bin`, and `build:site` clears `docs`. The benchmark automatically includes
@@ -38,12 +41,18 @@ external binaries without metadata are reported as unknown mode.
 
 ## Measurements
 
-Times are the fastest of the measured runs after warmup. Every file run starts a
-fresh process and includes startup; `--version` startup is also reported separately.
+Every file run starts a fresh process and includes startup. For each image and
+engine, the benchmark discards the fastest of three measured times and averages
+the other two; there is no warmup. With a custom `--runs` value, it discards the
+fastest time and averages the rest. Startup is measured separately by compressing
+the 1×1 PNG at `test/files/fully_optimized.png` in three fresh processes; the
+fastest result is reported, with no warmup.
+The all-images comparison sums each engine's per-image times and compares those
+totals, so longer-running images contribute more to the result.
 Byte parity checks run outside the timed region.
 
 Console output shows discovery, startup timing, the current image and engine,
-warmup/measured round counts, completed rounds, elapsed time, byte checks and
+measured round counts, completed rounds, elapsed time, byte checks and
 report generation. Terminals update the active line every second; redirected
 logs print a heartbeat every 15 seconds. Long-running rounds remain visible
 without an estimated completion time. Ctrl+C stops the active child process,

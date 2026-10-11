@@ -84,6 +84,17 @@ export function optimizeRaw(
   const evalResult = eval_.getBestCandidate();
   if (evalResult) newImage = evalResult.image;
 
+  // Keep the reduction model and cached scores consistent. Spend less on
+  // filter selection for the default preset only when no reduction trials
+  // were needed and the 8-bit truecolor input is not already highly compressed.
+  const cheapEvaluation = opts.fastEvaluation && evalResult === null &&
+    opts.deflater.kind === 'libdeflater' && opts.deflater.compression === 11 &&
+    opts.filters.length === 4 && image.ihdr.bitDepth === 8 && !image.ihdr.interlaced &&
+    newImage.ihdr.bitDepth === 8 &&
+    (newImage.ihdr.colorType.kind === 'rgb' || newImage.ihdr.colorType.kind === 'rgba') &&
+    newImage.data.length >= 65536 && maxSize !== undefined && maxSize * 8 >= newImage.data.length;
+  const trialDeflater = cheapEvaluation ? libdeflater(2) : evalDeflater;
+
   const reductionOccurred =
     !colorTypeEquals(newImage.ihdr.colorType, image.ihdr.colorType) ||
     newImage.ihdr.bitDepth !== image.ihdr.bitDepth ||
@@ -96,7 +107,7 @@ export function optimizeRaw(
   let result: Candidate | null;
   let deflater: Deflater;
   if (opts.idatRecoding || reductionOccurred) {
-    result = performTrials(newImage, opts, deadline, maxSize, evalResult, evalFilters, evalDeflater);
+    result = performTrials(newImage, opts, deadline, maxSize, evalResult, evalFilters, trialDeflater);
     if (result === null) return null;
     deflater = opts.deflater;
   } else {
