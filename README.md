@@ -1,29 +1,9 @@
 # oxipng-ts
 
-A lossless PNG/APNG compression optimizer, ported from the Rust
-[oxipng](https://github.com/oxipng/oxipng) project to **pure TypeScript**.
-
-- Runs in the **browser** (no Node built-ins, no WASM, no native addons) and in **Node.js**.
-- Ships a **CLI** (`oxipng-ts`) that mirrors oxipng's flags.
-- Exposes a non-CLI `oxipng(image, options)` function plus a synchronous API.
-- Bundled with [Rslib](https://rslib.rs) to ESM + CJS with TypeScript declarations.
-- Developed and tested with [Vitest](https://vitest.dev) on Node.js.
-
-## Project layout
-
-| Path | Purpose |
-| --- | --- |
-| `src/index.ts` | Public browser/universal API (`oxipng`, `optimizeFromMemory`, `RawImage`, …). |
-| `src/node.ts` | Node entry point: file-based `optimize`, `InFile`/`OutFile`, `collectFiles`. |
-| `src/cli.ts` | The `oxipng-ts` command-line interface. |
-| `src/optimize.ts` | The optimization pipeline (`optimizePng`/`optimizeRaw`/`performTrials`). |
-| `src/png/` | PNG decode/encode, scanline iteration, `PngImage`/`PngData`. |
-| `src/headers.ts` | Chunk parsing, IHDR, iCCP/sRGB, chunk stripping/post-processing. |
-| `src/filters/` | Row filters and the filter-strategy evaluators. |
-| `src/reduction/` | Colour/palette/bit-depth/alpha/interlace reductions. |
-| `src/evaluate.ts` | Candidate evaluation and best-result selection. |
-| `src/deflate/` | The built-in pure-TypeScript DEFLATE codec (see below). |
-| `benchmark/`, `site/`, `test/` | Benchmark harness, landing page, test suite. |
+A lossless PNG/APNG optimizer ported from Rust [oxipng](https://github.com/oxipng/oxipng)
+to pure TypeScript. Runs in browsers and Node.js, with a CLI and optional native
+builds using [Porffor](https://porffor.dev/) and [ScriptC](https://scriptc.dev/).
+The compression core has no runtime dependencies, WASM, or native addons.
 
 ## Install
 
@@ -31,59 +11,32 @@ A lossless PNG/APNG compression optimizer, ported from the Rust
 npm install oxipng-ts
 ```
 
-## Library usage
+## Library
 
 ```ts
-import { oxipng, Options } from 'oxipng-ts';
+import { oxipng, oxipngSync, Options } from 'oxipng-ts';
 
-const input: Uint8Array = /* a PNG bytestream */;
-const optimized = await oxipng(input, Options.fromPreset(3));
+const input: Uint8Array = /* PNG bytes */;
+const options = Options.fromPreset(3);
+const output = await oxipng(input, options);
+const syncOutput = oxipngSync(input, options);
 ```
 
-Synchronous variants are available too:
+Both APIs return PNG bytes and keep the original bytes when no improvement is
+possible. Presets range from `0` (fastest) to `6` (`Options.maxCompression()`).
+`Options` controls filtering, color/bit-depth/palette reductions, interlacing,
+chunk stripping, DEFLATE settings, timeouts, and decompressed size limits.
+`RawImage.createOptimizedPng()` accepts raw pixel data.
 
-```ts
-import { oxipngSync, optimizeFromMemory, Options } from 'oxipng-ts';
-
-const optimized = oxipngSync(input, new Options());
-// or, without wrapping options:
-const optimized2 = optimizeFromMemory(input, Options.maxCompression());
-```
-
-The returned value is a PNG `Uint8Array`. If the image cannot be improved, the original
-bytes are returned unchanged.
-
-### Options
-
-`Options` mirrors oxipng's library options: filters, interlacing, alpha optimisation,
-colour/palette/bit-depth/grayscale reductions, chunk stripping, the DEFLATE level,
-timeouts and a maximum decompressed size. Presets match the CLI levels:
-
-```ts
-Options.fromPreset(0); // fastest
-Options.fromPreset(3); // enables all transformations
-Options.maxCompression(); // preset 6 (a.k.a. `-o max`)
-```
-
-### Raw images
-
-```ts
-import { RawImage, BitDepth, indexed, rgba8 } from 'oxipng-ts';
-
-const raw = new RawImage(2, 2, indexed([rgba8(255, 0, 0, 255)]), BitDepth.Eight, pixels);
-raw.addPngChunk('tEXt', textChunkData);
-const png = raw.createOptimizedPng(Options.maxCompression());
-```
-
-### Node.js file API
+For file I/O in Node.js:
 
 ```ts
 import { optimize, inFileFromPath, Options } from 'oxipng-ts/node';
 
 const [inputSize, outputSize] = optimize(
-  inFileFromPath('in.png'),
-  { kind: 'path', path: 'out.png', preserveAttrs: false },
-  new Options(),
+  inFileFromPath('input.png'),
+  { kind: 'path', path: 'output.png', preserveAttrs: false },
+  Options.fromPreset(3),
 );
 ```
 
@@ -91,83 +44,97 @@ const [inputSize, outputSize] = optimize(
 
 ```sh
 npx oxipng-ts -o 3 image.png
-oxipng-ts --strip safe --out out.png image.png
-cat image.png | oxipng-ts - > out.png
+npx oxipng-ts --strip safe --out output.png input.png
+cat input.png | npx oxipng-ts - > output.png
+npx oxipng-ts --help
 ```
 
-Run `oxipng-ts --help` for the full list of options. Most oxipng flags are supported:
-`-o/--opt`, `-r/--recursive`, `--dir`, `--out`, `--stdout`, `-p/--preserve`,
-`-d/--dry-run`, `-s`, `--strip`, `--keep`, `-a/--alpha`, `-i/--interlace`, `--scale16`,
-`-v/--verbose`, `-q/--quiet`, `-j/--json`, `-f/--filters`, `--fast`, `--zc`,
-`--nb/--nc/--np/--ng/--nx/--nz`, `--fix`, `--force`, `-z/--zopfli`, `--zi`,
-`--brute-level`, `--brute-lines`, `--timeout`, `--max-raw-size`, `-t/--threads`,
-`--sequential`.
+Supports recursive input, stdin/stdout, JSON output, attribute preservation,
+PNG/APNG transformations, and compression controls. All TypeScript builds run
+synchronously on one thread, including when compatibility flags such as
+`--threads` are supplied.
 
-## Landing page
+## Development
 
-`site/` contains a self-contained landing page with a live demo. It runs the optimizer
-entirely on the browser's main thread using pure JavaScript, with no Worker or WASM — files
-are never uploaded. You can drop a PNG, paste one, or try the built-in samples; it shows the
-before/after sizes, a comparison slider and a download button.
+Use Node.js 20+ for the library, or **Node.js 24+** to build the ScriptC target.
 
 ```sh
-npm run build      # builds the library and copies site/dist/oxipng-ts.js + samples
-npm run site       # serves site/ at http://localhost:5199
+npm ci
+npm run build       # ESM, CJS, declarations, Node CLI, and browser demo
+npm run typecheck
+npm test
 ```
 
-Open a sample directly with `http://localhost:5199/?sample=shapes.png`. The page is plain
-static HTML/CSS/JS (no framework) and can be hosted on any static host — `site/dist/` and
-`site/samples/` are generated by `npm run build`.
+### Native CLI
 
-## Benchmark
+Run native builds **after** `npm run build`, which cleans `dist/`. Both targets
+compile the shared CLI and compression core and need no Node.js at runtime.
+A C compiler (`cc`, or `CC=clang`) is required. Build separately for each target
+OS/architecture; macOS ARM64 is verified, Linux hosts are supported, and Windows
+requires WSL.
 
-`benchmark/` compares the native oxipng CLI with the `oxipng-ts` CLI on a sample set, using the
-same options, and writes a report (size + timing) to `benchmark/REPORT.md`.
+| Target | Build prerequisite | Output |
+| --- | --- | --- |
+| Porffor | [alpha 17](https://github.com/CanadaHonk/porffor/releases/tag/alpha-17), `porf` on PATH | `dist/oxipng-ts-porffor` |
+| ScriptC | Node.js 24+, pinned `@scriptc/compiler@0.2.8` installed by `npm ci` | `dist/oxipng-ts-scriptc` |
+
+```sh
+npm run build:porffor
+npm run build:scriptc
+./dist/oxipng-ts-scriptc --out output.png input.png
+
+npm run test:porffor
+npm run test:scriptc
+```
+
+Set `PORFFOR_BIN=/path/to/porf` if the compiler is outside PATH. Compiler-specific
+adaptations are applied during builds; the public TypeScript implementation is
+shared. Porffor restores source types and uses a checked native DEFLATE word
+reader. ScriptC applies a guarded compiler initialization fix, compiles through
+LLVM with no JavaScript engine, and requires 100% static coverage with zero failed
+or dynamic statements. Its `.build.json` and `.coverage.json` accompany the binary.
+Set `PORFFOR_KEEP_BUILD=1` or `SCRIPTC_KEEP_BUILD=1` to retain intermediate inputs.
+
+### Browser demo
 
 ```sh
 npm run build
-npm run benchmark          # -o 2 by default
-node benchmark/run.mjs --opt 6 --runs 5
+npm run site        # http://localhost:5199
 ```
 
-Set `OXIPNG_BIN` to point at a specific native binary. See `benchmark/README.md` for details.
+`site/` is a static HTML/CSS/JS demo. Processing stays on the browser's main thread;
+images are never uploaded. The browser bundle and samples are generated by the build.
 
-## Building
+### Benchmark
+
+Build all three TypeScript CLIs and install Rust oxipng (`brew install oxipng` on
+macOS), then run:
 
 ```sh
-npm install
-npm run build      # Rslib: ESM + CJS + .d.ts + CLI
-npm test           # Vitest
-npm run typecheck  # tsc --noEmit
+npm run benchmark
 ```
 
-## The DEFLATE engine
+The four-way benchmark checks output byte parity and measures CLI/startup time.
+See [benchmark/README.md](benchmark/README.md) for options and binary paths, and
+[benchmark/REPORT.md](benchmark/REPORT.md) for the latest results.
 
-oxipng performs its compression trials with [libdeflate](https://github.com/ebiggers/libdeflate).
-Rather than depend on a third-party JavaScript library, this port ships **its own pure-TypeScript
-DEFLATE codec** in `src/deflate/`:
+## Compression
 
-- `inflate.ts` — a full RFC 1951 decoder (stored / fixed / dynamic Huffman blocks) plus the zlib
-  (RFC 1950) wrapper, with a bounded output size.
-- `deflate.ts` — an LZ77 encoder with hash-chain matching, lazy evaluation and per-block dynamic
-  Huffman coding; levels 0–12 tune the match-finder, level 0 emits stored blocks.
-- `huffman.ts`, `bitwriter.ts`, `adler32.ts` — length-limited Huffman construction, the LSB-first
-  bit writer and the zlib checksum.
+The built-in TypeScript DEFLATE encoder uses LZ77, lazy matching, and dynamic
+Huffman coding. Rust oxipng uses libdeflate, so compression size, speed, and some
+borderline reduction choices can differ. PNG/APNG optimization remains lossless
+unless an explicitly lossy option such as `--scale16` is enabled.
 
-It has no runtime dependencies. The optimisation algorithm is a faithful port — reductions, filter
-strategies and the evaluator all behave like the original — but because the compressor is a
-JavaScript implementation (not C), output is typically a few percent **larger** than libdeflate's and
-compression is slower. A small number of borderline reduction decisions (e.g. choosing a 4-bit
-palette over an 8-bit one, or a palette over truecolour) can therefore differ when the compressed
-sizes are very close. Output is always a valid, lossless PNG.
+## Project layout
 
-## Portability
-
-The optimization core uses no platform-specific APIs: it is pure JavaScript built on Web
-platform primitives and runs identically in browsers and Node.js. DEFLATE in/out comes from the
-built-in engine described above, and execution is single-threaded — browsers and Node.js both run
-the exact same code path. Only the `oxipng-ts/node` entry point touches Node built-ins
-(`node:fs`, `node:path`) and that is solely for reading and writing files from the CLI.
+| Path | Purpose |
+| --- | --- |
+| `src/index.ts`, `src/node.ts` | Universal and Node library APIs |
+| `src/cli.ts`, `src/cli-main.ts` | Node entry and shared CLI |
+| `src/png/`, `src/headers.ts`, `src/apng.ts` | PNG/APNG parsing and encoding |
+| `src/optimize.ts`, `src/evaluate.ts`, `src/reduction/`, `src/filters/`, `src/deflate/` | Optimization and compression core |
+| `src/porffor/`, `src/scriptc/`, `scripts/` | Native adapters and build tools |
+| `test/`, `benchmark/`, `site/` | Regression tests, benchmark, browser demo |
 
 ## License
 

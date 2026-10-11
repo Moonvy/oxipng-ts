@@ -54,6 +54,12 @@ function assertConverted(c: Case, output: Uint8Array, input: Uint8Array): void {
 }
 
 describe('reduction (mirrors tests/reduction.rs)', () => {
+  it('reduces the default palette fixture to 4-bit', () => {
+    const input = readFixture('palette_8_should_be_palette_4.png');
+    const output = optimizeFromMemory(input, preset3());
+    expect(headerInfo(output).bitDepth).toBe(4);
+  });
+
   for (const c of cases.reduction as Case[]) {
     it(c.name, () => {
       const input = readFixture(c.file);

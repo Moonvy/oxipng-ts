@@ -14,7 +14,7 @@ export function reducedPalette(png: PngImage, optimizeAlpha: boolean): PngImage 
   const used = new Uint8Array(256);
   for (let i = 0; i < png.data.length; i++) used[png.data[i]] = 1;
 
-  const condensed = new NumberIndexSet(palette.length);
+  const condensed = new NumberIndexSet();
   const byteMap = new Uint8Array(256);
   let didChange = false;
   for (let i = 0; i < 256; i++) {

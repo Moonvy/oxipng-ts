@@ -1,31 +1,77 @@
 {
-  "generatedAt": "2026-10-10T14:08:45.927Z",
+  "generatedAt": "2026-10-11T05:49:19.589Z",
   "native": {
     "bin": "oxipng",
     "version": "oxipng 10.2.1",
-    "startupMs": 3.3713339999999974
+    "startupMs": 3.155999999999999
   },
   "ts": {
     "name": "oxipng-ts",
     "version": "0.1.0",
-    "cliStartupMs": 31.078292000000005
+    "cliStartupMs": 39.462624999999996
+  },
+  "porffor": {
+    "bin": "/Users/sxcc/四喜茶茶文件/个人文件/AI/Oxipng-ts/oxipng-ts/dist/oxipng-ts-porffor",
+    "version": "oxipng-ts 0.1.0",
+    "startupMs": 3.7454999999999927
+  },
+  "scriptc": {
+    "bin": "/Users/sxcc/四喜茶茶文件/个人文件/AI/Oxipng-ts/oxipng-ts/dist/oxipng-ts-scriptc",
+    "version": "oxipng-ts 0.1.0",
+    "startupMs": 4.148667000000003,
+    "build": {
+      "compiler": "scriptc",
+      "version": "0.2.8",
+      "mode": "static (LLVM, no JavaScript engine)",
+      "optimization": "speed",
+      "compilerFixes": [
+        "ArrayOwnership initialization order"
+      ],
+      "staticStatements": 3501,
+      "cliReachableStatements": 3432,
+      "dynamicStatements": 0,
+      "failedStatements": 0,
+      "platform": "darwin",
+      "arch": "arm64",
+      "bytes": 1229216
+    }
+  },
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M1",
+    "node": "v24.21.0"
   },
   "options": {
     "opt": "2",
-    "runs": 5,
-    "warmup": 1
+    "runs": 1,
+    "warmup": 0
   },
   "totals": {
     "files": 4,
     "originalBytes": 3616704,
     "nativeBytes": 2473423,
     "tsBytes": 2673830,
-    "nativeMs": 2755.5052070000065,
-    "tsCliMs": 4507.2334590000055,
+    "nativeMs": 3337.0187499999997,
+    "tsCliMs": 4471.908333999995,
+    "porfforBytes": 2673830,
+    "porfforMs": 27684.224167,
+    "scriptcBytes": 2673830,
+    "scriptcMs": 21697.930291000004,
     "sizeOverheadPercent": 8.102415155030092,
-    "slowdown": 1.6357194490324165,
-    "nativeStartupMs": 3.3713339999999974,
-    "tsCliStartupMs": 31.078292000000005
+    "slowdown": 1.3400908622404342,
+    "nativeStartupMs": 3.155999999999999,
+    "tsCliStartupMs": 39.462624999999996,
+    "porfforStartupMs": 3.7454999999999927,
+    "porfforSizeOverheadPercent": 8.102415155030092,
+    "porfforVsNativeTimeRatio": 8.296094880198082,
+    "porfforVsNodeTimeRatio": 6.190695805751735,
+    "porfforMatchesTs": true,
+    "scriptcStartupMs": 4.148667000000003,
+    "scriptcSizeOverheadPercent": 8.102415155030092,
+    "scriptcVsNativeTimeRatio": 6.502190103366967,
+    "scriptcVsNodeTimeRatio": 4.852051667971428,
+    "scriptcMatchesTs": true
   },
   "rows": [
     {
@@ -34,8 +80,16 @@
       "nativeSize": 808313,
       "tsSize": 846944,
       "sizeDelta": 38631,
-      "nativeMs": 557.9416659999999,
-      "tsCliMs": 851.6510420000004
+      "nativeMs": 655.650333,
+      "tsCliMs": 874.451667,
+      "porfforSize": 846944,
+      "porfforSizeDelta": 38631,
+      "porfforMs": 5419.504375,
+      "porfforMatchesTs": true,
+      "scriptcSize": 846944,
+      "scriptcSizeDelta": 38631,
+      "scriptcMs": 4282.001166999999,
+      "scriptcMatchesTs": true
     },
     {
       "name": "Image Capture.png",
@@ -43,8 +97,16 @@
       "nativeSize": 551303,
       "tsSize": 596603,
       "sizeDelta": 45300,
-      "nativeMs": 624.9608750000007,
-      "tsCliMs": 956.3780000000006
+      "nativeMs": 759.4750409999997,
+      "tsCliMs": 925.1270000000004,
+      "porfforSize": 596603,
+      "porfforSizeDelta": 45300,
+      "porfforMs": 5627.245832999999,
+      "porfforMatchesTs": true,
+      "scriptcSize": 596603,
+      "scriptcSizeDelta": 45300,
+      "scriptcMs": 4542.572375,
+      "scriptcMatchesTs": true
     },
     {
       "name": "Qjiao.png",
@@ -52,8 +114,16 @@
       "nativeSize": 554704,
       "tsSize": 615570,
       "sizeDelta": 60866,
-      "nativeMs": 836.528250000003,
-      "tsCliMs": 1362.8845420000034
+      "nativeMs": 1009.171709000002,
+      "tsCliMs": 1378.2946669999983,
+      "porfforSize": 615570,
+      "porfforSizeDelta": 60866,
+      "porfforMs": 8385.751167000002,
+      "porfforMatchesTs": true,
+      "scriptcSize": 615570,
+      "scriptcSizeDelta": 60866,
+      "scriptcMs": 6556.572583000001,
+      "scriptcMatchesTs": true
     },
     {
       "name": "Siri AI.png",
@@ -61,8 +131,16 @@
       "nativeSize": 559103,
       "tsSize": 614713,
       "sizeDelta": 55610,
-      "nativeMs": 736.0744160000031,
-      "tsCliMs": 1336.319875000001
+      "nativeMs": 912.721666999998,
+      "tsCliMs": 1294.0349999999962,
+      "porfforSize": 614713,
+      "porfforSizeDelta": 55610,
+      "porfforMs": 8251.722792,
+      "porfforMatchesTs": true,
+      "scriptcSize": 614713,
+      "scriptcSizeDelta": 55610,
+      "scriptcMs": 6316.784166000005,
+      "scriptcMatchesTs": true
     }
   ]
 }

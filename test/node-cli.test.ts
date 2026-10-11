@@ -104,6 +104,27 @@ describe('CLI argument parsing', () => {
 });
 
 describe('CLI run()', () => {
+  it.each(['toString', '__proto__', 'constructor'])('rejects --%s and writes only to stderr', (name) => {
+    const result = capture(() => run([`--${name}`, 'value', '--help']));
+    expect(result.code).toBe(1);
+    expect(result.stdout).toBe('');
+    expect(result.stderr).toContain(name);
+  });
+
+  it('escapes every control character in JSON paths and errors', () => {
+    const dir = tempDir();
+    const name = Array.from({ length: 31 }, (_, i) => String.fromCharCode(i + 1)).join('');
+    const inputPath = join(dir, `${name}图片.png`);
+    writeFileSync(inputPath, readFixture('json.png'));
+    const success = capture(() => run(['--json', '--nx', '--nz', inputPath]));
+    expect(success.code).toBe(0);
+    expect(JSON.parse(success.stdout).results[0]).toMatchObject({ input: inputPath, output: inputPath, status: 'success' });
+    const missing = inputPath + '.missing';
+    const failure = capture(() => run(['--json', missing]));
+    expect(failure.code).toBe(1);
+    expect(JSON.parse(failure.stdout).results[0]).toMatchObject({ input: missing, status: 'error' });
+  });
+
   it('prints JSON results for --nx --nz', () => {
     const dir = tempDir();
     const inputPath = join(dir, 'json.png');

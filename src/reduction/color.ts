@@ -31,7 +31,7 @@ export function reducedToIndexed(png: PngImage, allowGrayscale: boolean): PngIma
   const channels = channelsPerPixel(ct);
   const nPixels = Math.floor(data.length / channels);
   const indices = new Uint8Array(nPixels);
-  const set = new NumberIndexSet(257);
+  const set = new NumberIndexSet();
 
   for (let i = 0; i < nPixels; i++) {
     let key: number;

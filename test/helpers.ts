@@ -5,18 +5,10 @@ import { PNG } from 'pngjs';
 
 import { LogLevel, Options, PngData, pngHeaderCode, setLogLevel } from '../src/index.js';
 
-export const FILES_DIR = join(dirname(fileURLToPath(import.meta.url)), 'files');
+const FILES_DIR = join(dirname(fileURLToPath(import.meta.url)), 'files');
 
 // Keep the test output clean; individual tests can raise the level if needed.
 setLogLevel(LogLevel.Off);
-
-export const COLOR = {
-  GRAYSCALE: 0,
-  RGB: 2,
-  INDEXED: 3,
-  GRAYSCALE_ALPHA: 4,
-  RGBA: 6,
-} as const;
 
 export function readFixture(name: string): Uint8Array {
   return new Uint8Array(readFileSync(join(FILES_DIR, name)));
@@ -60,7 +52,7 @@ export function headerInfo(bytes: Uint8Array, opts?: Options): HeaderInfo {
   };
 }
 
-export function auxChunkNames(bytes: Uint8Array, opts?: Options): string[] {
+function auxChunkNames(bytes: Uint8Array, opts?: Options): string[] {
   const o = opts?.clone() ?? new Options();
   o.fixErrors = true;
   const png = PngData.fromSlice(bytes, o);
