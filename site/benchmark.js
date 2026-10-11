@@ -182,10 +182,10 @@ function renderData(next) {
   $('heroTimeRatio').textContent = `${timeRatio.toFixed(2)}×`;
   $('heroTimeRatio').title = `${data.all.name}：Node.js ${formatSeconds(node.ms)} / Rust oxipng ${formatSeconds(rust.ms)}`;
   $('heroSizeDifference').textContent = `${sizeDifference > 0 ? '+' : ''}${sizeDifference.toFixed(2)}%`;
-  $('heroSizeDifference').title = `${data.all.name}：Node.js ${node.bytes.toLocaleString('zh-CN')} 字节 / Rust oxipng ${rust.bytes.toLocaleString('zh-CN')} 字节`;
+  $('heroSizeDifference').title = `${data.all.name}：Node.js ${node.bytes.toLocaleString(window.siteI18n.language === 'en' ? 'en-US' : 'zh-CN')} 字节 / Rust oxipng ${rust.bytes.toLocaleString(window.siteI18n.language === 'en' ? 'en-US' : 'zh-CN')} 字节`;
   const env = data.environment;
   $('benchmarkContext').textContent = `${env.cpu} / ${env.platform}${env.arch ? ` ${env.arch}` : ''} · ${env.node ? `Node ${env.node} · ` : ''}${data.rows.length} PNG · -o ${data.options.opt}`;
-  const date = new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(data.generatedAt));
+  const date = new Intl.DateTimeFormat(window.siteI18n.language === 'en' ? 'en-US' : 'zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(data.generatedAt));
   $('benchmarkDate').textContent = `实测更新 ${date} (UTC+8)`;
   const builds = data.all.engines.filter(engine => engine.id !== 'rust').map(engine => engine.label).join('、');
   const imageTiming = data.options.timeAggregation === 'drop-fastest-mean'
@@ -226,3 +226,5 @@ document.addEventListener('visibilitychange', setRunning);
 new IntersectionObserver(entries => { inView = entries[0].isIntersecting; setRunning(); }, { threshold: 0 }).observe(panel);
 setRunning();
 refreshData();
+
+document.addEventListener('languagechange', () => { if (data) renderData(data); });

@@ -17,7 +17,8 @@
     <div class="wrap nav-inner">
       <a class="brand" href="#top" aria-label="oxipng-ts 首页"><img class="brand-mark" src="./logo.svg" alt="" aria-hidden="true" />oxipng-ts</a>
       <nav class="nav-links" aria-label="主导航"><a href="#benchmark">性能实测</a><a href="#demo">本地压缩</a><a href="#quickstart">开始使用</a></nav>
-      <a class="nav-cta" href="https://github.com/Moonvy/oxipng-ts" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+      <div class="nav-actions"><button class="language-toggle" id="languageToggle" type="button" aria-label="Switch to English">English</button>
+      <a class="nav-cta" href="https://github.com/Moonvy/oxipng-ts" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
     </div>
   </header>
   <main id="main">
@@ -25,7 +26,7 @@
       <div class="hero-copy">
         <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> Rust -> TypeScript</p>
         <h1>PNG 无损压缩。<br /><span>TypeScript 实现。</span></h1>
-        <p class="lede">将 oxipng 从 Rust 迁移到 TypeScript，支持浏览器和 Nodejs。并可编译为二进制文件。 </p>
+        <p class="lede">将 oxipng 从 Rust 迁移到 TypeScript，支持浏览器和 Nodejs。并可编译为二进制文件。 </p>
         <div class="cta-row"><a class="btn primary" href="#demo">开始压缩 <span aria-hidden="true">↗</span></a><a class="btn github-link" href="https://github.com/Moonvy/oxipng-ts" target="_blank" rel="noreferrer" aria-label="在 GitHub 打开 oxipng-ts 仓库">GitHub 仓库 <span aria-hidden="true">↗</span></a><a class="text-link" href="#benchmark">查看 benchmark <span aria-hidden="true">↓</span></a></div>
         <div class="hero-facts">
           <div><b id="heroTimeRatio">—</b><span>Node.js 耗时 / Rust</span></div>
@@ -92,6 +93,7 @@ const output = await oxipng(
 );</code></pre></div></div></section>
   </main>
   <footer class="footer"><div class="wrap footer-inner"><a class="brand" href="#top" aria-label="oxipng-ts 首页"><img class="brand-mark" src="./logo.svg" alt="" aria-hidden="true" />oxipng-ts</a><p>PNG / APNG 优化器</p><span>MIT · <a href="https://github.com/Moonvy/oxipng-ts" target="_blank" rel="noreferrer">GitHub ↗</a> · Ported from <a href="https://github.com/oxipng/oxipng" target="_blank" rel="noreferrer">Rust oxipng ↗</a></span></div></footer>
+  <script src="./i18n.js"></script>
   <script type="module" src="./benchmark.js"></script>
   <script type="module" src="./app.js"></script>
 </body>

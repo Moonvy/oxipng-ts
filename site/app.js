@@ -32,15 +32,20 @@ let activeWorkerCancel = null;
 const codeSources = new WeakMap();
 const codeLanguages = { shell: shellLanguage, typescript: typescriptLanguage };
 for (const code of document.querySelectorAll('.code-card code[data-lang]')) {
-  const source = code.textContent;
-  codeSources.set(code, source);
-  const language = codeLanguages[code.dataset.lang];
-  if (!language) continue;
-  const previewSource = source.split('\n').filter((line) => line.trim().length > 0).join('\n');
-  const highlighted = render(parse(previewSource, language));
-  code.innerHTML = highlighted.replace(/\n(?=<span class="sh__line)/g, '');
-  code.classList.add('sh');
+  codeSources.set(code, window.siteI18n.sourceText(code));
 }
+function highlightExamples() {
+  for (const code of document.querySelectorAll('.code-card code[data-lang]')) {
+    const language = codeLanguages[code.dataset.lang];
+    if (!language) continue;
+    const source = window.siteI18n.translate(codeSources.get(code));
+    const previewSource = source.split('\n').filter(line => line.trim().length > 0).join('\n');
+    code.innerHTML = render(parse(previewSource, language)).replace(/\n(?=<span class="sh__line)/g, '');
+    code.classList.add('sh');
+  }
+}
+highlightExamples();
+document.addEventListener('languagechange', highlightExamples);
 
 /* -------------------------------------------------------------- compression --- */
 
@@ -295,10 +300,9 @@ document.querySelectorAll('.copy').forEach((btn) =>
   btn.addEventListener('click', async () => {
     const target = document.getElementById(`code-${btn.dataset.copy}`);
     try {
-      await navigator.clipboard.writeText(codeSources.get(target) ?? target.textContent);
-      const original = btn.textContent;
+      await navigator.clipboard.writeText(window.siteI18n.translate(codeSources.get(target) ?? target.textContent));
       btn.textContent = '已复制';
-      setTimeout(() => (btn.textContent = original), 1200);
+      setTimeout(() => (btn.textContent = '复制'), 1200);
     } catch {
       /* clipboard unavailable */
     }
