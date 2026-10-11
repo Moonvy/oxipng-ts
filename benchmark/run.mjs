@@ -298,7 +298,7 @@ lines.push('');
 lines.push('## Caveats');
 lines.push('');
 lines.push(
-  '- oxipng-ts uses its own built-in pure-JavaScript DEFLATE encoder (LZ77 + lazy matching + dynamic' +
+    '- oxipng-ts uses its own built-in pure-JavaScript DEFLATE encoder (LZ77 + cost-based parsing + dynamic' +
     ' Huffman) rather than libdeflate in Node, Porffor, and ScriptC builds; the TS − Rust column' +
     ' quantifies that gap per file.',
 );

@@ -1,0 +1,124 @@
+{
+  "generatedAt": "2026-10-11T06:09:48.576Z",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M1",
+    "node": "v24.21.0"
+  },
+  "settings": {
+    "opt": 4,
+    "runs": 3,
+    "warmup": 1,
+    "baseline": "/tmp/oxipng-ts-perf-baseline/index.mjs",
+    "output": "benchmark/core-level4-results.json"
+  },
+  "totals": {
+    "baseline": {
+      "bytes": 2636033,
+      "medianMs": 11013.898584999999
+    },
+    "current": {
+      "bytes": 2532139,
+      "medianMs": 10543.171334000017
+    }
+  },
+  "rows": [
+    {
+      "name": "IMG_5112.PNG",
+      "inputBytes": 1220437,
+      "baseline": {
+        "bytes": 837830,
+        "medianMs": 2292.3923749999994,
+        "minMs": 2262.2040829999987,
+        "samplesMs": [
+          2312.5173749999994,
+          2292.3923749999994,
+          2262.2040829999987
+        ]
+      },
+      "current": {
+        "bytes": 825479,
+        "medianMs": 2442.3219580000004,
+        "minMs": 2412.378041,
+        "samplesMs": [
+          2468.1576670000004,
+          2412.378041,
+          2442.3219580000004
+        ]
+      }
+    },
+    {
+      "name": "Image Capture.png",
+      "inputBytes": 757550,
+      "baseline": {
+        "bytes": 591755,
+        "medianMs": 2284.213834000002,
+        "minMs": 2233.1137920000037,
+        "samplesMs": [
+          2284.213834000002,
+          2325.134291999999,
+          2233.1137920000037
+        ]
+      },
+      "current": {
+        "bytes": 566426,
+        "medianMs": 2476.5987920000007,
+        "minMs": 2431.983874999998,
+        "samplesMs": [
+          2524.488125,
+          2476.5987920000007,
+          2431.983874999998
+        ]
+      }
+    },
+    {
+      "name": "Qjiao.png",
+      "inputBytes": 827230,
+      "baseline": {
+        "bytes": 608050,
+        "medianMs": 3312.9888340000034,
+        "minMs": 3283.5855840000004,
+        "samplesMs": [
+          3312.9888340000034,
+          3328.566749999998,
+          3283.5855840000004
+        ]
+      },
+      "current": {
+        "bytes": 574317,
+        "medianMs": 3078.5757090000043,
+        "minMs": 3026.537624999997,
+        "samplesMs": [
+          3125.3082919999943,
+          3078.5757090000043,
+          3026.537624999997
+        ]
+      }
+    },
+    {
+      "name": "Siri AI.png",
+      "inputBytes": 811487,
+      "baseline": {
+        "bytes": 598398,
+        "medianMs": 3124.303541999994,
+        "minMs": 3121.525125,
+        "samplesMs": [
+          3124.303541999994,
+          3141.0980410000047,
+          3121.525125
+        ]
+      },
+      "current": {
+        "bytes": 565917,
+        "medianMs": 2545.6748750000115,
+        "minMs": 2530.3269579999906,
+        "samplesMs": [
+          2545.6748750000115,
+          2530.3269579999906,
+          2578.137458000012
+        ]
+      }
+    }
+  ]
+}

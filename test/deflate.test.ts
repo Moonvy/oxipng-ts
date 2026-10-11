@@ -169,7 +169,9 @@ describe('match-chain window boundaries', () => {
         backing.copyWithin(pos, pos - distance, pos - distance + 258);
         const data = backing.subarray(7);
         const raw = deflateRaw(data, level);
-        expect(createHash('sha256').update(raw).digest('hex')).toBe(digest);
+        if (level < 10) expect(createHash('sha256').update(raw).digest('hex')).toBe(digest);
+        else if (distance <= 32768) expect(raw.length).toBeLessThan(data.length - 100);
+        else expect(raw.length).toBeGreaterThanOrEqual(data.length);
         expect(sameBytes(new Uint8Array(inflateRawSync(raw)), data)).toBe(true);
       });
     }

@@ -11,8 +11,13 @@ const HASH_BITS = 15;
 const HASH_SIZE = 1 << HASH_BITS;
 const HASH_MASK = HASH_SIZE - 1;
 const BLOCK_SIZE = 1 << 18;
+// Keep the stored-block fallback available even for incompressible inputs.
+const OPT_BLOCK_SIZE = 0xffff;
+const BLOCK_OBSERVATION = 8192;
+const MIN_OPT_BLOCK_SIZE = 16384;
 
-// Level → match-finder parameters. Level 0 means "stored".
+// Match-finder parameters for the stored/greedy/lazy parsers (levels 0–9).
+// Levels 10–12 use the cost-based parser below.
 interface LevelParams {
   chain: number;
   lazy: boolean;
@@ -26,12 +31,9 @@ const LEVELS: LevelParams[] = [
   { chain: 24, lazy: true, nice: 32 },
   { chain: 32, lazy: true, nice: 48 },
   { chain: 48, lazy: true, nice: 64 },
-  { chain: 64, lazy: true, nice: 96 },
-  { chain: 96, lazy: true, nice: 128 },
+  { chain: 32, lazy: true, nice: 96 },
+  { chain: 64, lazy: true, nice: 128 },
   { chain: 128, lazy: true, nice: 160 },
-  { chain: 192, lazy: true, nice: 200 },
-  { chain: 256, lazy: true, nice: 258 },
-  { chain: 512, lazy: true, nice: 258 },
 ];
 
 // Symbol lookup tables (indexed by length 3..258 / distance 1..32768).
@@ -81,11 +83,23 @@ class SizeCounter {
   finish(): number {
     return Math.ceil(this.bits / 8);
   }
+
+  bitLength(): number {
+    return this.bits;
+  }
 }
 
 // Reusable scratch (deflate is synchronous, so this is safe).
 const head = new Int32Array(HASH_SIZE);
 const headEpoch = new Uint32Array(HASH_SIZE);
+const head4 = new Int32Array(HASH_SIZE);
+const head4Epoch = new Uint32Array(HASH_SIZE);
+const head3 = new Int32Array(HASH_SIZE);
+const head3Epoch = new Uint32Array(HASH_SIZE);
+let wideMatches = false;
+let foundShortDist = 0;
+let foundNearLen = 0;
+let foundNearDist = 0;
 let epoch = 0;
 // Chain entries are read only while their absolute positions are in the
 // current window. Search before inserting the position that reuses a slot.
@@ -98,10 +112,35 @@ const clFreq = new Uint32Array(19);
 const seqSym = new Int32Array(512);
 const seqVal = new Int32Array(512);
 const seqCnt = new Int32Array(512);
+const matchLen = new Uint16Array(OPT_BLOCK_SIZE);
+const matchDist = new Uint16Array(OPT_BLOCK_SIZE);
+const matchShortDist = new Uint16Array(OPT_BLOCK_SIZE);
+const matchNearLen = new Uint16Array(OPT_BLOCK_SIZE);
+const matchNearDist = new Uint16Array(OPT_BLOCK_SIZE);
+const pathCost = new Uint32Array(OPT_BLOCK_SIZE + 1);
+const pathLen = new Uint16Array(OPT_BLOCK_SIZE);
+const bestLenTokens = new Uint16Array(OPT_BLOCK_SIZE);
+const bestDistTokens = new Uint16Array(OPT_BLOCK_SIZE);
+const lengthCosts = new Uint8Array(MAX_MATCH + 1);
+const trialLiteralCosts = new Uint8Array(286);
+const trialDistanceCosts = new Uint8Array(30);
+const blockHistogram = new Uint32Array(256);
+const observationHistogram = new Uint32Array(256);
 
-/** 4-byte hash of the input at `p` (caller guarantees `p + 4 <= n`). */
+/** Insert short prefixes and return the chain hash; caller guarantees four bytes. */
 function hashAt(view: DataView, p: number): number {
   const h = view.getUint32(p, true);
+  if (wideMatches) {
+    const h3 = Math.imul(h & 0xffffff, 0x9e3779b1) >>> (32 - HASH_BITS);
+    head3[h3] = p;
+    head3Epoch[h3] = epoch;
+    const h4 = Math.imul(h, 0x9e3779b1) >>> (32 - HASH_BITS);
+    head4[h4] = p;
+    head4Epoch[h4] = epoch;
+    if (p + 8 <= view.byteLength) {
+      return (Math.imul(h, 0x9e3779b1) ^ Math.imul(view.getUint32(p + 4, true), 0x85ebca6b)) >>> (32 - HASH_BITS);
+    }
+  }
   return (Math.imul(h, 0x9e3779b1) >>> (32 - HASH_BITS)) & HASH_MASK;
 }
 
@@ -166,6 +205,212 @@ function findMatch(data: Uint8Array, view: DataView, n: number, pos: number, cha
   // dist - 1 keeps the low 16 bits free of collisions with the length
   // (dist can be WINDOW = 32768, which would otherwise alias bit 16 of len).
   return bestLen === 0 ? 0 : (bestLen << 16) | (bestDist - 1);
+}
+
+/** Compare a match after its four-byte prefix, using unaligned word loads. */
+function extendMatch(data: Uint8Array, view: DataView, pos: number, cand: number, max: number): number {
+  let len = 4;
+  while (len + 4 <= max) {
+    const diff = view.getUint32(pos + len, true) ^ view.getUint32(cand + len, true);
+    if (diff !== 0) {
+      len += (31 - Math.clz32(diff & -diff)) >>> 3;
+      return len;
+    }
+    len += 4;
+  }
+  while (len < max && data[pos + len] === data[cand + len]) len++;
+  return len;
+}
+
+/** Nearest short matches plus an eight-byte chain for longer matches. */
+function findWideMatch(data: Uint8Array, view: DataView, end: number, pos: number, chain: number, nice: number): number {
+  foundShortDist = 0;
+  foundNearLen = 0;
+  foundNearDist = 0;
+  const remaining = end - pos;
+  if (remaining < 3) return 0;
+  const first = remaining >= 4 ? view.getUint32(pos, true) :
+    data[pos] | (data[pos + 1] << 8) | (data[pos + 2] << 16);
+  const h3 = Math.imul(first & 0xffffff, 0x9e3779b1) >>> (32 - HASH_BITS);
+  const short = head3Epoch[h3] === epoch ? head3[h3] : -1;
+  let bestLen = 0;
+  let bestDist = 0;
+  if (short >= 0 && pos - short <= WINDOW && data[short] === data[pos] &&
+      data[short + 1] === data[pos + 1] && data[short + 2] === data[pos + 2]) {
+    bestLen = 3;
+    bestDist = pos - short;
+    foundShortDist = bestDist;
+  }
+  head3[h3] = pos;
+  head3Epoch[h3] = epoch;
+  if (remaining >= 4) {
+    const max = Math.min(MAX_MATCH, remaining);
+    const h4 = Math.imul(first, 0x9e3779b1) >>> (32 - HASH_BITS);
+    const near = head4Epoch[h4] === epoch ? head4[h4] : -1;
+    if (near >= 0 && pos - near <= WINDOW && view.getUint32(near, true) === first) {
+      bestLen = extendMatch(data, view, pos, near, max);
+      bestDist = pos - near;
+      foundNearLen = bestLen;
+      foundNearDist = bestDist;
+    }
+    head4[h4] = pos;
+    head4Epoch[h4] = epoch;
+    if (remaining >= 8) {
+      const h8 = (Math.imul(first, 0x9e3779b1) ^ Math.imul(view.getUint32(pos + 4, true), 0x85ebca6b)) >>> (32 - HASH_BITS);
+      let cand = headEpoch[h8] === epoch ? head[h8] : -1;
+      let depth = chain;
+      while (bestLen < nice && bestLen < max && cand >= 0 && pos - cand <= WINDOW && depth-- > 0) {
+        if (data[cand + bestLen] === data[pos + bestLen] && view.getUint32(cand, true) === first) {
+          const len = extendMatch(data, view, pos, cand, max);
+          if (len > bestLen) {
+            bestLen = len;
+            bestDist = pos - cand;
+          }
+        }
+        cand = prev[cand & WINDOW_MASK];
+      }
+      // Search before reusing this ring slot, including at distance 32768.
+      prev[pos & WINDOW_MASK] = headEpoch[h8] === epoch ? head[h8] : -1;
+      headEpoch[h8] = epoch;
+      head[h8] = pos;
+    }
+  }
+  return bestLen === 0 ? 0 : (bestLen << 16) | (bestDist - 1);
+}
+
+/** Reparse cached matches using Huffman costs, retaining the smallest trial. */
+function optimalTokens(data: Uint8Array, start: number, end: number, passes: number, minImprovement: number): number {
+  const size = end - start;
+  let literalCosts: Uint8Array = FIXED_LIT_LEN;
+  let distanceCosts: Uint8Array = new Uint8Array(30).fill(5);
+  let bestSize = Infinity;
+  let bestCount = 0;
+  for (let pass = 0; pass < passes; pass++) {
+    for (let len = MIN_MATCH; len <= MAX_MATCH; len++) {
+      lengthCosts[len] = (literalCosts[lenSym[len]] || 12) + lenExtraCnt[len];
+    }
+    pathCost[size] = 0;
+    for (let i = size - 1; i >= 0; i--) {
+      let cost = (literalCosts[data[start + i]] || 12) + pathCost[i + 1];
+      let length = 1;
+      const max = matchLen[i];
+      if (max >= MIN_MATCH) {
+        const distance = matchDist[i];
+        const short = matchShortDist[i] || matchNearDist[i] || distance;
+        const shortCost = (distanceCosts[distSym[short]] || 12) + distExtraCnt[short];
+        const shortTrial = lengthCosts[3] + shortCost + pathCost[i + 3];
+        if (shortTrial < cost) {
+          cost = shortTrial;
+          length = 3;
+        }
+        const near = matchNearDist[i];
+        const nearEnd = matchNearLen[i];
+        const nearCost = (distanceCosts[distSym[near]] || 12) + distExtraCnt[near];
+        for (let len = 4; len <= nearEnd; len++) {
+          const trial = lengthCosts[len] + nearCost + pathCost[i + len];
+          if (trial < cost) {
+            cost = trial;
+            length = len;
+          }
+        }
+        const distanceCost = (distanceCosts[distSym[distance]] || 12) + distExtraCnt[distance];
+        for (let len = Math.max(4, nearEnd + 1); len <= max; len++) {
+          const trial = lengthCosts[len] + distanceCost + pathCost[i + len];
+          if (trial < cost) {
+            cost = trial;
+            length = len;
+          }
+        }
+      }
+      pathCost[i] = cost;
+      pathLen[i] = length;
+    }
+    let count = 0;
+    for (let i = 0; i < size;) {
+      const len = pathLen[i];
+      tLen[count] = len === 1 ? data[start + i] : len;
+      tDist[count] = len === 1 ? 0 : len === 3 && matchShortDist[i] !== 0 ? matchShortDist[i] :
+        len <= matchNearLen[i] ? matchNearDist[i] : matchDist[i];
+      count++;
+      i += len;
+    }
+    // The counter shares emitBlock's exact header and block-type selection.
+    const counter = new SizeCounter(Infinity);
+    emitBlock(counter, false, data, start, end, count, true);
+    const bits = counter.bitLength();
+    const improvement = bestSize - bits;
+    if (bits < bestSize) {
+      bestSize = bits;
+      bestCount = count;
+      bestLenTokens.set(tLen.subarray(0, count));
+      bestDistTokens.set(tDist.subarray(0, count));
+    }
+    // A converged or worsening model rarely benefits from another full DP
+    // pass. Retain the best measured parse, including a small final gain.
+    if (improvement < minImprovement) break;
+    literalCosts = trialLiteralCosts;
+    distanceCosts = trialDistanceCosts;
+  }
+  tLen.set(bestLenTokens.subarray(0, bestCount));
+  tDist.set(bestDistTokens.subarray(0, bestCount));
+  return bestCount;
+}
+
+/** Split when the byte distribution changes; otherwise amortize block headers. */
+function optimalBlockEnd(data: Uint8Array, start: number): number {
+  const limit = Math.min(start + OPT_BLOCK_SIZE, data.length);
+  blockHistogram.fill(0);
+  let total = 0;
+  for (let pos = start; pos < limit; pos += BLOCK_OBSERVATION) {
+    const end = Math.min(pos + BLOCK_OBSERVATION, limit);
+    const observed = end - pos;
+    observationHistogram.fill(0);
+    for (let i = pos; i < end; i++) observationHistogram[data[i]]++;
+    if (total >= MIN_OPT_BLOCK_SIZE && observed >= BLOCK_OBSERVATION / 2) {
+      let difference = 0;
+      for (let s = 0; s < 256; s++) {
+        difference += Math.abs(observationHistogram[s] * total - blockHistogram[s] * observed);
+      }
+      // L1 distance > 0.4, measured without normalization or floating division.
+      if (difference * 5 > total * observed * 2) return pos;
+    }
+    for (let s = 0; s < 256; s++) blockHistogram[s] += observationHistogram[s];
+    total += observed;
+  }
+  return limit;
+}
+
+/** High levels cache matches once, then optimize the literal/match path. */
+function deflateOptimal(bw: BitWriter | SizeCounter, data: Uint8Array, view: DataView, level: number): void {
+  const chain = level >= 12 ? 128 : level >= 11 ? 64 : 32;
+  const nice = level >= 12 ? MAX_MATCH : 128;
+  const skipLength = level >= 12 ? 128 : 16;
+  for (let start = 0; start < data.length;) {
+    const end = optimalBlockEnd(data, start);
+    matchLen.fill(0, 0, end - start);
+    for (let pos = start; pos < end;) {
+      const match = findWideMatch(data, view, end, pos, chain, nice);
+      const len = match >>> 16;
+      matchLen[pos - start] = len;
+      matchDist[pos - start] = (match & 0xffff) + 1;
+      matchShortDist[pos - start] = foundShortDist;
+      matchNearLen[pos - start] = foundNearLen;
+      matchNearDist[pos - start] = foundNearDist;
+      // Long runs already have an inexpensive path. Insert their remaining
+      // bytes without searching them; literals remain available to the parser.
+      const next = len >= skipLength ? pos + len : pos + 1;
+      for (let p = pos + 1; p < next && p + 4 <= data.length; p++) {
+        const h = hashAt(view, p);
+        prev[p & WINDOW_MASK] = headEpoch[h] === epoch ? head[h] : -1;
+        headEpoch[h] = epoch;
+        head[h] = p;
+      }
+      pos = next;
+    }
+    const count = optimalTokens(data, start, end, level >= 12 ? 4 : 3, level >= 12 ? 1 : level >= 11 ? 16 : 32);
+    emitBlock(bw, end === data.length, data, start, end, count);
+    start = end;
+  }
 }
 
 function buildCLSequence(hlit: number, hdist: number, litLen: Uint8Array, distLen: Uint8Array): number {
@@ -297,6 +542,7 @@ function emitBlock(
   start: number,
   end: number,
   count: number,
+  collectCosts = false,
 ): void {
   const blockBytes = end - start;
   litFreq.fill(0);
@@ -328,12 +574,14 @@ function emitBlock(
   let hlit = 286;
   while (hlit > 257 && litFreq[hlit - 1] === 0) hlit--;
   const litLen = limitedLengths(litFreq, 15);
+  if (collectCosts) trialLiteralCosts.set(litLen);
   makeComplete(litLen.subarray(0, hlit));
 
   let hdist = 30;
   while (hdist > 1 && distFreq[hdist - 1] === 0) hdist--;
   if (hdist < 2) hdist = 2; // a valid Huffman code needs at least two symbols
   const distLen = limitedLengths(distFreq, 15);
+  if (collectCosts) trialDistanceCosts.set(distLen);
   makeComplete(distLen.subarray(0, hdist));
 
   const seqCount = buildCLSequence(hlit, hdist, litLen, distLen);
@@ -420,7 +668,14 @@ function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: numbe
   epoch = (epoch + 1) >>> 0;
   if (epoch === 0) {
     headEpoch.fill(0);
+    head3Epoch.fill(0);
+    head4Epoch.fill(0);
     epoch = 1;
+  }
+  wideMatches = level >= 7;
+  if (level >= 10 && n >= 4) {
+    deflateOptimal(bw, data, view!, level);
+    return;
   }
   const chain = params.chain;
   const nice = params.nice;
@@ -440,7 +695,7 @@ function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: numbe
         m = cached;
         cached = -1;
       } else {
-        m = findMatch(data, view!, n, pos, chain, nice, true);
+        m = wideMatches ? findWideMatch(data, view!, n, pos, chain, nice) : findMatch(data, view!, n, pos, chain, nice, true);
       }
       let len = m >>> 16;
       let dist = (m & 0xffff) + 1;
@@ -449,7 +704,7 @@ function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: numbe
         // Look ahead one position (inserting it into chains). If it yields a
         // longer match, emit the current byte as a literal and carry the
         // lookahead result.
-        const m2 = findMatch(data, view!, n, pos + 1, chain, nice, true);
+        const m2 = wideMatches ? findWideMatch(data, view!, n, pos + 1, chain, nice) : findMatch(data, view!, n, pos + 1, chain, nice, true);
         insertedNext = true;
         if (m2 >>> 16 > len) {
           tLen[count] = data[pos];

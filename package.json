@@ -36,6 +36,7 @@
     "dev": "rslib build --watch",
     "site": "node scripts/serve-site.mjs",
     "benchmark": "node benchmark/run.mjs",
+    "benchmark:core": "node benchmark/core.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

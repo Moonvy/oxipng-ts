@@ -82,7 +82,7 @@ export function porfforCompatibleSource(source, fileName, program) {
     return (node) => ts.visitNode(node, visit);
   }]);
   try {
-    if (isDeflate && wordReads !== 7) throw new Error(`DEFLATE word reads changed (${wordReads}); review the native reader contract.`);
+    if (isDeflate && wordReads !== 14) throw new Error(`DEFLATE word reads changed (${wordReads}); review the native reader contract.`);
     return ts.createPrinter().printFile(transformed.transformed[0]);
   }
   finally { transformed.dispose(); }
