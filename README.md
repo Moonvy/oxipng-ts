@@ -136,8 +136,11 @@ See [benchmark/README.md](benchmark/README.md) for options and binary paths, and
 ## Compression
 
 The built-in TypeScript DEFLATE encoder uses LZ77 and dynamic Huffman coding.
-Levels 7–9 combine nearest three/four-byte matches with an eight-byte hash chain;
-levels 10–12 additionally reparse cached matches using evolving Huffman costs.
+Levels 7–9 combine nearest three/four-byte matches with an eight-byte hash chain.
+Levels 10–12 use a four-byte-prefix binary tree to cache progressively longer
+matches with their nearer distance alternatives, including five-to-seven-byte
+matches. They seed the Huffman cost model from a greedy parse of the current
+block, then reparse the cache and retain the smallest measured result.
 High-level trials stop when measured gains fall below a level-specific threshold
 and retain the smallest block across passes. Byte-distribution changes guide
 block boundaries, with blocks capped at 65,535 bytes. The encoder reuses fixed-size
@@ -145,6 +148,9 @@ scratch buffers and uses the same parser for encoding and exact size counting.
 Rust oxipng uses libdeflate, so compression size, speed, and some
 borderline reduction choices can differ. PNG/APNG optimization remains lossless
 unless an explicitly lossy option such as `--scale16` is enabled.
+The `libdeflater` option names the built-in encoder's level convention; it does
+not load libdeflate. The `zopfli` option currently uses built-in level 12 and
+does not implement Zopfli's iteration algorithm.
 See [the optimization measurements](benchmark/PERFORMANCE.md) for before/after
 results and the remaining gap to Rust.
 

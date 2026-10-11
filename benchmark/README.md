@@ -95,3 +95,29 @@ npm run benchmark:core -- --baseline "$baseline_dir/index.mjs" --corpus extended
 Repeat with `--opt 4 --output benchmark/adaptive-level4-results.json` for the
 higher preset. Results retain every measured sample; per-file regressions should
 be considered alongside totals.
+
+## Match-alternative compression measurements
+
+The latest ratio optimization replaces the high-level match finder and cost
+model. It reduces output size while increasing compression time; see
+[PERFORMANCE.md](PERFORMANCE.md#latest-phase-preserving-match-alternatives).
+Reproduce against the immediately preceding revision:
+
+```sh
+baseline_dir=$(mktemp -d)
+git archive d32ce7dde7bd95c1f7adbd7a0fbffd386dea28b0 | tar -x -C "$baseline_dir"
+node_modules/.bin/esbuild "$baseline_dir/src/index.ts" --bundle --platform=node \
+  --format=esm --outfile="$baseline_dir/index.mjs"
+npm run build
+npm run benchmark:core -- --baseline "$baseline_dir/index.mjs" --corpus extended \
+  --rust "$HOME/.local/bin/oxipng" --opt 2 --runs 3 --warmup 1 \
+  --output benchmark/match-cache-results.json
+npm run benchmark:core -- --baseline "$baseline_dir/index.mjs" --corpus extended \
+  --rust "$HOME/.local/bin/oxipng" --opt 4 --runs 3 --warmup 1 \
+  --output benchmark/match-cache-level4-results.json
+```
+
+The baseline encoder's SHA-256 is
+`a198f9461d469674699879b416bc87c713e90d01bb6e9b09bdf0fd8c0c080a8f`.
+These API measurements exclude startup and validate full-precision pixels,
+APNG frames and controls, and deterministic output independently of timing.

@@ -6,6 +6,7 @@ export const BENCHMARK_FILES = [
   'results.json', 'REPORT.md', 'PERFORMANCE.md', 'README.md',
   'core-results.json', 'core-level4-results.json', 'adaptive-results.json',
   'adaptive-level4-results.json', 'rust-level4-results.json', 'adaptive-baseline.patch',
+  'match-cache-results.json', 'match-cache-level4-results.json',
 ];
 
 export async function syncBenchmarkSite(sourceDir, targetDir) {

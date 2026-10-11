@@ -59,4 +59,43 @@ describe('wide-prefix matching and cost-based parsing', () => {
       expect(deflateRaw(data, level)).toEqual(encoded);
     }
   });
+
+  it('finds older five-to-seven-byte matches behind a nearer four-byte prefix', () => {
+    // Every record has an original, a decoy sharing four bytes, then a copy
+    // of the original with a different eighth byte. An eight-byte hash
+    // cannot find that copy, and keeping only the nearest prefix loses it.
+    for (const [prefixLength, ceiling] of [[5, 17400], [6, 16300], [7, 15400]]) {
+      const data = patterned(24000, 256);
+      for (let i = 0; i < data.length; i += 24) {
+        data.copyWithin(i + 8, i, i + 4);
+        data[i + 12] = data[i + 4] ^ 255;
+        data.copyWithin(i + 16, i, i + prefixLength);
+        data[i + 16 + prefixLength] = data[i + prefixLength] ^ 255;
+      }
+      for (const level of [10, 11, 12]) {
+        const output = deflateRaw(data, level);
+        expect(output.length).toBeLessThan(ceiling);
+        expect(inflateRawSync(output).equals(data)).toBe(true);
+      }
+    }
+  });
+
+  it('resets tree and chain state across levels, rejected limits and block tails', () => {
+    const data = patterned(200003, 13);
+    // Overlapping runs stress suffix insertion; copies at the full window
+    // distance reuse the same tree slots, including around block boundaries.
+    data.fill(0, 9000, 20000);
+    for (const pos of [32768, 65530, 100000, 163840]) {
+      data.set(data.subarray(pos - 32768, pos - 32768 + 258), pos);
+    }
+    const before = data.slice();
+    for (const level of [12, 7, 10, 6, 11, 1, 12]) {
+      const output = deflateRaw(data, level);
+      expect(inflateRawSync(output).equals(data)).toBe(true);
+      expect(deflateRawSize(data, level)).toBe(output.length);
+      expect(() => deflateRaw(data, level, output.length - 1)).toThrow(SizeLimitExceeded);
+      expect(deflateRaw(data, level, output.length)).toEqual(output);
+    }
+    expect(data).toEqual(before);
+  });
 });

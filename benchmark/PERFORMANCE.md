@@ -5,6 +5,86 @@ uses the four unchanged PNGs in `benchmark/sample`; the second adds nine files.
 The original baseline is revision
 `65775627960607f97d3251d6926ec8c10244c2da`.
 
+## Latest phase: preserving match alternatives
+
+The baseline for this phase is revision
+`d32ce7dde7bd95c1f7adbd7a0fbffd386dea28b0`, immediately before this change.
+The sections below this phase retain the historical first/second-phase results;
+their references to "current" refer to that earlier implementation.
+
+Both presets use three measured runs and one warmup per file, alternating
+baseline/current API calls. Times exclude CLI startup and are sums of per-file
+medians. Builds and test suites were completed before timing. Every PNG and
+APNG frame passes independent losslessness and determinism checks. Rust
+oxipng 10.2.1 is a size reference with the same preset and metadata options.
+
+| Corpus | Preset | Before | After | Output reduction | Rust output | Before overhead | After overhead |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Four screenshots | `-o 2` | 2,611,151 B | 2,501,187 B | 4.21% | 2,473,423 B | 5.57% | 1.12% |
+| Four screenshots | `-o 4` | 2,521,863 B | 2,467,196 B | 2.17% | 2,452,721 B | 2.82% | 0.59% |
+| Extended, 13 files | `-o 2` | 3,200,686 B | 3,035,096 B | 5.17% | 2,987,238 B | 7.15% | 1.60% |
+| Extended, 13 files | `-o 4` | 3,068,195 B | 2,981,370 B | 2.83% | 2,955,623 B | 3.81% | 0.87% |
+
+"Overhead" is the percentage by which TS output bytes exceed Rust output
+bytes, rather than a difference in input compression percentages.
+
+| Corpus | Preset | Before time | After time | Time increase |
+| --- | --- | ---: | ---: | ---: |
+| Four screenshots | `-o 2` | 3,972.8 ms | 7,139.7 ms | 79.71% |
+| Four screenshots | `-o 4` | 12,496.3 ms | 13,433.4 ms | 7.50% |
+| Extended, 13 files | `-o 2` | 5,292.0 ms | 10,790.0 ms | 103.90% |
+| Extended, 13 files | `-o 4` | 18,654.1 ms | 20,363.6 ms | 9.16% |
+
+This phase improves compression ratio at a speed cost. Every file is smaller
+or unchanged at both presets, but the default preset takes roughly twice as
+long on the extended corpus. For example, the default gradient shrinks from
+47,942 B to 24,141 B and takes 266.4 ms to 957.0 ms; the default APNG shrinks
+from 63,435 B to 62,367 B and takes 6.4 ms to 60.6 ms. The tiny PNG is unchanged.
+These samples do not establish a universal improvement or parity with Rust.
+Raw measurements are in [match-cache-results.json](match-cache-results.json)
+and [match-cache-level4-results.json](match-cache-level4-results.json).
+
+The main causes and changes are:
+
+- The old eight-byte chain cannot find older five-to-seven-byte matches when
+  the newest four-byte-prefix match is shorter. Levels 10–12 now use a
+  four-byte-prefix binary tree with a nearest three-byte match, caching each
+  increase in match length with its distance. The parser can choose a nearer
+  short match instead of paying for the distance of a farther long match.
+- The first optimization pass used fixed-Huffman costs regardless of the
+  block's data. It now starts from the Huffman statistics of a greedy parse
+  and retains that parse alongside the subsequent measured trials.
+- At levels 10/11, long-match skipping begins at 32 rather than 16 bytes.
+  Tree insertion remains continuous across skipped positions and blocks;
+  known matching suffixes avoid rereading those bytes when possible.
+- Cache space is fixed: an eight-record-per-byte block budget ends a block
+  early if it fills. All cached matches are clipped to the actual block end,
+  with tails shorter than three bytes emitted as literals. Reusable scratch
+  storage grows by approximately 2 MiB, independent of input size. Distances
+  at 32,768 bytes are checked before reusing the same tree ring slot.
+- Levels 0–9 retain their previous matching/parsing behavior. Exact size-only
+  trials and output generation still share the same parser. Regression tests
+  cover the missing short matches, mixed-level reuse, rejected size bounds,
+  overlapping runs, block tails, offset views, and full-window distances.
+
+Validation passed: all 563 tests, TypeScript type checking, Node/browser build,
+Porffor build/runtime checks, and the ScriptC static build (3760 statements,
+zero failed or dynamic statements). The final built API was also rechecked
+against all 13 independently decoded PNG/APNG files at both presets, retaining
+the measured output sizes above.
+The refreshed [four-way CLI report](REPORT.md) checks all four screenshots:
+Node, Porffor and ScriptC outputs are byte-for-byte identical. That report uses
+one measured run with no warmup as a parity smoke check; its timing is noisier
+than the three-run API measurements above.
+
+Likely contributors to the remaining gap are different block boundaries, cost
+models, search limits and filter/reduction evaluation. As before, `libdeflater`
+names a level convention for the built-in TS encoder; it does not call native libdeflate.
+`zopfli` still maps to built-in level 12 and ignores Zopfli iteration settings.
+The binary-tree and match-cache approach is informed by
+[libdeflate's implementation](https://github.com/ebiggers/libdeflate/blob/master/lib/deflate_compress.c).
+Reproduction instructions are in [README.md](README.md#match-alternative-compression-measurements).
+
 ## First phase: matching and cost-based parsing
 
 These times exclude process startup. Each value is the sum of the per-file median
