@@ -94,7 +94,7 @@ async function handleFile(file, requestId = ++currentRequest) {
   if (requestId !== currentRequest) return;
   const isPng = /\.(png|apng)$/i.test(file.name) || file.type === 'image/png' || file.type === 'image/apng';
   if (!isPng && file.type !== '') {
-    showError(`That looks like a ${file.type || 'unknown'} file. Please choose a PNG or APNG.`);
+    showError('请选择 PNG 或 APNG 图片。', `当前文件类型：${file.type || '未知'}`);
     return;
   }
 
@@ -104,7 +104,7 @@ async function handleFile(file, requestId = ++currentRequest) {
   els.imgOriginal.src = originalUrl;
   els.imgOptimized.removeAttribute('src');
 
-  setStatus('<div class="spinner"></div><p>Optimizing locally…</p>');
+  setStatus('<div class="spinner"></div><p>正在本地优化…</p>');
 
   try {
     const arrayBuffer = await file.arrayBuffer();
@@ -123,7 +123,7 @@ async function handleFile(file, requestId = ++currentRequest) {
     renderResult(file, size, timeMs, optimizedBlob);
   } catch (err) {
     if (requestId !== currentRequest) return;
-    showError('Could not optimize this image.', err instanceof Error ? err.message : String(err));
+    showError('这张图片暂时无法优化。', err instanceof Error ? err.message : String(err));
   }
 }
 
@@ -131,12 +131,12 @@ async function loadSample(name) {
   const requestId = ++currentRequest;
   try {
     const res = await fetch(`./samples/${encodeURIComponent(name)}`);
-    if (!res.ok) throw new Error('Sample not found');
+    if (!res.ok) throw new Error('未找到样本图片');
     const blob = await res.blob();
     await handleFile(new File([blob], name, { type: 'image/png' }), requestId);
   } catch (err) {
     if (requestId !== currentRequest) return;
-    showError('Could not load this sample.', err instanceof Error ? err.message : String(err));
+    showError('暂时无法加载样本。', err instanceof Error ? err.message : String(err));
   }
 }
 
@@ -150,7 +150,7 @@ function renderResult(file, optimizedSize, timeMs, optimizedBlob) {
   els.statTime.textContent = timeMs < 1000 ? `${Math.round(timeMs)} ms` : `${(timeMs / 1000).toFixed(2)} s`;
 
   if (saved <= 0) {
-    els.statSaved.textContent = 'Already optimal';
+    els.statSaved.textContent = '无需进一步压缩';
     els.barFill.style.width = '0%';
   } else {
     els.statSaved.textContent = `${formatBytes(saved)} · ${percent.toFixed(1)}%`;
@@ -233,7 +233,7 @@ els.reset.addEventListener('click', () => {
   clearObjectUrls();
   els.imgOriginal.removeAttribute('src');
   els.imgOptimized.removeAttribute('src');
-  setStatus('<p class="placeholder">Your results will appear here.</p>');
+  setStatus('<p class="placeholder">选一张图片，继续轻装上路。</p>');
   els.fileInput.click();
 });
 
@@ -243,7 +243,7 @@ document.querySelectorAll('.copy').forEach((btn) =>
     try {
       await navigator.clipboard.writeText(target.textContent);
       const original = btn.textContent;
-      btn.textContent = 'Copied!';
+      btn.textContent = '已复制';
       setTimeout(() => (btn.textContent = original), 1200);
     } catch {
       /* clipboard unavailable */
@@ -251,7 +251,7 @@ document.querySelectorAll('.copy').forEach((btn) =>
   }),
 );
 
-setStatus('<p class="placeholder">Your results will appear here.</p>');
+// Keep the designed empty state until a file is selected.
 
 // Deep-link a sample, e.g. /?sample=shapes.png — handy for sharing and testing.
 const requestedSample = new URLSearchParams(location.search).get('sample');

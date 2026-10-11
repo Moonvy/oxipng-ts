@@ -1,222 +1,100 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>oxipng-ts — Lossless PNG optimization in your browser</title>
-    <meta
-      name="description"
-      content="A pure TypeScript port of oxipng. Shrink PNGs losslessly in the browser or on the command line — no uploads, no server, no native code."
-    />
-    <link rel="preconnect" href="https://github.com" />
-    <link rel="stylesheet" href="./styles.css" />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%236366f1'/%3E%3Cpath d='M9 21l5-11 4 7 2-3 3 7z' fill='white'/%3E%3C/svg%3E"
-    />
-  </head>
-  <body>
-    <header class="nav">
-      <div class="wrap nav-inner">
-        <a class="brand" href="#top">
-          <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
-            <rect width="32" height="32" rx="7" fill="url(#g)" />
-            <path d="M9 21l5-11 4 7 2-3 3 7z" fill="white" />
-            <defs>
-              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#6366f1" />
-                <stop offset="1" stop-color="#22d3ee" />
-              </linearGradient>
-            </defs>
-          </svg>
-          <span>oxipng<b>-ts</b></span>
-        </a>
-        <nav class="nav-links">
-          <a href="#demo">Demo</a>
-          <a href="#features">Features</a>
-          <a href="#quickstart">Quickstart</a>
-          <a class="gh" href="https://github.com/oxipng/oxipng" target="_blank" rel="noreferrer">oxipng ↗</a>
-        </nav>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f4f5ef" />
+  <title>oxipng-ts — PNG 无损压缩</title>
+  <meta name="description" content="TypeScript PNG / APNG 优化器，支持本地压缩，提供 Rust、Node.js、Porffor 和 ScriptC 的 benchmark 对比。" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231b5c45'/%3E%3Cpath d='M8 8h10v10H8z' fill='%23ddedb0'/%3E%3Cpath d='M19 19h5v5h-5z' fill='%23e79a67'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="oxipng-ts 首页"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span>oxipng<span class="brand-suffix">/ ts</span></a>
+      <nav class="nav-links" aria-label="主导航"><a href="#benchmark">性能实测</a><a href="#demo">本地压缩</a><a href="#quickstart">开始使用</a></nav>
+      <a class="nav-cta" href="#demo">试一张图片 <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero wrap" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> PNG / APNG</p>
+        <h1>PNG 无损压缩。<br /><span>TypeScript 实现。</span></h1>
+        <p class="lede">支持浏览器、Node.js 和原生 CLI。</p>
+        <div class="cta-row"><a class="btn primary" href="#demo">开始压缩 <span aria-hidden="true">↗</span></a><a class="text-link" href="#benchmark">查看 benchmark <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-facts">
+          <div><b id="heroTimeRatio">—</b><span>Node.js 耗时 / Rust</span></div>
+          <div><b id="heroSizeDifference">—</b><span>Node.js 尺寸比 Rust</span></div>
+          <div><b>纯 TS</b><span>TypeScript 压缩核心</span></div>
+        </div>
       </div>
-    </header>
-
-    <main id="top">
-      <!-- Hero -->
-      <section class="hero">
-        <div class="wrap hero-inner">
-          <div class="hero-copy">
-            <div class="pill">Pure TypeScript · Browser + Node · CLI + API</div>
-            <h1>Lossless PNG optimization, <span class="grad">right in your browser</span>.</h1>
-            <p class="lede">
-              A faithful TypeScript port of <b>oxipng</b>. Shrink PNG and APNG files without changing a single
-              pixel — all processing happens locally in your browser. No uploads, no server, no native code.
-            </p>
-            <div class="cta-row">
-              <a class="btn primary" href="#demo">Try it now</a>
-              <a class="btn ghost" href="#quickstart">Get the CLI</a>
-            </div>
-            <ul class="hero-stats">
-              <li><b>0</b><span>bytes uploaded</span></li>
-              <li><b>100%</b><span>lossless</span></li>
-              <li><b>ESM + CJS</b><span>+ CLI</span></li>
-            </ul>
-          </div>
-          <div class="hero-card" aria-hidden="true">
-            <div class="mock-row"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-            <pre class="mock-term"><code><span class="c-dim">$</span> oxipng-ts -o 3 --strip safe image.png
-<span class="c-dim">Files processed: 1/1</span>
-Input size:  1.42 MiB (1,489,203 bytes)
-Output size:  1.20 MiB (1,254,912 bytes)
-Total saved: 234 KiB (15.75%)</code></pre>
-          </div>
+      <div class="race-panel" id="racePanel">
+        <div class="race-top"><span class="eyebrow">BENCHMARK</span><span class="race-badge" id="racePreset">BENCHMARK</span></div>
+        <h2>速度对比</h2>
+        <p class="race-subtitle" id="raceSelection">正在读取测量结果…</p>
+        <div class="race-lanes" id="raceLanes" aria-label="各实现的相对速度示意"><p class="loading-note">正在读取 benchmark…</p></div>
+        <div class="race-controls">
+          <button class="race-button" id="raceToggle" type="button" disabled aria-pressed="true">暂停动画</button>
+          <button class="race-button icon-button" id="raceReset" type="button" disabled aria-label="让所有弹球从左侧同步重新开始">↺</button>
+          <label class="race-speed">演示倍速 <select id="raceSpeed" aria-label="弹球演示倍速"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
         </div>
-      </section>
-
-      <!-- Demo -->
-      <section id="demo" class="section">
-        <div class="wrap">
-          <h2>Try it on your own images</h2>
-          <p class="section-lede">
-            Drop a PNG below, or pick a sample. Optimization runs locally in your browser — nothing is
-            uploaded.
-          </p>
-
-          <div class="demo-grid">
-            <div class="card demo-input">
-              <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Choose or drop a PNG file">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-                  <path d="M12 16V4m0 0L8 8m4-4 4 4" stroke-linecap="round" stroke-linejoin="round" />
-                  <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round" />
-                </svg>
-                <p class="dz-title">Drop a PNG here</p>
-                <p class="dz-sub">or <span class="link">browse files</span> · you can also paste</p>
-                <input id="fileInput" type="file" accept="image/png,image/apng,.png,.apng" hidden />
-              </div>
-
-              <div class="samples">
-                <span class="samples-label">Samples:</span>
-                <button class="chip" data-sample="gradient.png">Gradient</button>
-                <button class="chip" data-sample="shapes.png">Shapes</button>
-                <button class="chip" data-sample="photo.png">Photo</button>
-              </div>
-
-              <div class="controls">
-                <label class="field">
-                  <span>Optimization level</span>
-                  <select id="level">
-                    <option value="0">0 — fastest</option>
-                    <option value="1">1</option>
-                    <option value="2" selected>2 — default</option>
-                    <option value="3">3 — all transforms</option>
-                    <option value="4">4</option>
-                    <option value="5">5 — thorough (slow)</option>
-                    <option value="6">6 — max (slowest)</option>
-                    <option value="max">max</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Interlace</span>
-                  <select id="interlace">
-                    <option value="off" selected>Off</option>
-                    <option value="keep">Keep</option>
-                    <option value="on">On</option>
-                  </select>
-                </label>
-                <label class="check"><input id="alpha" type="checkbox" /> Optimize alpha channel</label>
-                <label class="check"><input id="strip" type="checkbox" /> Strip metadata</label>
-              </div>
-              <p class="hint" id="optionHint">Level 3 enables every reduction. Alpha optimization and stripping can be lossy for metadata / transparent pixels.</p>
-            </div>
-
-            <div class="card demo-output">
-              <div id="status" class="status" role="status" aria-live="polite">
-                <p class="placeholder">Your results will appear here.</p>
-              </div>
-
-              <div id="results" class="results" hidden>
-                <div class="stat-grid">
-                  <div class="stat"><span class="stat-label">Original</span><b id="statOriginal">—</b></div>
-                  <div class="stat"><span class="stat-label">Optimized</span><b id="statOptimized">—</b></div>
-                  <div class="stat good"><span class="stat-label">Saved</span><b id="statSaved">—</b></div>
-                  <div class="stat"><span class="stat-label">Time</span><b id="statTime">—</b></div>
-                </div>
-                <div class="bar" aria-hidden="true"><div class="bar-fill" id="barFill"></div></div>
-
-                <div class="compare" id="compare">
-                  <img class="compare-img" id="imgOriginal" alt="Original image" />
-                  <div class="compare-overlay"><img id="imgOptimized" alt="Optimized image" /></div>
-                  <div class="compare-handle"></div>
-                  <span class="compare-tag left">Original</span>
-                  <span class="compare-tag right">Optimized</span>
-                  <input id="compareRange" class="compare-range" type="range" min="0" max="100" value="50" aria-label="Comparison position" />
-                </div>
-                <p class="compare-note">The two images are pixel-identical — only the encoding changed.</p>
-
-                <div class="result-actions">
-                  <a id="download" class="btn primary" download="optimized.png">Download optimized</a>
-                  <button id="reset" class="btn ghost" type="button">Start over</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Features -->
-      <section id="features" class="section alt">
-        <div class="wrap">
-          <h2>Everything oxipng does — in TypeScript</h2>
-          <div class="features">
-            <article class="feature"><h3>Faithful port</h3><p>Reductions, filter strategies and the evaluator mirror the Rust original, module for module.</p></article>
-            <article class="feature"><h3>Runs anywhere</h3><p>Pure ESM/CJS with zero native dependencies. Works in modern browsers and Node.js ≥ 20.</p></article>
-            <article class="feature"><h3>CLI + library</h3><p>A full command-line tool and an <code>oxipng(image, options)</code> function, plus a sync API.</p></article>
-            <article class="feature"><h3>Real reductions</h3><p>Colour-type, palette, bit-depth, alpha and grayscale reduction, plus Adam7 interlacing.</p></article>
-            <article class="feature"><h3>9 filter strategies</h3><p>None/Sub/Up/Average/Paeth plus MinSum, Entropy, Bigrams, BigEnt and a brute-force search.</p></article>
-            <article class="feature"><h3>Private by design</h3><p>Files never leave your machine. The demo runs entirely in your browser using pure JavaScript.</p></article>
-          </div>
-        </div>
-      </section>
-
-      <!-- Quickstart -->
-      <section id="quickstart" class="section">
-        <div class="wrap">
-          <h2>Quickstart</h2>
-          <div class="quick-grid">
-            <div class="code-card">
-              <div class="code-head"><span>CLI</span><button class="copy" data-copy="cli">Copy</button></div>
-              <pre><code id="code-cli">npm install -g oxipng-ts
-
-# Optimize in place
-oxipng-ts -o 3 image.png
-
-# Recursively, stripping safe-to-remove chunks
-oxipng-ts -r -o 4 --strip safe ./assets</code></pre>
-            </div>
-            <div class="code-card">
-              <div class="code-head"><span>Library</span><button class="copy" data-copy="lib">Copy</button></div>
-              <pre><code id="code-lib">import { oxipng, Options } from 'oxipng-ts';
-
-const input = new Uint8Array(await file.arrayBuffer());
-
-// Lossless, preset 3 (all transformations)
-const optimized = await oxipng(input, Options.fromPreset(3));
-
-// Or run it synchronously
-import { oxipngSync } from 'oxipng-ts';
-const fast = oxipngSync(input, Options.fromPreset(2));</code></pre>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <div class="wrap footer-inner">
-        <p>oxipng-ts — MIT licensed. Ported from <a href="https://github.com/oxipng/oxipng" target="_blank" rel="noreferrer">oxipng</a>.</p>
-        <p class="muted">Compression powered by a pure-JavaScript DEFLATE implementation.</p>
+        <p class="race-note">底色长度表示耗时，最长为 100%；球速与耗时成反比。动画仅作示意。</p>
       </div>
-    </footer>
+    </section>
 
-    <script type="module" src="./app.js"></script>
-  </body>
+    <div class="principles wrap" aria-label="产品特点">
+      <div><span class="principle-number">01</span><p><strong>无损压缩</strong><span>优化过滤、色深、调色板与 DEFLATE 编码。</span></p></div>
+      <div><span class="principle-number">02</span><p><strong>零运行时依赖</strong><span>无需 WASM 或原生插件。</span></p></div>
+    </div>
+
+    <section class="section wrap" id="benchmark" aria-labelledby="benchmarkHeading">
+      <div class="section-heading"><div><p class="eyebrow">01 / BENCHMARK</p><h2 id="benchmarkHeading">性能测试</h2><p class="section-lede">四种实现使用相同样本和压缩预设。</p></div><div class="benchmark-controls"><label for="benchmarkFile">比较样本</label><select id="benchmarkFile" disabled><option value="all">全部样本</option></select><button class="refresh-button" id="benchmarkRefresh" type="button" aria-label="重新读取最新 benchmark 数据">↻ 刷新数据</button></div></div>
+      <div class="benchmark-meta"><span id="benchmarkContext">正在加载实测环境…</span><span id="benchmarkDate">—</span></div>
+      <p id="benchmarkStatus" class="benchmark-status" role="status" aria-live="polite"></p>
+      <div class="chart-grid">
+        <article class="chart-card" aria-labelledby="timeTitle"><div class="chart-heading"><div><p class="eyebrow">TIME</p><h3 id="timeTitle">压缩耗时</h3></div><span class="metric-unit">秒</span></div><div id="timeChart" class="chart-body" aria-label="压缩耗时柱状图"><div class="chart-placeholder">读取实测结果后显示</div></div><p class="chart-caption">计入 CLI 进程启动；全部样本取各文件实测耗时之和。</p></article>
+        <article class="chart-card" aria-labelledby="sizeTitle"><div class="chart-heading"><div><p class="eyebrow">SIZE</p><h3 id="sizeTitle">输出文件尺寸</h3></div><span class="metric-unit">MiB</span></div><div id="sizeChart" class="chart-body" aria-label="输出文件尺寸柱状图"><div class="chart-placeholder">读取实测结果后显示</div></div><p class="chart-caption" id="sizeCaption">原始输入与四种实现的输出使用同一比例尺。</p></article>
+      </div>
+      <div class="benchmark-insight" id="benchmarkInsight"><span class="insight-icon" aria-hidden="true">↗</span><p>正在读取 benchmark…</p></div>
+      <details class="methodology"><summary>测量方法<span aria-hidden="true">＋</span></summary><div class="methodology-body"><p id="benchmarkMethod">测量口径随 benchmark 数据一同更新。</p><p>Rust 使用默认线程数；Node、Porffor 和 ScriptC 使用同一套 TypeScript 压缩核心，单线程执行。文件无法进一步缩小时保留原始字节。这里比较的是完整 PNG 优化流程，不只是 DEFLATE 内核。</p><p>结果取决于图片内容和运行环境。这组 CLI 实测不代表浏览器内的运行速度，也不与 API 基准计时混用。</p></div></details>
+      <div class="source-links"><span><span class="live-dot" aria-hidden="true"></span> 数据来源：benchmark</span><a href="./benchmark/results.json" target="_blank" rel="noreferrer">原始 JSON ↗</a><a href="./benchmark/REPORT.md" target="_blank" rel="noreferrer">完整测量报告 ↗</a><a href="./benchmark/PERFORMANCE.md" target="_blank" rel="noreferrer">优化前后对比 ↗</a></div>
+    </section>
+
+    <section class="demo-section" id="demo" aria-labelledby="demoHeading"><div class="wrap">
+      <div class="section-heading"><div><p class="eyebrow">02 / DEMO</p><h2 id="demoHeading">本地压缩</h2><p class="section-lede">选择 PNG / APNG，或使用样本。文件在浏览器中处理。</p></div></div>
+      <div class="demo-grid">
+        <div class="demo-input">
+          <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="选择或拖入 PNG 图片"><span class="upload-icon" aria-hidden="true">↥</span><p class="dz-title">把 PNG 拖到这里</p><p class="dz-sub">或<span class="link">选择文件</span> · 也支持粘贴图片</p><input id="fileInput" type="file" accept="image/png,image/apng,.png,.apng" hidden /></div>
+          <div class="samples"><span class="samples-label">样本</span><button class="chip" data-sample="gradient.png">渐变</button><button class="chip" data-sample="shapes.png">透明图形</button><button class="chip" data-sample="photo.png">彩色纹理</button></div>
+          <div class="controls"><label class="field"><span>压缩预设</span><select id="level"><option value="0">0 · 最快</option><option value="1">1 · 轻量</option><option value="2" selected>2 · 默认</option><option value="3">3 · 全部变换</option><option value="4">4 · 更细致</option><option value="5">5 · 深度优化</option><option value="6">6 · 最大压缩</option></select></label><label class="field"><span>交错扫描</span><select id="interlace"><option value="off" selected>关闭</option><option value="keep">保留原设置</option><option value="on">开启</option></select></label><label class="check"><input id="alpha" type="checkbox" /> 优化完全透明像素</label><label class="check"><input id="strip" type="checkbox" /> 移除非必要元数据</label></div>
+          <p class="hint" id="optionHint">透明像素优化可能改变不可见的 RGB 值；移除元数据会丢弃部分附加信息。高预设处理时间更长。</p>
+        </div>
+        <div class="demo-output"><div id="status" class="status" role="status" aria-live="polite"><div class="empty-art" aria-hidden="true"><span></span><span></span></div><p class="placeholder">等待选择图片</p><p class="muted">压缩后可预览和下载。</p></div>
+          <div id="results" class="results" hidden><div class="stat-grid"><div class="stat"><span class="stat-label">原始尺寸</span><b id="statOriginal">—</b></div><div class="stat"><span class="stat-label">优化后</span><b id="statOptimized">—</b></div><div class="stat good"><span class="stat-label">减少体积</span><b id="statSaved">—</b></div><div class="stat"><span class="stat-label">本机耗时</span><b id="statTime">—</b></div></div><div class="bar" aria-hidden="true"><div class="bar-fill" id="barFill"></div></div><div class="compare" id="compare"><img class="compare-img" id="imgOriginal" alt="优化前的图片" /><div class="compare-overlay"><img id="imgOptimized" alt="优化后的图片" /></div><div class="compare-handle"></div><span class="compare-tag left">原始</span><span class="compare-tag right">优化后</span><input id="compareRange" class="compare-range" type="range" min="0" max="100" value="50" aria-label="拖动分界线比较优化前后的图片" /></div><p class="compare-note">拖动查看优化前后。</p><div class="result-actions"><a id="download" class="btn primary" download="optimized.png">下载优化图片 ↧</a><button id="reset" class="btn ghost" type="button">再试一张</button></div></div>
+        </div>
+      </div>
+    </div></section>
+
+    <section class="section wrap" id="quickstart" aria-labelledby="quickstartHeading"><div class="section-heading"><div><p class="eyebrow">03 / USAGE</p><h2 id="quickstartHeading">安装与调用</h2><p class="section-lede">支持 CLI、ESM 和 CJS。</p></div><span class="runtime-label">ESM / CJS / CLI</span></div><div class="quick-grid"><div class="code-card"><div class="code-head"><span><i class="code-dot"></i> TERMINAL</span><button class="copy" data-copy="cli" type="button">复制</button></div><pre><code id="code-cli">npm install -g oxipng-ts
+
+# 优化单张图片
+oxipng-ts -o 2 image.png
+
+# 批量优化，输出到指定目录
+oxipng-ts -r -o 3 --dir ./optimized ./assets</code></pre></div><div class="code-card"><div class="code-head"><span><i class="code-dot"></i> TYPESCRIPT</span><button class="copy" data-copy="lib" type="button">复制</button></div><pre><code id="code-lib">import { oxipng, Options } from 'oxipng-ts';
+
+const input = new Uint8Array(
+  await file.arrayBuffer()
+);
+const output = await oxipng(
+  input, Options.fromPreset(2)
+);</code></pre></div></div></section>
+  </main>
+  <footer class="footer"><div class="wrap footer-inner"><a class="brand" href="#top">oxipng<span class="brand-suffix">/ ts</span></a><p>PNG / APNG 优化器</p><span>MIT · Ported from <a href="https://github.com/oxipng/oxipng" target="_blank" rel="noreferrer">Rust oxipng ↗</a></span></div></footer>
+  <script type="module" src="./benchmark.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
 </html>

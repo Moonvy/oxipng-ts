@@ -5,6 +5,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { BitDepth, NONE, Options, RawImage, RGBA, libdeflater, rgb } from '../dist/index.js';
+import { syncBenchmarkSite } from './site-benchmark.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const siteDir = join(root, 'site');
@@ -112,6 +113,11 @@ async function main() {
   await mkdir(samplesDir, { recursive: true });
 
   await copyFile(join(root, 'dist', 'index.js'), join(distDir, 'oxipng-ts.js'));
+
+  // Read the canonical benchmark on every build; never embed measured values
+  // into HTML or JS. These copies make the entire site deployable as static files.
+  await syncBenchmarkSite(join(root, 'benchmark'), join(siteDir, 'benchmark'));
+  console.log('build-site: refreshed benchmark data and source reports');
 
   const samples = {
     'gradient.png': gradient(960, 600),

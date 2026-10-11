@@ -7,4 +7,5 @@ coverage
 *.out.png
 site/dist
 site/samples
+site/benchmark
 .commandcode
