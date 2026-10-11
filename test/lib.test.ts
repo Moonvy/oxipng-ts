@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { Options, PngError, optimizeFromMemory } from '../src/index.js';
-import { readFixture } from './helpers.js';
+import { Options, PngError, optimizeFromMemory } from '../src/index.ts';
+import { readFixture } from './helpers.ts';
 
 describe('optimizeFromMemory (mirrors tests/lib.rs)', () => {
   it('succeeds on an already optimized image', () => {

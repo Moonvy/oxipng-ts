@@ -1,8 +1,8 @@
 import { createHash } from 'node:crypto';
 import { inflateRawSync } from 'node:zlib';
 import { describe, expect, it } from 'vitest';
-import { deflateRaw, deflateRawSize } from '../src/deflate/deflate.js';
-import { SizeLimitExceeded } from '../src/deflate/bitwriter.js';
+import { deflateRaw, deflateRawSize } from '../src/deflate/deflate.ts';
+import { SizeLimitExceeded } from '../src/deflate/bitwriter.ts';
 
 function inputs(): Array<[string, Uint8Array]> {
   const cases: Array<[string, Uint8Array]> = [];

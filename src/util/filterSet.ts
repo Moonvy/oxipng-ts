@@ -1,4 +1,4 @@
-import { filterStrategyKey, type FilterStrategy } from '../filters/strategies.js';
+import { filterStrategyKey, type FilterStrategy } from '../filters/strategies.ts';
 
 /** Insertion-ordered, de-duplicated collection of filter strategies. */
 export function filterSetFrom(items: Iterable<FilterStrategy>): FilterStrategy[] {

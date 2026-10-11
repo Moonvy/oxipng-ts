@@ -10,7 +10,7 @@ import { restorePorfforTypes } from './porffor-types.mjs';
 import { preparePorfforRuntime } from './porffor-runtime.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const dist = join(root, 'dist');
+const dist = join(root, 'dist', 'bin');
 const work = join(dist, '.porffor');
 const output = join(dist, 'oxipng-ts-porffor');
 const pending = join(work, 'oxipng-ts-porffor');
@@ -73,7 +73,7 @@ try {
   if (!statSync(pending).isFile()) throw new Error('Porffor did not produce a native executable.');
   chmodSync(pending, 0o755);
   renameSync(pending, output);
-  console.log(`build:porffor: created dist/oxipng-ts-porffor (${process.platform}-${process.arch})`);
+  console.log(`build:porffor: created dist/bin/oxipng-ts-porffor (${process.platform}-${process.arch})`);
 } catch (error) {
   console.error(`build:porffor: ${error.message}`);
   process.exitCode = 1;

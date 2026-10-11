@@ -1,4 +1,4 @@
-import type { BitDepth, ColorType } from './colors.js';
+import type { BitDepth, ColorType } from './colors.ts';
 
 export type PngErrorKind =
   | 'APNGOutOfOrder'

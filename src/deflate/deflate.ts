@@ -1,7 +1,7 @@
-import { adler32 } from './adler32.js';
-import { BitWriter, SizeLimitExceeded } from './bitwriter.js';
-import { buildCodes, limitedLengths, makeComplete, type CodeSet } from './huffman.js';
-import { DIST_BASE, DIST_EXTRA, LENGTH_BASE, LENGTH_EXTRA } from './inflate.js';
+import { adler32Bytes } from './adler32.ts';
+import { BitWriter, SizeLimitExceeded } from './bitwriter.ts';
+import { buildCodes, limitedLengths, makeComplete, type CodeSet } from './huffman.ts';
+import { DIST_BASE, DIST_EXTRA, LENGTH_BASE, LENGTH_EXTRA } from './inflate.ts';
 
 const WINDOW = 32768;
 const WINDOW_MASK = WINDOW - 1;
@@ -66,8 +66,11 @@ const SIZE_REJECTED = new SizeLimitExceeded();
 
 /** Exact byte count for filter trials, without allocating or writing a stream. */
 class SizeCounter {
-  private bits = 0;
-  constructor(private readonly limit: number) {}
+  private bits: number = 0;
+  private readonly limit: number;
+  constructor(limit: number) {
+    this.limit = limit;
+  }
 
   addBits(bits: number): void {
     this.bits += bits;
@@ -816,7 +819,7 @@ function deflateInto(bw: BitWriter | SizeCounter, data: Uint8Array, level: numbe
 }
 
 /** Internal size-only raw DEFLATE trial, with the same parser and block choices. */
-export function deflateRawSize(data: Uint8Array, level: number, maxSize = Infinity): number {
+export function deflateRawSize(data: Uint8Array, level: number, maxSize: number = Infinity): number {
   const counter = new SizeCounter(maxSize);
   deflateInto(counter, data, level);
   return counter.finish();
@@ -834,12 +837,8 @@ export function zlibCompress(data: Uint8Array, level: number, maxSize?: number):
   const bw = new BitWriter(Math.max(64, data.length >>> 1), maxSize ?? Infinity);
   bw.skip(2); // zlib header, written at the end
   deflateInto(bw, data, level);
-  const adler = adler32(data);
   const tail = new Uint8Array(4);
-  tail[0] = (adler >>> 24) & 0xff;
-  tail[1] = (adler >>> 16) & 0xff;
-  tail[2] = (adler >>> 8) & 0xff;
-  tail[3] = adler & 0xff;
+  adler32Bytes(data, tail, 1);
   bw.pushBytes(tail);
   const out = bw.finish();
   out[0] = 0x78; // CM=8 (deflate), CINFO=7 (32K window)

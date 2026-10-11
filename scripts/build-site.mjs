@@ -1,14 +1,16 @@
 // Builds the static landing page: copies the browser bundle and generates the
 // demo sample images using the library itself.
-import { copyFile, mkdir, writeFile } from 'node:fs/promises';
+import { copyFile, cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { build as bundle } from 'esbuild';
 
-import { BitDepth, NONE, Options, RawImage, RGBA, libdeflater, rgb } from '../dist/index.js';
+import { BitDepth, NONE, Options, RawImage, RGBA, libdeflater, rgb } from '../dist/js/index.js';
 import { syncBenchmarkSite } from './site-benchmark.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const siteDir = join(root, 'site');
+const sourceDir = join(root, 'site');
+const siteDir = join(root, 'docs');
 const distDir = join(siteDir, 'dist');
 const samplesDir = join(siteDir, 'samples');
 
@@ -109,10 +111,25 @@ function shapes(width, height) {
 }
 
 async function main() {
+  await rm(siteDir, { recursive: true, force: true });
+  await cp(sourceDir, siteDir, { recursive: true, filter: (path) =>
+    path === sourceDir || !['dist', 'samples', 'benchmark'].includes(path.slice(sourceDir.length + 1).split(/[\\/]/)[0]),
+  });
+  await writeFile(join(siteDir, '.nojekyll'), '');
   await mkdir(distDir, { recursive: true });
   await mkdir(samplesDir, { recursive: true });
 
-  await copyFile(join(root, 'dist', 'index.js'), join(distDir, 'oxipng-ts.js'));
+  await bundle({
+    entryPoints: [join(sourceDir, 'app.js')],
+    outfile: join(siteDir, 'app.js'),
+    bundle: true,
+    format: 'esm',
+    platform: 'browser',
+    target: 'es2022',
+    external: ['./dist/oxipng-ts.js'],
+  });
+
+  await copyFile(join(root, 'dist', 'js', 'index.js'), join(distDir, 'oxipng-ts.js'));
 
   // Read the canonical benchmark on every build; never embed measured values
   // into HTML or JS. These copies make the entire site deployable as static files.
@@ -129,7 +146,7 @@ async function main() {
     console.log(`  sample ${name} (${(bytes.length / 1024).toFixed(1)} KiB)`);
   }
 
-  console.log('build-site: copied browser bundle to site/dist/oxipng-ts.js');
+  console.log('build-site: copied browser bundle to docs/dist/oxipng-ts.js');
 }
 
 main().catch((err) => {

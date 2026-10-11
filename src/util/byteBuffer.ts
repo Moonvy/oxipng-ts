@@ -9,7 +9,7 @@ export class ByteBuffer {
   buf: Uint8Array;
   len: number;
 
-  constructor(capacity = 0) {
+  constructor(capacity: number = 0) {
     this.buf = new Uint8Array(capacity);
     this.len = 0;
   }

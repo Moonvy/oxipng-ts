@@ -24,10 +24,12 @@ export function normalizeBenchmark(report) {
   if (!/^[0-6]$/.test(opt) || !Number.isInteger(runs) || !Number.isInteger(warmup)) {
     throw new Error('benchmark 测量选项无效');
   }
+  const activeEngines = ENGINES.filter(engine => ['rust', 'node'].includes(engine.id) ||
+    report[engine.id] !== undefined || report.rows.some(row => row[engine.sizeKey] !== undefined || row[engine.timeKey] !== undefined));
   const rows = report.rows.map((row, index) => {
     if (typeof row.name !== 'string' || !row.name) throw new Error('benchmark 样本名称无效');
     const inputBytes = number(row.originalSize, `${row.name} 原始尺寸`, 1);
-    const engines = ENGINES.map(engine => ({
+    const engines = activeEngines.map(engine => ({
       ...engine,
       bytes: number(row[engine.sizeKey], `${row.name} ${engine.label} 尺寸`),
       ms: number(row[engine.timeKey], `${row.name} ${engine.label} 耗时`, Number.MIN_VALUE),
@@ -37,7 +39,7 @@ export function normalizeBenchmark(report) {
   const all = {
     id: 'all', name: `全部 ${rows.length} 张图片`,
     inputBytes: rows.reduce((sum, row) => sum + row.inputBytes, 0),
-    engines: ENGINES.map((engine, index) => ({ ...engine,
+    engines: activeEngines.map((engine, index) => ({ ...engine,
       bytes: rows.reduce((sum, row) => sum + row.engines[index].bytes, 0),
       ms: rows.reduce((sum, row) => sum + row.engines[index].ms, 0),
     })),
@@ -57,7 +59,8 @@ export function normalizeBenchmark(report) {
       porffor: report.porffor?.version ?? 'Porffor',
       scriptc: report.scriptc?.version ?? 'ScriptC',
     },
-    matchingTs: report.rows.every(row => row.porfforMatchesTs === true && row.scriptcMatchesTs === true),
+    matchingTs: report.rows.every(row => activeEngines.filter(engine => !['rust', 'node'].includes(engine.id))
+      .every(engine => row[`${engine.id}MatchesTs`] === true)),
   };
 }
 

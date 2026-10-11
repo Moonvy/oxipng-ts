@@ -1,6 +1,6 @@
-import { BitDepth, rgba8, rgba8A, rgba8B, rgba8G, rgba8R, type RGBA8 } from '../colors.js';
-import { PngImage } from '../png/index.js';
-import { NumberIndexSet } from '../util/numberSet.js';
+import { BitDepth, rgba8, rgba8A, rgba8B, rgba8G, rgba8R, type RGBA8 } from '../colors.ts';
+import { PngImage } from '../png/index.ts';
+import { NumberIndexSet } from '../util/numberSet.ts';
 
 const BLACK = rgba8(0, 0, 0, 255);
 

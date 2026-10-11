@@ -27,7 +27,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font: 15px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  font: 15px/1.7 "Clash Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -73,13 +73,11 @@ h1,h2,h3 {
 h2 {
   font-size: clamp(27px,3.1vw,38px);
   font-weight: 650;
-  letter-spacing: -.055em;
 }
 
 h3 {
   font-size: 23px;
   font-weight: 650;
-  letter-spacing: -.035em;
 }
 
 button {
@@ -97,7 +95,6 @@ button {
 
 .eyebrow {
   font: 11px/1.5 var(--mono);
-  letter-spacing: .1em;
   font-weight: 500;
   color: var(--green);
 }
@@ -145,42 +142,16 @@ button {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 21px;
+  gap: 6px;
+  font-size: 20px;
   font-weight: 700;
-  letter-spacing: -.04em;
-}
-
-.brand-suffix {
-  font-weight: 450;
-  color: var(--green);
 }
 
 .brand-mark {
-  position: relative;
   display: block;
-  width: 31px;
-  height: 31px;
-  border-radius: 8px;
-  background: var(--green);
-  margin-right: 3px;
-}
-
-.brand-mark i {
-  position: absolute;
-  top: 7px;
-  left: 7px;
-  width: 11px;
-  height: 11px;
-  background: var(--accent);
-}
-
-.brand-mark i+i {
-  width: 6px;
-  height: 6px;
-  top: 20px;
-  left: 20px;
-  background: var(--rust);
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
 }
 
 .nav-links {
@@ -223,7 +194,6 @@ button {
   font-size: clamp(42px,5vw,66px);
   font-weight: 650;
   line-height: 1.24;
-  letter-spacing: -.065em;
   white-space: nowrap;
 }
 
@@ -302,7 +272,6 @@ button {
   display: block;
   font-size: 26px;
   font-weight: 550;
-  letter-spacing: -.04em;
   line-height: 1.4;
 }
 
@@ -347,7 +316,6 @@ button {
 .race-panel h2 {
   font-size: 24px;
   margin-top: 22px;
-  letter-spacing: -.035em;
 }
 
 .race-subtitle {
@@ -646,7 +614,6 @@ button {
 .chart-heading .eyebrow {
   font-size: 9px;
   color: #8a9486;
-  letter-spacing: .05em;
   margin-bottom: 8px;
 }
 
@@ -686,6 +653,11 @@ button {
   border-radius: 2px;
   background: var(--engine-color);
   flex-shrink: 0;
+}
+
+.chart-pending {
+  font-size: 11px;
+  color: #74816e;
 }
 
 .chart-rail {
@@ -888,7 +860,6 @@ button {
 .dz-title {
   font-size: 16px;
   font-weight: 600;
-  letter-spacing: -.02em;
 }
 
 .dz-sub {
@@ -1218,6 +1189,16 @@ button {
 }
 
 .code-card {
+  --sh-class: #eecb8b;
+  --sh-identifier: #dce8d5;
+  --sh-sign: #aebda8;
+  --sh-property: #c6d98a;
+  --sh-entity: #98d3bd;
+  --sh-jsxliterals: #d2b4f0;
+  --sh-string: #a9d18e;
+  --sh-keyword: #e6a084;
+  --sh-comment: #91a18e;
+  --sh-space: currentColor;
   background: #203c31;
   color: #dce8d5;
   border-radius: 12px;
@@ -1232,7 +1213,6 @@ button {
   padding: 15px 20px;
   border-bottom: 1px solid #48634b4a;
   font: 10px var(--mono);
-  letter-spacing: .06em;
 }
 
 .code-dot {
@@ -1263,6 +1243,10 @@ button {
   font: 12px/1.95 var(--mono);
   overflow-x: auto;
   white-space: pre;
+}
+
+.code-card .sh__line {
+  display: block;
 }
 
 .footer {
@@ -1506,16 +1490,12 @@ button {
     font-size: 10px;
   }
   .brand {
-    font-size: 18px;
+    gap: 5px;
+    font-size: 17px;
   }
   .brand-mark {
-    width: 27px;
-    height: 27px;
-    border-radius: 7px;
-  }
-  .brand-mark i+i {
-    top: 18px;
-    left: 18px;
+    width: 22px;
+    height: 22px;
   }
   .hero h1 {
     font-size: 42px;

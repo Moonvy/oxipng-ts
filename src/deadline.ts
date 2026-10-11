@@ -11,10 +11,12 @@ export class Deadline {
   private readonly timeoutMs: number | null;
   private printMessage = true;
 
+  private readonly warn: (msg: string) => void;
   constructor(
     timeoutSeconds: number | null,
-    private readonly warn: (msg: string) => void = () => {},
+    warn: (msg: string) => void = () => {},
   ) {
+    this.warn = warn;
     this.start = now();
     this.timeoutMs = timeoutSeconds === null ? null : timeoutSeconds * 1000;
   }

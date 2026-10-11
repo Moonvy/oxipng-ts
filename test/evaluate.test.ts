@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import * as compression from '../src/deflate/index.js';
-import { Deadline } from '../src/deadline.js';
-import { Evaluator } from '../src/evaluate.js';
-import { grayscale, indexed, RGBA } from '../src/colors.js';
-import { Bigrams, MinSum, NONE, SUB, UP, type FilterStrategy } from '../src/filters/strategies.js';
-import { PngImage } from '../src/png/index.js';
-import { Options } from '../src/options.js';
-import { performTrials } from '../src/optimize.js';
+import * as compression from '../src/deflate/index.ts';
+import { Deadline } from '../src/deadline.ts';
+import { Evaluator } from '../src/evaluate.ts';
+import { grayscale, indexed, RGBA } from '../src/colors.ts';
+import { Bigrams, MinSum, NONE, SUB, UP, type FilterStrategy } from '../src/filters/strategies.ts';
+import { PngImage } from '../src/png/index.ts';
+import { Options } from '../src/options.ts';
+import { performTrials } from '../src/optimize.ts';
 
 afterEach(() => vi.restoreAllMocks());
 

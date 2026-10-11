@@ -8,15 +8,15 @@ import {
   Entropy,
   MinSum,
   type FilterStrategy,
-} from './filters/strategies.js';
-import { rowFilterFromNumber } from './filters/index.js';
-import { DISPLAY_CHUNKS } from './headers.js';
-import { LogLevel, logError, logWarn, setLogLevel, setLogSink } from './log.js';
-import { libdeflater, zopfli } from './deflate/index.js';
-import { Options } from './options.js';
-import { PngError } from './error.js';
-import { collectFiles, inFileToString, optimize, type InFile, type OutFile } from './node.js';
-import { filterSetFrom } from './util/filterSet.js';
+} from './filters/strategies.ts';
+import { rowFilterFromNumber } from './filters/index.ts';
+import { DISPLAY_CHUNKS } from './headers.ts';
+import { LogLevel, logError, logWarn, setLogLevel, setLogSink } from './log.ts';
+import { libdeflater, zopfli } from './deflate/index.ts';
+import { Options } from './options.ts';
+import { PngError } from './error.ts';
+import { collectFiles, inFileToString, optimize, type InFile, type OutFile } from './node.ts';
+import { filterSetFrom } from './util/filterSet.ts';
 
 const FORBIDDEN_CHUNKS = ['IHDR', 'IDAT', 'tRNS', 'PLTE', 'IEND'];
 

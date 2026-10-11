@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { BitDepth, Options, PngData, PngError, RawImage, RGBA, indexed, optimizeFromMemory, rgba8 } from '../src/index.js';
-import { decodePng, headerInfo, readFixture } from './helpers.js';
+import { BitDepth, Options, PngData, PngError, RawImage, RGBA, indexed, optimizeFromMemory, rgba8 } from '../src/index.ts';
+import { decodePng, headerInfo, readFixture } from './helpers.ts';
 
 describe('raw API (mirrors tests/raw.rs)', () => {
   it('round-trips a decoded image through RawImage', () => {

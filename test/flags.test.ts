@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { NONE, Options, optimizeFromMemory } from '../src/index.js';
-import { countChunk, headerInfo, readFixture } from './helpers.js';
+import { NONE, Options, optimizeFromMemory } from '../src/index.ts';
+import { countChunk, headerInfo, readFixture } from './helpers.ts';
 
 function baseOpts(): Options {
   const o = new Options();

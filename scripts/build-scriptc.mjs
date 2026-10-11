@@ -8,7 +8,7 @@ import { fixScriptcArrayOwnership } from './scriptc-compiler-fix.mjs';
 import { prepareScriptcStaticSource, scriptcStaticSource } from './scriptc-static-compat.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const dist = join(root, 'dist');
+const dist = join(root, 'dist', 'bin');
 const work = join(dist, '.scriptc-static');
 const output = join(dist, 'oxipng-ts-scriptc');
 const pending = join(work, 'oxipng-ts-scriptc');
@@ -40,7 +40,7 @@ try {
     for (const entry of readdirSync(join(root, 'src', relative), { withFileTypes: true })) {
       const next = join(relative, entry.name);
       if (entry.isDirectory()) {
-        if (!['scriptc', 'porffor'].includes(next)) prepare(next);
+        if (!['scriptc', 'porffor', 'perry'].includes(next)) prepare(next);
       } else if (entry.name.endsWith('.ts')) {
         const original = join(root, 'src', next);
         const target = join(work, 'src', next);
@@ -52,11 +52,11 @@ try {
   }
   prepare();
   const entry = join(work, 'cli.ts');
-  writeFileSync(entry, readFileSync(join(root, 'src/scriptc/cli.ts'), 'utf8').replace('../cli-main.js', './src/cli-main.js'));
+  writeFileSync(entry, readFileSync(join(root, 'src/scriptc/cli.ts'), 'utf8').replace('../cli-main.ts', './src/cli-main.ts'));
   const configPath = join(work, 'tsconfig.json');
   writeFileSync(configPath, JSON.stringify({
     compilerOptions: { target: 'ES2022', module: 'NodeNext', moduleResolution: 'NodeNext',
-      strict: true, skipLibCheck: true, noUncheckedIndexedAccess: false, types: ['node'] },
+      strict: true, skipLibCheck: true, rewriteRelativeImportExtensions: true, noUncheckedIndexedAccess: false, types: ['node'] },
     include: ['src/**/*.ts', 'cli.ts'],
   }));
   const config = ts.readConfigFile(configPath, ts.sys.readFile);
@@ -109,7 +109,7 @@ try {
     dynamicStatements: stats.statementsIsland, failedStatements: stats.statementsFailed,
     platform: process.platform, arch: process.arch, bytes: statSync(output).size,
   }, null, 2) + '\n');
-  console.log(`build:scriptc: created dist/oxipng-ts-scriptc (${process.platform}-${process.arch}, fully static)`);
+  console.log(`build:scriptc: created dist/bin/oxipng-ts-scriptc (${process.platform}-${process.arch}, fully static)`);
 } catch (error) {
   console.error(`build:scriptc: ${error.message}`);
   process.exitCode = 1;

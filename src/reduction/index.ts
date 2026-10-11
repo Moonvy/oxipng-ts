@@ -1,13 +1,13 @@
-import { colorTypeEquals, hasTrns } from '../colors.js';
-import type { Deadline } from '../deadline.js';
-import type { Evaluator } from '../evaluate.js';
-import type { Options } from '../options.js';
-import type { PngImage } from '../png/index.js';
-import { cleanedAlphaChannel, reducedAlphaChannel } from './alpha.js';
-import { expandedBitDepthTo8, reducedBitDepth16To8, reducedBitDepth8OrLess } from './bitDepth.js';
-import { INDEXED_MAX_DIFF, indexedToChannels, reducedRgbToGrayscale, reducedToIndexed } from './color.js';
-import { changedInterlacing } from './interlace.js';
-import { CoOccurrenceMatrix, reducedPalette, sortedPalette, sortedPaletteBattiato, sortedPaletteEzeng } from './palette.js';
+import { colorTypeEquals, hasTrns } from '../colors.ts';
+import type { Deadline } from '../deadline.ts';
+import type { Evaluator } from '../evaluate.ts';
+import type { Options } from '../options.ts';
+import type { PngImage } from '../png/index.ts';
+import { cleanedAlphaChannel, reducedAlphaChannel } from './alpha.ts';
+import { expandedBitDepthTo8, reducedBitDepth16To8, reducedBitDepth8OrLess } from './bitDepth.ts';
+import { INDEXED_MAX_DIFF, indexedToChannels, reducedRgbToGrayscale, reducedToIndexed } from './color.ts';
+import { changedInterlacing } from './interlace.ts';
+import { CoOccurrenceMatrix, reducedPalette, sortedPalette, sortedPaletteBattiato, sortedPaletteEzeng } from './palette.ts';
 
 function bytesEqual(a: Uint8Array, b: Uint8Array): boolean {
   if (a.length !== b.length) return false;

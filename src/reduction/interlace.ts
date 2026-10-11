@@ -1,7 +1,7 @@
-import { type ColorType } from '../colors.js';
-import { ihdrBpp, type IhdrData } from '../headers.js';
-import { PngImage } from '../png/index.js';
-import { expandedBitDepthTo8, reducedBitDepthForced } from './bitDepth.js';
+import { type ColorType } from '../colors.ts';
+import { ihdrBpp, type IhdrData } from '../headers.ts';
+import { PngImage } from '../png/index.ts';
+import { expandedBitDepthTo8, reducedBitDepthForced } from './bitDepth.ts';
 
 function cloneColorType(ct: ColorType): ColorType {
   if (ct.kind === 'indexed') return { kind: 'indexed', palette: [...ct.palette] };

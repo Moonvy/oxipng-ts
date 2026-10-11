@@ -11,14 +11,14 @@ export class SizeLimitExceeded extends Error {
 export class BitWriter {
   private buf: Uint8Array;
   private capacity: number;
-  len = 0;
+  len: number = 0;
   // Fewer than eight pending bits between writes. A write can span 35 bits;
   // retain its overflow separately while flushing the low 32-bit word.
-  private bitBuf = 0;
-  private bitCnt = 0;
+  private bitBuf: number = 0;
+  private bitCnt: number = 0;
   private readonly limit: number;
 
-  constructor(capacity = 4096, limit: number = Infinity) {
+  constructor(capacity: number = 4096, limit: number = Infinity) {
     this.capacity = Math.max(1, Math.min(capacity, Math.max(0, Math.floor(limit))));
     this.buf = new Uint8Array(this.capacity);
     this.limit = limit;

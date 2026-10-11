@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { Options, optimizeFromMemory } from '../src/index.js';
-import { assertRgbaEqual, decodePng, readFixture } from './helpers.js';
+import { Options, optimizeFromMemory } from '../src/index.ts';
+import { assertRgbaEqual, decodePng, readFixture } from './helpers.ts';
 
 /**
  * Independent losslessness check: every lossless option set must produce a PNG

@@ -1,7 +1,7 @@
-import { Frame } from '../apng.js';
-import { channelsPerPixel, hasAlpha, type ColorType } from '../colors.js';
-import { inflate } from '../deflate/index.js';
-import { PngError } from '../error.js';
+import { Frame } from '../apng.ts';
+import { channelsPerPixel, hasAlpha, type ColorType } from '../colors.ts';
+import { inflate } from '../deflate/index.ts';
+import { PngError } from '../error.ts';
 import {
   fileHeaderIsValid,
   nameBytes,
@@ -12,10 +12,10 @@ import {
   type Chunk,
   type ChunkParseState,
   type IhdrData,
-} from '../headers.js';
-import type { Options } from '../options.js';
-import { crc32, readBeU32, writeBeU16, writeBeU32 } from '../util/bytes.js';
-import { ByteBuffer } from '../util/byteBuffer.js';
+} from '../headers.ts';
+import type { Options } from '../options.ts';
+import { crc32, readBeU32, writeBeU16, writeBeU32 } from '../util/bytes.ts';
+import { ByteBuffer } from '../util/byteBuffer.ts';
 import {
   filterLine,
   filterLineMinSum,
@@ -23,13 +23,13 @@ import {
   rowFilterFromNumber,
   unfilterLine,
   RowFilter,
-} from '../filters/index.js';
+} from '../filters/index.ts';
 import {
   Predefined,
   strategyEvaluator,
   type FilterStrategy,
-} from '../filters/strategies.js';
-import { ScanLines } from './scanLines.js';
+} from '../filters/strategies.ts';
+import { ScanLines } from './scanLines.ts';
 
 const EMPTY = new Uint8Array(0);
 

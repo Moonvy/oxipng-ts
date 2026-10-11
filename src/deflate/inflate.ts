@@ -1,4 +1,4 @@
-import { PngError } from '../error.js';
+import { PngError } from '../error.ts';
 
 // Length and distance base values / extra-bit counts (RFC 1951 §3.2.5).
 export const LENGTH_BASE = [
@@ -22,7 +22,10 @@ class BitReader {
   private bitBuf = 0;
   private bitCnt = 0;
 
-  constructor(private readonly src: Uint8Array) {}
+  private readonly src: Uint8Array;
+  constructor(src: Uint8Array) {
+    this.src = src;
+  }
 
   bit(): number {
     if (this.bitCnt === 0) {

@@ -1,7 +1,7 @@
-import { SizeLimitExceeded } from './bitwriter.js';
-import { PngError } from '../error.js';
-import { deflateRaw as deflateRawImpl, deflateRawSize as deflateRawSizeImpl, zlibCompress } from './deflate.js';
-import { inflateZlib } from './inflate.js';
+import { SizeLimitExceeded } from './bitwriter.ts';
+import { PngError } from '../error.ts';
+import { deflateRaw as deflateRawImpl, deflateRawSize as deflateRawSizeImpl, zlibCompress } from './deflate.ts';
+import { inflateZlib } from './inflate.ts';
 
 export interface ZopfliOptions {
   /** Number of iterations to perform. */
@@ -36,8 +36,9 @@ export function zopfli(options: Partial<ZopfliOptions> = {}): Deflater {
 
 export function deflaterEquals(a: Deflater, b: Deflater): boolean {
   if (a.kind !== b.kind) return false;
-  if (a.kind === 'libdeflater') return a.compression === (b as { compression: number }).compression;
-  const bo = (b as { options: ZopfliOptions }).options;
+  if (a.kind === 'libdeflater' && b.kind === 'libdeflater') return a.compression === b.compression;
+  if (a.kind !== 'zopfli' || b.kind !== 'zopfli') return false;
+  const bo = b.options;
   return (
     a.options.iterationCount === bo.iterationCount &&
     a.options.iterationsWithoutImprovement === bo.iterationsWithoutImprovement

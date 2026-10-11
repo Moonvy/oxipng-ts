@@ -1,4 +1,7 @@
 import { Options, optimizeFromMemory } from './dist/oxipng-ts.js';
+import { parse, render } from 'sugar-high/core';
+import * as shellLanguage from 'sugar-high/lang/shell';
+import * as typescriptLanguage from 'sugar-high/lang/typescript';
 
 const $ = (id) => document.getElementById(id);
 const els = {
@@ -24,6 +27,17 @@ const els = {
 };
 
 let currentRequest = 0;
+
+const codeSources = new WeakMap();
+const codeLanguages = { shell: shellLanguage, typescript: typescriptLanguage };
+for (const code of document.querySelectorAll('.code-card code[data-lang]')) {
+  const source = code.textContent;
+  codeSources.set(code, source);
+  const language = codeLanguages[code.dataset.lang];
+  if (!language) continue;
+  code.innerHTML = render(parse(source, language));
+  code.classList.add('sh');
+}
 
 /* -------------------------------------------------------------- compression --- */
 
@@ -241,7 +255,7 @@ document.querySelectorAll('.copy').forEach((btn) =>
   btn.addEventListener('click', async () => {
     const target = document.getElementById(`code-${btn.dataset.copy}`);
     try {
-      await navigator.clipboard.writeText(target.textContent);
+      await navigator.clipboard.writeText(codeSources.get(target) ?? target.textContent);
       const original = btn.textContent;
       btn.textContent = '已复制';
       setTimeout(() => (btn.textContent = original), 1200);

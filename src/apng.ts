@@ -1,5 +1,5 @@
-import { PngError } from './error.js';
-import { readBeU16, readBeU32, writeBeU16, writeBeU32 } from './util/bytes.js';
+import { PngError } from './error.ts';
+import { readBeU16, readBeU32, writeBeU16, writeBeU32 } from './util/bytes.ts';
 
 /** Animated PNG frame. */
 export class Frame {

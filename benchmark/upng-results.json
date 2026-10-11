@@ -1,0 +1,87 @@
+{
+  "generatedAt": "2026-10-11T07:30:45.931Z",
+  "oxipngTs": "0.1.0",
+  "upng": "upng-js 2.1.0",
+  "options": {
+    "optimizationLevels": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "runs": 3,
+    "warmup": 1,
+    "upngCnum": 0
+  },
+  "totals": {
+    "inputBytes": 3616704,
+    "upngBytes": 3014183,
+    "upngMs": 1982.77,
+    "o0Bytes": 2799408,
+    "o0Ms": 1346.51,
+    "o1Bytes": 2707887,
+    "o1Ms": 2589.55,
+    "o2Bytes": 2673830,
+    "o2Ms": 4619.8,
+    "o3Bytes": 2657382,
+    "o3Ms": 8527.28
+  },
+  "rows": [
+    {
+      "name": "IMG_5112.PNG",
+      "inputBytes": 1220437,
+      "o0Bytes": 872135,
+      "o0Ms": 281.77,
+      "o1Bytes": 848910,
+      "o1Ms": 534.99,
+      "o2Bytes": 846944,
+      "o2Ms": 910.22,
+      "o3Bytes": 841490,
+      "o3Ms": 1802.53,
+      "upngBytes": 1017290,
+      "upngMs": 392.38
+    },
+    {
+      "name": "Image Capture.png",
+      "inputBytes": 757550,
+      "o0Bytes": 620073,
+      "o0Ms": 312.74,
+      "o1Bytes": 600060,
+      "o1Ms": 544.55,
+      "o2Bytes": 596603,
+      "o2Ms": 963.95,
+      "o3Bytes": 595257,
+      "o3Ms": 1801.91,
+      "upngBytes": 644109,
+      "upngMs": 418.5
+    },
+    {
+      "name": "Qjiao.png",
+      "inputBytes": 827230,
+      "o0Bytes": 656854,
+      "o0Ms": 376.26,
+      "o1Bytes": 632220,
+      "o1Ms": 767.38,
+      "o2Bytes": 615570,
+      "o2Ms": 1376.97,
+      "o3Bytes": 615138,
+      "o3Ms": 2515,
+      "upngBytes": 695269,
+      "upngMs": 587.5
+    },
+    {
+      "name": "Siri AI.png",
+      "inputBytes": 811487,
+      "o0Bytes": 650346,
+      "o0Ms": 375.74,
+      "o1Bytes": 626697,
+      "o1Ms": 742.63,
+      "o2Bytes": 614713,
+      "o2Ms": 1368.66,
+      "o3Bytes": 605497,
+      "o3Ms": 2407.84,
+      "upngBytes": 657515,
+      "upngMs": 584.39
+    }
+  ]
+}

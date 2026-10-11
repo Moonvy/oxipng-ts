@@ -10,10 +10,10 @@ import {
   rgba8G,
   rgba8R,
   type ColorType,
-} from '../colors.js';
-import { PngImage } from '../png/index.js';
-import { ByteBuffer } from '../util/byteBuffer.js';
-import { NumberIndexSet } from '../util/numberSet.js';
+} from '../colors.ts';
+import { PngImage } from '../png/index.ts';
+import { ByteBuffer } from '../util/byteBuffer.ts';
+import { NumberIndexSet } from '../util/numberSet.ts';
 
 /** Maximum size difference between indexed and channels to consider evaluating. */
 export const INDEXED_MAX_DIFF = 20000;

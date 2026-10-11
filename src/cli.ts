@@ -1,8 +1,8 @@
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { run } from './cli-main.js';
+import { run } from './cli-main.ts';
 
-export { parseCliArgs, run } from './cli-main.js';
+export { parseCliArgs, run } from './cli-main.ts';
 
 const thisFile = fileURLToPath(import.meta.url);
 const entry = process.argv[1] ? resolve(process.argv[1]) : '';

@@ -1,4 +1,4 @@
-import { ihdrBpp, type IhdrData } from '../headers.js';
+import { ihdrBpp, type IhdrData } from '../headers.ts';
 
 export interface ScanLine {
   /** The filter type used to encode this scan line (0-4). */

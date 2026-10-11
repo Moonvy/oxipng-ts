@@ -81,7 +81,7 @@ describe('ScriptC build-only source adaptations', () => {
   });
 });
 
-const metadata = new URL('../dist/oxipng-ts-scriptc.build.json', import.meta.url);
+const metadata = new URL('../dist/bin/oxipng-ts-scriptc.build.json', import.meta.url);
 describe.skipIf(!existsSync(metadata))('ScriptC static artifact', () => {
   it('records a fully static coverage result', () => {
     const build = JSON.parse(readFileSync(metadata, 'utf8'));
@@ -89,7 +89,7 @@ describe.skipIf(!existsSync(metadata))('ScriptC static artifact', () => {
     expect(build.staticStatements).toBeGreaterThan(3000);
     expect(build.dynamicStatements).toBe(0);
     expect(build.failedStatements).toBe(0);
-    const coverage = JSON.parse(readFileSync(new URL('../dist/oxipng-ts-scriptc.coverage.json', import.meta.url), 'utf8'));
+    const coverage = JSON.parse(readFileSync(new URL('../dist/bin/oxipng-ts-scriptc.coverage.json', import.meta.url), 'utf8'));
     expect(coverage.stats).toMatchObject({ percentStatic: 100, statementsDynamic: 0, statementsFailed: 0 });
     expect(coverage.stats.statementsStatic).toBe(build.staticStatements);
     expect(coverage.groups).toEqual([]);

@@ -1,4 +1,4 @@
-import { run } from '../cli-main.js';
+import { run } from '../cli-main.ts';
 
 // Supplied by runtime.ts in the native bundle.
 declare function pfArguments(): string[];

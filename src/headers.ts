@@ -9,11 +9,11 @@ import {
   rgb,
   rgba8,
   type ColorType,
-} from './colors.js';
-import { crc32, readBeU16, readBeU32 } from './util/bytes.js';
-import { deflaterDeflate, inflate, type Deflater } from './deflate/index.js';
-import { PngError } from './error.js';
-import type { Options } from './options.js';
+} from './colors.ts';
+import { crc32, readBeU16, readBeU32 } from './util/bytes.ts';
+import { deflaterDeflate, inflate, type Deflater } from './deflate/index.ts';
+import { PngError } from './error.ts';
+import type { Options } from './options.ts';
 
 /** Chunks that affect image display, kept by `--strip safe`. */
 export const DISPLAY_CHUNKS: readonly string[] = ['cICP', 'iCCP', 'sRGB', 'pHYs', 'acTL', 'fcTL', 'fdAT'];

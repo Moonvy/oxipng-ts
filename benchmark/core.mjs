@@ -29,7 +29,7 @@ const files = readdirSync(join(here, 'sample')).filter(f => /\.png$/i.test(f)).s
   .map(name => ({ name, category: 'screenshot', path: join(here, 'sample', name) }));
 if (settings.corpus === 'extended') {
   for (const [name, category] of [['gradient.png', 'generated gradient'], ['shapes.png', 'generated transparent shapes'], ['photo.png', 'generated plasma (not a photograph)']]) {
-    files.push({ name: `generated/${name}`, category, path: join(here, '../site/samples', name) });
+    files.push({ name: `generated/${name}`, category, path: join(here, '../docs/samples', name) });
   }
   for (const [name, category] of [
     ['palette_8_should_be_palette_8.png', 'indexed'], ['rgb_trns_8_should_be_palette_8.png', 'transparent'],
@@ -39,7 +39,7 @@ if (settings.corpus === 'extended') {
 }
 const variants = [];
 if (settings.baseline) variants.push({ name: 'baseline', api: await import(pathToFileURL(resolve(settings.baseline)).href) });
-variants.push({ name: 'current', api: await import(pathToFileURL(join(here, '../dist/index.js')).href) });
+variants.push({ name: 'current', api: await import(pathToFileURL(join(here, '../dist/js/index.js')).href) });
 for (const variant of variants) variant.api.setLogLevel(variant.api.LogLevel.Off);
 const median = values => {
   const sorted = [...values].sort((a, b) => a - b);

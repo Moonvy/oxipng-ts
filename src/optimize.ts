@@ -1,15 +1,15 @@
-import { channelsPerPixel, hasAlpha, colorTypeEquals, colorTypeToString, type BitDepth, type ColorType } from './colors.js';
-import { Deadline } from './deadline.js';
-import { deflaterDeflate, deflaterEquals, libdeflater, type Deflater } from './deflate/index.js';
-import { Evaluator, type Candidate } from './evaluate.js';
-import { PngError } from './error.js';
-import { NONE, Bigrams, type FilterStrategy } from './filters/strategies.js';
-import { makeIccp, postprocessChunks, preprocessChunks, stripKeep, type Chunk, type IhdrData } from './headers.js';
-import { logDebug, logInfo, logTrace, logWarn } from './log.js';
-import { Options } from './options.js';
-import { PngData, PngImage } from './png/index.js';
-import { performReductions } from './reduction/index.js';
-import { filterSetDifference, filterSetFrom } from './util/filterSet.js';
+import { channelsPerPixel, hasAlpha, colorTypeEquals, colorTypeToString, type BitDepth, type ColorType } from './colors.ts';
+import { Deadline } from './deadline.ts';
+import { deflaterDeflate, deflaterEquals, libdeflater, type Deflater } from './deflate/index.ts';
+import { Evaluator, type Candidate } from './evaluate.ts';
+import { PngError } from './error.ts';
+import { NONE, Bigrams, type FilterStrategy } from './filters/strategies.ts';
+import { makeIccp, postprocessChunks, preprocessChunks, stripKeep, type Chunk, type IhdrData } from './headers.ts';
+import { logDebug, logInfo, logTrace, logWarn } from './log.ts';
+import { Options } from './options.ts';
+import { PngData, PngImage } from './png/index.ts';
+import { performReductions } from './reduction/index.ts';
+import { filterSetDifference, filterSetFrom } from './util/filterSet.ts';
 
 /** Check if an image was already optimized. */
 export function isFullyOptimized(originalSize: number, optimizedSize: number, opts: Options): boolean {

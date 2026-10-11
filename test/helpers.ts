@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { PNG } from 'pngjs';
 
-import { LogLevel, Options, PngData, pngHeaderCode, setLogLevel } from '../src/index.js';
+import { LogLevel, Options, PngData, pngHeaderCode, setLogLevel } from '../src/index.ts';
 
 const FILES_DIR = join(dirname(fileURLToPath(import.meta.url)), 'files');
 

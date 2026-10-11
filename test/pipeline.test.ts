@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import { Deadline, Entropy, Evaluator, NONE, Options, PAETH, PngImage, RGBA, SUB,
-  deflate, indexed, libdeflater, performTrials } from '../src/index.js';
-import { readFixture } from './helpers.js';
-import { PngData } from '../src/png/index.js';
+  deflate, indexed, libdeflater, performTrials } from '../src/index.ts';
+import { readFixture } from './helpers.ts';
+import { PngData } from '../src/png/index.ts';
 
 describe('filtering and trial pipeline', () => {
   it('subtracts palette overhead while retaining candidates tied at the limit', () => {

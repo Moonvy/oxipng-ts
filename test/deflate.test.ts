@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { inflateRawSync, inflateSync } from 'node:zlib';
 import { createHash } from 'node:crypto';
-import { deflate, deflateRaw, inflate } from '../src/index.js';
-import { deflateRawSize } from '../src/deflate/index.js';
+import { deflate, deflateRaw, inflate } from '../src/index.ts';
+import { deflateRawSize } from '../src/deflate/index.ts';
 
 const enc = (s: string) => new TextEncoder().encode(s);
 

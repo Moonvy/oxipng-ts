@@ -3,10 +3,10 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync, readdirSync } from 'n
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { Options } from '../src/index.js';
-import { collectFiles, inFileFromPath, optimize, type OutFile } from '../src/node.js';
-import { parseCliArgs, run } from '../src/cli.js';
-import { decodePng, readFixture } from './helpers.js';
+import { Options } from '../src/index.ts';
+import { collectFiles, inFileFromPath, optimize, type OutFile } from '../src/node.ts';
+import { parseCliArgs, run } from '../src/cli.ts';
+import { decodePng, readFixture } from './helpers.ts';
 
 const temps: string[] = [];
 function tempDir(): string {

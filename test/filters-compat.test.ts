@@ -1,12 +1,12 @@
 import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
-import { channelsPerPixel, grayscale, GRAYSCALE_ALPHA, indexed, rgb, RGBA, type BitDepth, type ColorType } from '../src/colors.js';
-import { filterLine, filterLineMinSum, ROW_FILTER_ALL } from '../src/filters/index.js';
-import { MinSum } from '../src/filters/strategies.js';
-import { rawDataSize, type IhdrData } from '../src/headers.js';
-import { PngImage } from '../src/png/index.js';
-import { ScanLines } from '../src/png/scanLines.js';
-import { ByteBuffer } from '../src/util/byteBuffer.js';
+import { channelsPerPixel, grayscale, GRAYSCALE_ALPHA, indexed, rgb, RGBA, type BitDepth, type ColorType } from '../src/colors.ts';
+import { filterLine, filterLineMinSum, ROW_FILTER_ALL } from '../src/filters/index.ts';
+import { MinSum } from '../src/filters/strategies.ts';
+import { rawDataSize, type IhdrData } from '../src/headers.ts';
+import { PngImage } from '../src/png/index.ts';
+import { ScanLines } from '../src/png/scanLines.ts';
+import { ByteBuffer } from '../src/util/byteBuffer.ts';
 
 const formats: [string, ColorType, BitDepth][] = [
   ...([1, 2, 4, 8, 16] as const).map((depth): [string, ColorType, BitDepth] => [`gray${depth}`, grayscale(null), depth]),

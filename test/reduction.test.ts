@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { Options, optimizeFromMemory } from '../src/index.js';
-import { assertRgbaEqual, decodePng, headerInfo, readFixture } from './helpers.js';
+import { Options, optimizeFromMemory } from '../src/index.ts';
+import { assertRgbaEqual, decodePng, headerInfo, readFixture } from './helpers.ts';
 import cases from './reduction-cases.json';
 
 interface Case {

@@ -10,10 +10,6 @@ export function prepareScriptcStaticSource(source, filename) {
   }
   if (relative === 'png/index.ts') source = source.replace('out.extend([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);', 'out.extend(new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));');
   if (relative === 'cli-main.ts') source = source.replace('filter: rowFilterFromNumber(f)', 'filter: Number(rowFilterFromNumber(f))');
-  if (relative === 'deflate/index.ts') {
-    source = source.replace("if (a.kind === 'libdeflater') return a.compression === (b as { compression: number }).compression;", "if (a.kind === 'libdeflater' && b.kind === 'libdeflater') return a.compression === b.compression;");
-    source = source.replace('const bo = (b as { options: ZopfliOptions }).options;', "if (a.kind !== 'zopfli' || b.kind !== 'zopfli') return false;\n  const bo = b.options;");
-  }
   if (relative === 'optimize.ts') {
     // Every CLI filter is a plain object; retain JS's default object string in logs.
     source = source.replaceAll('${result.filter}', '[object Object]');
@@ -23,7 +19,7 @@ export function prepareScriptcStaticSource(source, filename) {
     source = source.replace('{ atime: Date; mtime: Date; mode: number }', '{ atime: number; mtime: number; mode: number }');
     source = source.replace('atime: s.atime, mtime: s.mtime, mode: s.mode', 'atime: s.atimeMs / 1000, mtime: s.mtimeMs / 1000, mode: nativeMode(path)');
     // The executable does not expose the browser library's ArrayBuffer overloads.
-    source = source.replace("export { optimizeFromMemory, Options } from './index.js';", '');
+    source = source.replace("export { optimizeFromMemory, Options } from './index.ts';", '');
   }
   if (relative === 'error.ts') source = source.replace('${colorType}', '[object Object]');
   if (relative === 'reduction/palette.ts') {

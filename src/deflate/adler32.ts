@@ -1,7 +1,14 @@
 /** Adler-32 checksum (RFC 1950), as used by the zlib wrapper. */
 const BASE = 65521;
 
-export function adler32(data: Uint8Array, seed = 1): number {
+export function adler32(data: Uint8Array, seed: number = 1): number {
+  const bytes = new Uint8Array(4);
+  adler32Bytes(data, bytes, seed);
+  return (((bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3]) >>> 0);
+}
+
+/** Write Adler-32 as big-endian bytes without forming an unsigned 32-bit value. */
+export function adler32Bytes(data: Uint8Array, output: Uint8Array, seed: number): void {
   let a = seed & 0xffff;
   let b = (seed >>> 16) & 0xffff;
   let i = 0;
@@ -27,5 +34,8 @@ export function adler32(data: Uint8Array, seed = 1): number {
     a %= BASE;
     b %= BASE;
   }
-  return (((b << 16) | a) >>> 0);
+  output[0] = (b >>> 8) & 0xff;
+  output[1] = b & 0xff;
+  output[2] = (a >>> 8) & 0xff;
+  output[3] = a & 0xff;
 }

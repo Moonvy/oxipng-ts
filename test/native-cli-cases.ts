@@ -4,13 +4,13 @@ import { chmodSync, existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, st
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { optimizeFromMemory } from '../src/index.js';
-import { parseCliArgs } from '../src/cli.js';
-import { decodePng, readFixture } from './helpers.js';
+import { optimizeFromMemory } from '../src/index.ts';
+import { parseCliArgs } from '../src/cli.ts';
+import { decodePng, readFixture } from './helpers.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export function nativeCliSuite(label: string, filename: string) {
-  const binary = join(root, 'dist', filename);
+  const binary = join(root, 'dist', 'bin', filename);
   const temps: string[] = [];
   function tempDir() {
     const dir = mkdtempSync(join(tmpdir(), `${filename}-`));

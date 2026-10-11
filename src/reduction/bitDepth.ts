@@ -1,7 +1,7 @@
-import { BitDepth, type ColorType } from '../colors.js';
-import { type IhdrData } from '../headers.js';
-import { PngImage } from '../png/index.js';
-import { ByteBuffer } from '../util/byteBuffer.js';
+import { BitDepth, type ColorType } from '../colors.ts';
+import { type IhdrData } from '../headers.ts';
+import { PngImage } from '../png/index.ts';
+import { ByteBuffer } from '../util/byteBuffer.ts';
 
 function rotl8(value: number, bits: number): number {
   return ((value << bits) | (value >>> (8 - bits))) & 0xff;

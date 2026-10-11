@@ -9,42 +9,44 @@
     "node": ">=20"
   },
   "bin": {
-    "oxipng-ts": "./dist/cli.js"
+    "oxipng-ts": "./dist/js/cli.js"
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/js/index.cjs",
+  "module": "./dist/js/index.js",
+  "types": "./dist/js/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./dist/js/index.d.ts",
+      "import": "./dist/js/index.js",
+      "require": "./dist/js/index.cjs"
     },
     "./node": {
-      "types": "./dist/node.d.ts",
-      "import": "./dist/node.js",
-      "require": "./dist/node.cjs"
+      "types": "./dist/js/node.d.ts",
+      "import": "./dist/js/node.js",
+      "require": "./dist/js/node.cjs"
     },
     "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "dist/js",
+    "dist/bin"
   ],
   "scripts": {
-    "build": "rslib build && node scripts/postbuild.mjs && node scripts/build-site.mjs",
+    "build:ts": "rslib build && node scripts/postbuild.mjs",
+    "build:bin": "node scripts/build-bin.mjs",
     "build:site": "node scripts/build-site.mjs",
     "dev": "rslib build --watch",
     "site": "node scripts/serve-site.mjs",
     "benchmark": "node benchmark/run.mjs",
+    "benchmark:min": "node benchmark/run.mjs --minimal --runs 3 --warmup 0",
     "benchmark:core": "node benchmark/core.mjs",
+    "benchmark:upng": "node benchmark/upng-compare.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "cli": "node --experimental-strip-types src/cli.ts",
-    "build:porffor": "node scripts/build-porffor.mjs",
-    "test:porffor": "npm run build:porffor && vitest run test/porffor-cli.test.ts test/porffor-runtime.test.js",
-    "build:scriptc": "node scripts/build-scriptc.mjs",
-    "test:scriptc": "npm run build:scriptc && vitest run test/scriptc-cli.test.ts test/scriptc-build.test.js"
+    "test:porffor": "npm run build:bin -- porffor && vitest run test/porffor-cli.test.ts test/porffor-runtime.test.js",
+    "test:scriptc": "npm run build:bin -- scriptc && vitest run test/scriptc-cli.test.ts test/scriptc-build.test.js"
   },
   "devDependencies": {
     "@jridgewell/trace-mapping": "0.3.31",
@@ -55,7 +57,9 @@
     "@types/pngjs": "6.0.5",
     "esbuild": "0.28.2",
     "pngjs": "7.0.0",
+    "sugar-high": "2.6.0",
     "typescript": "^5.9.0",
+    "upng-js": "2.1.0",
     "vitest": "^5.0.3"
   },
   "keywords": [

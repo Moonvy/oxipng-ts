@@ -72,13 +72,13 @@ function scaleMaximum(value) {
 
 function renderChart(container, row, kind) {
   const isTime = kind === 'time';
-  const records = isTime ? row.engines : [
+  const measured = isTime ? row.engines : [
     { label: '原始输入', id: 'input', color: '#d9ddcf', bytes: row.inputBytes }, ...row.engines,
   ];
   const valueOf = engine => isTime ? engine.ms / 1000 : engine.bytes / 1048576;
-  const max = scaleMaximum(Math.max(...records.map(valueOf)));
+  const max = scaleMaximum(Math.max(...measured.map(valueOf)));
   const fragment = document.createDocumentFragment();
-  for (const engine of records) {
+  for (const engine of measured) {
     const chartRow = element('div', `chart-row${engine.id === 'input' ? ' input-row' : ''}`);
     chartRow.style.setProperty('--engine-color', engine.color);
     const label = element('div', 'chart-row-label');
@@ -146,7 +146,8 @@ function renderData(next) {
   $('benchmarkContext').textContent = `${env.cpu} / ${env.platform}${env.arch ? ` ${env.arch}` : ''} · ${env.node ? `Node ${env.node} · ` : ''}${data.rows.length} PNG · -o ${data.options.opt}`;
   const date = new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(data.generatedAt));
   $('benchmarkDate').textContent = `实测更新 ${date} (UTC+8)`;
-  $('benchmarkMethod').textContent = `${data.versions.rust}；TypeScript 的 Node、Porffor 和 ScriptC 三种构建。每张图片预热 ${data.options.warmup} 次，正式测量 ${data.options.runs} 次，取其中最快的一次。全部样本的耗时为这些单文件结果之和，计入进程启动；均使用 -o ${data.options.opt} 预设。`;
+  const builds = data.all.engines.filter(engine => engine.id !== 'rust').map(engine => engine.label).join('、');
+  $('benchmarkMethod').textContent = `${data.versions.rust}；TypeScript 构建：${builds}。每张图片预热 ${data.options.warmup} 次，正式测量 ${data.options.runs} 次，取其中最快的一次。全部样本的耗时为这些单文件结果之和，计入进程启动；均使用 -o ${data.options.opt} 预设。`;
   renderSelection();
 }
 

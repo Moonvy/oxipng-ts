@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import * as compression from '../src/deflate/index.js';
+import * as compression from '../src/deflate/index.ts';
 import {
   AVERAGE,
   BigEnt,
@@ -16,8 +16,8 @@ import {
   deflateRaw,
   strategyEvaluator,
   type FilterStrategy,
-} from '../src/index.js';
-import { decodePng, headerInfo, readFixture } from './helpers.js';
+} from '../src/index.ts';
+import { decodePng, headerInfo, readFixture } from './helpers.ts';
 import cases from './filter-cases.json';
 
 describe('Brute size-bound ranking', () => {

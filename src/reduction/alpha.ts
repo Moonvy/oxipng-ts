@@ -1,7 +1,7 @@
-import { BitDepth, hasAlpha, type ColorType } from '../colors.js';
-import { type IhdrData } from '../headers.js';
-import { PngImage } from '../png/index.js';
-import { ByteBuffer } from '../util/byteBuffer.js';
+import { BitDepth, hasAlpha, type ColorType } from '../colors.ts';
+import { type IhdrData } from '../headers.ts';
+import { PngImage } from '../png/index.ts';
+import { ByteBuffer } from '../util/byteBuffer.ts';
 
 function cloneIhdr(ihdr: IhdrData): IhdrData {
   return { ...ihdr };

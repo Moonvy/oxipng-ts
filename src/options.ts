@@ -1,6 +1,6 @@
-import type { Deflater } from './deflate/index.js';
-import { deflaterEquals, libdeflater } from './deflate/index.js';
-import type { StripChunks } from './headers.js';
+import type { Deflater } from './deflate/index.ts';
+import { deflaterEquals, libdeflater } from './deflate/index.ts';
+import type { StripChunks } from './headers.ts';
 import {
   BigEnt,
   Bigrams,
@@ -13,8 +13,8 @@ import {
   PAETH,
   MinSum,
   type FilterStrategy,
-} from './filters/strategies.js';
-import { filterSetFrom } from './util/filterSet.js';
+} from './filters/strategies.ts';
+import { filterSetFrom } from './util/filterSet.ts';
 
 /**
  * Options controlling the output of the {@link optimizeFromMemory} /

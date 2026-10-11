@@ -1,5 +1,5 @@
-import { deflateRawSize } from '../deflate/index.js';
-import { RowFilter, rowFilterName, type RowFilter as RowFilterType } from './index.js';
+import { deflateRawSize } from '../deflate/index.ts';
+import { RowFilter, rowFilterName, type RowFilter as RowFilterType } from './index.ts';
 
 /** Filtering strategy for use in {@link Options}. */
 export type FilterStrategy =
@@ -128,7 +128,7 @@ function ilog2i(i: number): number {
 }
 
 class MinSumEvaluator implements StrategyEvaluator {
-  private bestSize = Number.MAX_SAFE_INTEGER;
+  private bestSize: number = Number.MAX_SAFE_INTEGER;
   reset(): void {
     this.bestSize = Number.MAX_SAFE_INTEGER;
   }
@@ -147,8 +147,8 @@ class MinSumEvaluator implements StrategyEvaluator {
 }
 
 class EntropyEvaluator implements StrategyEvaluator {
-  private readonly hist = new Uint32Array(256);
-  private bestSize = -0x80000000;
+  private readonly hist: Uint32Array = new Uint32Array(256);
+  private bestSize: number = -0x80000000;
   reset(): void {
     this.bestSize = -0x80000000;
   }
@@ -177,9 +177,9 @@ class EntropyEvaluator implements StrategyEvaluator {
 }
 
 class BigramsEvaluator implements StrategyEvaluator {
-  private seen = new Uint8Array(0x10000);
+  private seen: Uint8Array = new Uint8Array(0x10000);
   private touched: number[] = [];
-  private bestSize = Number.MAX_SAFE_INTEGER;
+  private bestSize: number = Number.MAX_SAFE_INTEGER;
   reset(): void {
     this.bestSize = Number.MAX_SAFE_INTEGER;
   }
@@ -202,9 +202,9 @@ class BigramsEvaluator implements StrategyEvaluator {
 }
 
 class BigEntEvaluator implements StrategyEvaluator {
-  private seen = new Uint32Array(0x10000);
+  private seen: Uint32Array = new Uint32Array(0x10000);
   private touched: number[] = [];
-  private bestSize = -0x80000000;
+  private bestSize: number = -0x80000000;
   reset(): void {
     this.bestSize = -0x80000000;
   }
@@ -230,12 +230,14 @@ class BigEntEvaluator implements StrategyEvaluator {
 }
 
 class BruteEvaluator implements StrategyEvaluator {
-  private limit = 0;
-  private bufferSize = Number.MAX_SAFE_INTEGER;
-  constructor(
-    private numLines: number,
-    private level: number,
-  ) {}
+  private limit: number = 0;
+  private bufferSize: number = Number.MAX_SAFE_INTEGER;
+  private numLines: number;
+  private level: number;
+  constructor(numLines: number, level: number) {
+    this.numLines = numLines;
+    this.level = level;
+  }
   reset(lineLen: number): void {
     this.limit = lineLen * this.numLines;
     this.bufferSize = Number.MAX_SAFE_INTEGER;

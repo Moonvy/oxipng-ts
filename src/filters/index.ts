@@ -1,4 +1,4 @@
-import type { ByteBuffer } from '../util/byteBuffer.js';
+import type { ByteBuffer } from '../util/byteBuffer.ts';
 
 /** PNG delta filter types. */
 export const RowFilter = {

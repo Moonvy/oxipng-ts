@@ -14,7 +14,7 @@ const TYPES = {
   '.patch': 'text/plain; charset=utf-8',
 };
 
-export function createSiteServer({ siteDir = join(root, 'site'), benchmarkDir = join(root, 'benchmark') } = {}) {
+export function createSiteServer({ siteDir = join(root, 'docs'), benchmarkDir = join(root, 'benchmark') } = {}) {
   siteDir = resolve(siteDir);
   return createServer(async (req, res) => {
     try {

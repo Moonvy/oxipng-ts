@@ -9,12 +9,12 @@ import {
 } from 'node:fs';
 import { dirname } from 'node:path';
 
-import { Deadline } from './deadline.js';
-import { PngError, type OptimizationResult } from './error.js';
-import { logInfo, logWarn } from './log.js';
-import { Options } from './options.js';
-import { isFullyOptimized, optimizePng } from './optimize.js';
-import { PngData } from './png/index.js';
+import { Deadline } from './deadline.ts';
+import { PngError, type OptimizationResult } from './error.ts';
+import { logInfo, logWarn } from './log.ts';
+import { Options } from './options.ts';
+import { isFullyOptimized, optimizePng } from './optimize.ts';
+import { PngData } from './png/index.ts';
 
 /** Where to read an image from. */
 export type InFile = { kind: 'path'; path: string } | { kind: 'stdin' };
@@ -170,4 +170,4 @@ export function collectFiles(
   return pairs;
 }
 
-export { optimizeFromMemory, Options } from './index.js';
+export { optimizeFromMemory, Options } from './index.ts';

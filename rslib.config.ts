@@ -5,7 +5,7 @@ import { defineConfig } from '@rslib/core';
 const output = (target: 'web' | 'node') => ({
   target,
   autoExternal: false as const,
-  distPath: { root: './dist' },
+  distPath: { root: './dist/js' },
 });
 
 export default defineConfig({

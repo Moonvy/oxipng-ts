@@ -1,10 +1,10 @@
-import { colorTypeToString } from './colors.js';
-import type { Deadline } from './deadline.js';
-import { AtomicMin } from './deadline.js';
-import { deflaterDeflate, deflaterDeflateSize, type Deflater } from './deflate/index.js';
-import { PngError } from './error.js';
-import { filterStrategyCompare, type FilterStrategy } from './filters/strategies.js';
-import type { PngImage } from './png/index.js';
+import { colorTypeToString } from './colors.ts';
+import type { Deadline } from './deadline.ts';
+import { AtomicMin } from './deadline.ts';
+import { deflaterDeflate, deflaterDeflateSize, type Deflater } from './deflate/index.ts';
+import { PngError } from './error.ts';
+import { filterStrategyCompare, type FilterStrategy } from './filters/strategies.ts';
+import type { PngImage } from './png/index.ts';
 
 export interface Candidate {
   image: PngImage;
@@ -40,14 +40,26 @@ export class Evaluator {
   private readonly bestCandidateSize: AtomicMin;
   private best: Candidate | null = null;
 
+  private readonly deadline: Deadline;
+  private readonly filters: FilterStrategy[];
+  private readonly deflater: Deflater;
+  private readonly optimizeAlpha: boolean;
+  private readonly finalRound: boolean;
+  private readonly trace: (msg: string) => void;
   constructor(
-    private readonly deadline: Deadline,
-    private readonly filters: FilterStrategy[],
-    private readonly deflater: Deflater,
-    private readonly optimizeAlpha: boolean,
-    private readonly finalRound: boolean,
-    private readonly trace: (msg: string) => void = () => {},
+    deadline: Deadline,
+    filters: FilterStrategy[],
+    deflater: Deflater,
+    optimizeAlpha: boolean,
+    finalRound: boolean,
+    trace: (msg: string) => void = () => {},
   ) {
+    this.deadline = deadline;
+    this.filters = filters;
+    this.deflater = deflater;
+    this.optimizeAlpha = optimizeAlpha;
+    this.finalRound = finalRound;
+    this.trace = trace;
     this.bestCandidateSize = new AtomicMin(null);
   }
 

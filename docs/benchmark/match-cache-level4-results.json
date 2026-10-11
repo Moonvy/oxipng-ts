@@ -1,0 +1,401 @@
+{
+  "generatedAt": "2026-10-11T10:42:12.878Z",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M1",
+    "node": "v24.21.0"
+  },
+  "settings": {
+    "opt": 4,
+    "runs": 3,
+    "warmup": 1,
+    "baseline": "/tmp/oxipng-ts-ratio/baseline.mjs",
+    "corpus": "extended",
+    "rust": "/Users/sxcc/.local/bin/oxipng",
+    "output": "benchmark/match-cache-level4-results.json"
+  },
+  "totals": {
+    "baseline": {
+      "bytes": 3068195,
+      "medianMs": 18654.11650000002
+    },
+    "current": {
+      "bytes": 2981370,
+      "medianMs": 20363.561247
+    },
+    "rust": {
+      "bytes": 2955623
+    }
+  },
+  "rows": [
+    {
+      "name": "IMG_5112.PNG",
+      "category": "screenshot",
+      "inputBytes": 1220437,
+      "baseline": {
+        "bytes": 823140,
+        "medianMs": 2911.502124999999,
+        "minMs": 2763.5347920000004,
+        "samplesMs": [
+          2763.5347920000004,
+          2916.758458000002,
+          2911.502124999999
+        ]
+      },
+      "current": {
+        "bytes": 807509,
+        "medianMs": 2704.164832999999,
+        "minMs": 2701.279416999998,
+        "samplesMs": [
+          2816.7311659999996,
+          2704.164832999999,
+          2701.279416999998
+        ]
+      },
+      "rust": {
+        "bytes": 803891
+      }
+    },
+    {
+      "name": "Image Capture.png",
+      "category": "screenshot",
+      "inputBytes": 757550,
+      "baseline": {
+        "bytes": 563617,
+        "medianMs": 2761.8604170000035,
+        "minMs": 2670.4213329999984,
+        "samplesMs": [
+          2764.2934590000004,
+          2761.8604170000035,
+          2670.4213329999984
+        ]
+      },
+      "current": {
+        "bytes": 553002,
+        "medianMs": 3270.0735829999976,
+        "minMs": 3268.284332999996,
+        "samplesMs": [
+          3283.9997500000027,
+          3268.284332999996,
+          3270.0735829999976
+        ]
+      },
+      "rust": {
+        "bytes": 549228
+      }
+    },
+    {
+      "name": "Qjiao.png",
+      "category": "screenshot",
+      "inputBytes": 827230,
+      "baseline": {
+        "bytes": 571453,
+        "medianMs": 3685.8022090000013,
+        "minMs": 3532.8425419999985,
+        "samplesMs": [
+          3685.8022090000013,
+          3532.8425419999985,
+          3724.772291000001
+        ]
+      },
+      "current": {
+        "bytes": 557121,
+        "medianMs": 3823.9164999999994,
+        "minMs": 3776.9462089999943,
+        "samplesMs": [
+          3823.9164999999994,
+          3776.9462089999943,
+          4081.6975829999865
+        ]
+      },
+      "rust": {
+        "bytes": 551624
+      }
+    },
+    {
+      "name": "Siri AI.png",
+      "category": "screenshot",
+      "inputBytes": 811487,
+      "baseline": {
+        "bytes": 563653,
+        "medianMs": 3137.1334999999963,
+        "minMs": 3064.2949579999986,
+        "samplesMs": [
+          3236.629541000002,
+          3137.1334999999963,
+          3064.2949579999986
+        ]
+      },
+      "current": {
+        "bytes": 549564,
+        "medianMs": 3635.26112499999,
+        "minMs": 3597.0141250000015,
+        "samplesMs": [
+          3635.26112499999,
+          3853.2625419999968,
+          3597.0141250000015
+        ]
+      },
+      "rust": {
+        "bytes": 547978
+      }
+    },
+    {
+      "name": "generated/gradient.png",
+      "category": "generated gradient",
+      "inputBytes": 521263,
+      "baseline": {
+        "bytes": 42014,
+        "medianMs": 1842.7026250000054,
+        "minMs": 1823.6129590000055,
+        "samplesMs": [
+          1842.7026250000054,
+          1852.2943750000122,
+          1823.6129590000055
+        ]
+      },
+      "current": {
+        "bytes": 17204,
+        "medianMs": 1594.580249999999,
+        "minMs": 1572.3250410000037,
+        "samplesMs": [
+          1605.676084000006,
+          1572.3250410000037,
+          1594.580249999999
+        ]
+      },
+      "rust": {
+        "bytes": 16217
+      }
+    },
+    {
+      "name": "generated/shapes.png",
+      "category": "generated transparent shapes",
+      "inputBytes": 8382,
+      "baseline": {
+        "bytes": 3537,
+        "medianMs": 176.0484160000051,
+        "minMs": 169.29787500000384,
+        "samplesMs": [
+          223.1145830000023,
+          176.0484160000051,
+          169.29787500000384
+        ]
+      },
+      "current": {
+        "bytes": 3341,
+        "medianMs": 272.86912499999744,
+        "minMs": 270.05095900000015,
+        "samplesMs": [
+          318.4771250000049,
+          272.86912499999744,
+          270.05095900000015
+        ]
+      },
+      "rust": {
+        "bytes": 3054
+      }
+    },
+    {
+      "name": "generated/photo.png",
+      "category": "generated plasma (not a photograph)",
+      "inputBytes": 354331,
+      "baseline": {
+        "bytes": 217229,
+        "medianMs": 1309.173250000007,
+        "minMs": 1307.9343329999829,
+        "samplesMs": [
+          1309.173250000007,
+          1307.9343329999829,
+          1320.8310000000056
+        ]
+      },
+      "current": {
+        "bytes": 215630,
+        "medianMs": 1395.493415999983,
+        "minMs": 1387.7341669999878,
+        "samplesMs": [
+          1395.493415999983,
+          1615.609334000008,
+          1387.7341669999878
+        ]
+      },
+      "rust": {
+        "bytes": 213366
+      }
+    },
+    {
+      "name": "fixture/palette_8_should_be_palette_8.png",
+      "category": "indexed",
+      "inputBytes": 32558,
+      "baseline": {
+        "bytes": 29566,
+        "medianMs": 371.5960420000192,
+        "minMs": 363.70262499997625,
+        "samplesMs": [
+          381.9404579999973,
+          371.5960420000192,
+          363.70262499997625
+        ]
+      },
+      "current": {
+        "bytes": 29181,
+        "medianMs": 354.2272080000257,
+        "minMs": 350.4971249999944,
+        "samplesMs": [
+          350.4971249999944,
+          358.5613750000193,
+          354.2272080000257
+        ]
+      },
+      "rust": {
+        "bytes": 28416
+      }
+    },
+    {
+      "name": "fixture/rgb_trns_8_should_be_palette_8.png",
+      "category": "transparent",
+      "inputBytes": 40736,
+      "baseline": {
+        "bytes": 29566,
+        "medianMs": 343.4459999999963,
+        "minMs": 342.1626249999972,
+        "samplesMs": [
+          342.1626249999972,
+          357.40124999999534,
+          343.4459999999963
+        ]
+      },
+      "current": {
+        "bytes": 29181,
+        "medianMs": 336.4698330000101,
+        "minMs": 334.4320000000007,
+        "samplesMs": [
+          348.0545829999901,
+          336.4698330000101,
+          334.4320000000007
+        ]
+      },
+      "rust": {
+        "bytes": 28416
+      }
+    },
+    {
+      "name": "fixture/rgba_16_should_be_rgba_16.png",
+      "category": "16-bit",
+      "inputBytes": 88684,
+      "baseline": {
+        "bytes": 81098,
+        "medianMs": 1017.2389169999806,
+        "minMs": 1009.9058329999971,
+        "samplesMs": [
+          1017.2389169999806,
+          1087.7783329999947,
+          1009.9058329999971
+        ]
+      },
+      "current": {
+        "bytes": 78831,
+        "medianMs": 1426.7677910000202,
+        "minMs": 1425.3813329999975,
+        "samplesMs": [
+          1426.7677910000202,
+          1428.9353339999798,
+          1425.3813329999975
+        ]
+      },
+      "rust": {
+        "bytes": 75816
+      }
+    },
+    {
+      "name": "fixture/interlaced_rgba_16_should_be_rgba_16.png",
+      "category": "interlaced 16-bit",
+      "inputBytes": 113711,
+      "baseline": {
+        "bytes": 81098,
+        "medianMs": 1024.571082999988,
+        "minMs": 1016.3181250000198,
+        "samplesMs": [
+          1016.3181250000198,
+          1029.8697499999835,
+          1024.571082999988
+        ]
+      },
+      "current": {
+        "bytes": 78831,
+        "medianMs": 1459.0469579999917,
+        "minMs": 1441.678333000018,
+        "samplesMs": [
+          1486.5894580000022,
+          1459.0469579999917,
+          1441.678333000018
+        ]
+      },
+      "rust": {
+        "bytes": 75816
+      }
+    },
+    {
+      "name": "fixture/small_files.png",
+      "category": "small",
+      "inputBytes": 90,
+      "baseline": {
+        "bytes": 81,
+        "medianMs": 0.4889160000020638,
+        "minMs": 0.41237499998533167,
+        "samplesMs": [
+          0.7490410000027623,
+          0.4889160000020638,
+          0.41237499998533167
+        ]
+      },
+      "current": {
+        "bytes": 81,
+        "medianMs": 0.4212919999845326,
+        "minMs": 0.3851659999927506,
+        "samplesMs": [
+          0.4978750000009313,
+          0.3851659999927506,
+          0.4212919999845326
+        ]
+      },
+      "rust": {
+        "bytes": 81
+      }
+    },
+    {
+      "name": "fixture/apng_file.png",
+      "category": "APNG",
+      "inputBytes": 63435,
+      "baseline": {
+        "bytes": 62143,
+        "medianMs": 72.55300000001444,
+        "minMs": 72.09124999999767,
+        "samplesMs": [
+          72.09124999999767,
+          72.55300000001444,
+          72.56479199999012
+        ]
+      },
+      "current": {
+        "bytes": 61894,
+        "medianMs": 90.26933300000383,
+        "minMs": 90.26504200001364,
+        "samplesMs": [
+          90.78470799999195,
+          90.26933300000383,
+          90.26504200001364
+        ]
+      },
+      "rust": {
+        "bytes": 61720
+      }
+    }
+  ],
+  "rust": {
+    "version": "oxipng 10.2.1",
+    "sizeOnly": true
+  }
+}

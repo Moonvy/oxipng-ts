@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { BitWriter, SizeLimitExceeded } from '../src/deflate/bitwriter.js';
-import { optimalLengths } from '../src/deflate/huffman.js';
+import { BitWriter, SizeLimitExceeded } from '../src/deflate/bitwriter.ts';
+import { optimalLengths } from '../src/deflate/huffman.ts';
 
 // Independent Huffman oracle: sorted queue and explicit tree traversal.
 // Ordering equal weights by creation ID preserves the encoder's tie choices.

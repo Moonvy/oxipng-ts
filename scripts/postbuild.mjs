@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const cliPath = join(root, 'dist', 'cli.js');
+const cliPath = join(root, 'dist', 'js', 'cli.js');
 
 try {
   let contents = await readFile(cliPath, 'utf8');
@@ -15,10 +15,10 @@ try {
   }
   await writeFile(cliPath, contents);
   await chmod(cliPath, 0o755);
-  console.log('postbuild: prepared dist/cli.js');
+  console.log('postbuild: prepared dist/js/cli.js');
 } catch (err) {
   if (err.code === 'ENOENT') {
-    console.warn('postbuild: dist/cli.js not found, skipping');
+    console.warn('postbuild: dist/js/cli.js not found, skipping');
   } else {
     throw err;
   }
