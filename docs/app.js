@@ -4,9 +4,6 @@ var __export = (target, all) => {
     __defProp(target, name, { get: all[name], enumerable: true });
 };
 
-// site/app.js
-import { Options, optimizeFromMemory } from "./dist/oxipng-ts.js";
-
 // node_modules/sugar-high/lib/shared.js
 var TokenTypes = (
   /** @type {const} */
@@ -891,6 +888,8 @@ var els = {
   reset: $("reset")
 };
 var currentRequest = 0;
+var activeWorker = null;
+var activeWorkerCancel = null;
 var codeSources = /* @__PURE__ */ new WeakMap();
 var codeLanguages = { shell: shell_exports, typescript: typescript_exports };
 for (const code of document.querySelectorAll(".code-card code[data-lang]")) {
@@ -898,21 +897,44 @@ for (const code of document.querySelectorAll(".code-card code[data-lang]")) {
   codeSources.set(code, source);
   const language = codeLanguages[code.dataset.lang];
   if (!language) continue;
-  code.innerHTML = render(parse(source, language));
+  const previewSource = source.split("\n").filter((line) => line.trim().length > 0).join("\n");
+  const highlighted = render(parse(previewSource, language));
+  code.innerHTML = highlighted.replace(/\n(?=<span class="sh__line)/g, "");
   code.classList.add("sh");
 }
-async function optimizeOnMainThread(buffer, params, requestId) {
-  await new Promise((resolve) => setTimeout(resolve, 30));
-  if (requestId !== currentRequest) return null;
-  const opts = params.level === "max" ? Options.maxCompression() : Options.fromPreset(Number(params.level));
-  opts.optimizeAlpha = Boolean(params.alpha);
-  if (params.strip) opts.strip = { mode: "safe" };
-  if (params.interlace === "on") opts.interlace = true;
-  else if (params.interlace === "off") opts.interlace = false;
-  else opts.interlace = null;
-  const t0 = performance.now();
-  const output = optimizeFromMemory(new Uint8Array(buffer), opts);
-  return { output, timeMs: performance.now() - t0, size: output.length };
+function cancelActiveCompression() {
+  activeWorkerCancel?.();
+}
+function optimizeInWorker(buffer, params) {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker(new URL("./compression.worker.js", import.meta.url), { type: "module" });
+    let settled = false;
+    const finish = (callback, value) => {
+      if (settled) return;
+      settled = true;
+      worker.terminate();
+      if (activeWorker === worker) activeWorker = null;
+      if (activeWorkerCancel === cancel) activeWorkerCancel = null;
+      callback(value);
+    };
+    const cancel = () => finish(resolve, null);
+    activeWorker = worker;
+    activeWorkerCancel = cancel;
+    worker.onmessage = ({ data }) => {
+      if (data?.type === "result") finish(resolve, data);
+      else if (data?.type === "error") finish(reject, new Error(data.message || "\u538B\u7F29\u5931\u8D25"));
+    };
+    worker.onerror = (event) => {
+      event.preventDefault();
+      finish(reject, new Error(event.message || "\u538B\u7F29\u5DE5\u4F5C\u7EBF\u7A0B\u51FA\u9519"));
+    };
+    worker.onmessageerror = () => finish(reject, new Error("\u65E0\u6CD5\u8BFB\u53D6\u5DE5\u4F5C\u7EBF\u7A0B\u7684\u538B\u7F29\u7ED3\u679C"));
+    try {
+      worker.postMessage({ type: "optimize", buffer, params }, [buffer]);
+    } catch (error) {
+      finish(reject, error);
+    }
+  });
 }
 function formatBytes(n) {
   if (n < 1024) return `${n} B`;
@@ -954,6 +976,7 @@ function readParams() {
 async function handleFile(file, requestId = ++currentRequest) {
   if (!file) return;
   if (requestId !== currentRequest) return;
+  cancelActiveCompression();
   const isPng = /\.(png|apng)$/i.test(file.name) || file.type === "image/png" || file.type === "image/apng";
   if (!isPng && file.type !== "") {
     showError("\u8BF7\u9009\u62E9 PNG \u6216 APNG \u56FE\u7247\u3002", `\u5F53\u524D\u6587\u4EF6\u7C7B\u578B\uFF1A${file.type || "\u672A\u77E5"}`);
@@ -964,12 +987,13 @@ async function handleFile(file, requestId = ++currentRequest) {
   const originalUrl = URL.createObjectURL(file);
   els.imgOriginal.src = originalUrl;
   els.imgOptimized.removeAttribute("src");
-  setStatus('<div class="spinner"></div><p>\u6B63\u5728\u672C\u5730\u4F18\u5316\u2026</p>');
+  setStatus('<div class="spinner"></div><p>\u6B63\u5728\u672C\u5730\u4F18\u5316\u2026</p><button class="btn ghost cancel-compression" data-cancel-compression type="button">\u53D6\u6D88\u538B\u7F29</button>');
   try {
     const arrayBuffer = await file.arrayBuffer();
     if (requestId !== currentRequest) return;
-    const result = await optimizeOnMainThread(arrayBuffer, params, requestId);
+    const result = await optimizeInWorker(arrayBuffer, params);
     if (requestId !== currentRequest) return;
+    if (!result) return;
     const { output, timeMs, size } = result;
     const optimizedBlob = new Blob([output], { type: "image/png" });
     const optimizedUrl = URL.createObjectURL(optimizedBlob);
@@ -986,6 +1010,7 @@ async function handleFile(file, requestId = ++currentRequest) {
 }
 async function loadSample(name) {
   const requestId = ++currentRequest;
+  cancelActiveCompression();
   try {
     const res = await fetch(`./samples/${encodeURIComponent(name)}`);
     if (!res.ok) throw new Error("\u672A\u627E\u5230\u6837\u672C\u56FE\u7247");
@@ -1073,11 +1098,21 @@ els.compareRange.addEventListener("input", () => {
 });
 els.reset.addEventListener("click", () => {
   currentRequest++;
+  cancelActiveCompression();
   clearObjectUrls();
   els.imgOriginal.removeAttribute("src");
   els.imgOptimized.removeAttribute("src");
   setStatus('<p class="placeholder">\u9009\u4E00\u5F20\u56FE\u7247\uFF0C\u7EE7\u7EED\u8F7B\u88C5\u4E0A\u8DEF\u3002</p>');
   els.fileInput.click();
+});
+els.status.addEventListener("click", (event) => {
+  if (!event.target.closest("[data-cancel-compression]")) return;
+  currentRequest++;
+  cancelActiveCompression();
+  clearObjectUrls();
+  els.imgOriginal.removeAttribute("src");
+  els.imgOptimized.removeAttribute("src");
+  setStatus('<p class="placeholder">\u5DF2\u53D6\u6D88\u538B\u7F29\u3002</p><p class="muted">\u53EF\u4EE5\u91CD\u65B0\u9009\u62E9\u56FE\u7247\u7EE7\u7EED\u3002</p>');
 });
 document.querySelectorAll(".copy").forEach(
   (btn) => btn.addEventListener("click", async () => {

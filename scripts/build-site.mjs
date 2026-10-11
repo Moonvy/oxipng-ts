@@ -1,7 +1,8 @@
 // Builds the static landing page: copies the browser bundle and generates the
 // demo sample images using the library itself.
-import { copyFile, cp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { copyFile, cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { gzipSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { build as bundle } from 'esbuild';
 
@@ -130,6 +131,17 @@ async function main() {
   });
 
   await copyFile(join(root, 'dist', 'js', 'index.js'), join(distDir, 'oxipng-ts.js'));
+
+  const coreBytes = await readFile(join(distDir, 'oxipng-ts.js'));
+  const formatSize = (bytes) => `${(bytes / 1024).toFixed(1)} KiB`;
+  const indexPath = join(siteDir, 'index.html');
+  const html = (await readFile(indexPath, 'utf8'))
+    .replace(/(<b id="heroCoreGzip">)[^<]*(<\/b>)/, (_, open, close) =>
+      `${open}${formatSize(gzipSync(coreBytes).length)}${close}`)
+    .replace(/(<small id="heroCoreOriginal">)[^<]*(<\/small>)/, (_, open, close) =>
+      `${open}原始 ${formatSize(coreBytes.length)}${close}`);
+  await writeFile(indexPath, html);
+
 
   // Read the canonical benchmark on every build; never embed measured values
   // into HTML or JS. These copies make the entire site deployable as static files.

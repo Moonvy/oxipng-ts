@@ -55,7 +55,6 @@ function renderRace(row) {
   trackObserver = new ResizeObserver(updateTravel);
   for (const track of lanes.querySelectorAll('.race-track')) trackObserver.observe(track);
   $('raceSelection').textContent = `${row.name} · 最快为 1.00×`;
-  $('raceNote').textContent = '底色长度表示耗时，最长为 100%；球速与耗时成反比。动画仅作示意。';
   $('racePreset').textContent = `PRESET ${data.options.opt}`;
   setRunning();
 }
@@ -124,9 +123,6 @@ function renderChart(container, row, kind) {
   if (kind === 'time') {
     container.setAttribute('aria-label', '各实现实际压缩耗时与相对最快项倍率');
     $('timeUnit').textContent = '秒';
-    $('timeCaption').textContent = row.id === 'all'
-      ? '显示各实现全部图片的耗时总和；单图选择显示该图耗时。倍率以最快项为 1×，计入进程启动。'
-      : '显示该图片的 CLI 实际耗时；倍率以最快项为 1×，计入进程启动。';
     renderRatioChart(
       container,
       row.engines,

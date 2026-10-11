@@ -28,8 +28,7 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "dist/js",
-    "dist/bin"
+    "dist/js"
   ],
   "scripts": {
     "build:ts": "rslib build && node scripts/postbuild.mjs",
@@ -41,6 +40,7 @@
     "benchmark:min": "node benchmark/run.mjs --minimal --runs 3 --warmup 0",
     "benchmark:core": "node benchmark/core.mjs",
     "benchmark:upng": "node benchmark/upng-compare.mjs",
+    "release": "node scripts/release.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

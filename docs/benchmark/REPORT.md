@@ -1,50 +1,60 @@
 # oxipng-ts benchmark
 
-Generated: 2026-10-11T10:46:56.836Z
+Generated: 2026-10-11T16:32:22.288Z
 
-- Native: **oxipng 10.2.1** (`oxipng`, startup ≈ 3.3 ms)
-- oxipng-ts: **oxipng-ts@0.1.0** CLI (`node dist/cli.js`, startup ≈ 38.2 ms)
-- oxipng-ts-porffor: **oxipng-ts 0.1.0** CLI (`/Users/sxcc/四喜茶茶文件/个人文件/AI/Oxipng-ts/oxipng-ts/dist/oxipng-ts-porffor`, startup ≈ 3.8 ms)
-- oxipng-ts-scriptc: **oxipng-ts 0.1.0** CLI (`/Users/sxcc/四喜茶茶文件/个人文件/AI/Oxipng-ts/oxipng-ts/dist/oxipng-ts-scriptc`, startup ≈ 4.3 ms; compiler 0.2.8, mode: static (LLVM, no JavaScript engine))
-- Host: darwin/arm64, Apple M1, Node v24.21.0
-- Options: `-o 2` applied identically to all four tools
-- Timing: best of 1 runs (0 warmup), CLI vs CLI (process startup included for all four)
-- Input directory: `benchmark/sample` (4 files)
+- Rust: **oxipng 10.2.1** (`oxipng`, startup ≈ 4.5 ms)
+- Node: **oxipng-ts 0.1.0** (`/usr/local/bin/node /Users/yarna/Project/Test/oxipng-ts/dist/js/cli.js`, startup ≈ 37.2 ms)
+- Porffor: **oxipng-ts 0.1.0** (`/Users/yarna/Project/Test/oxipng-ts/dist/bin/oxipng-ts-porffor`, startup ≈ 3.2 ms; compiler unknown, mode: unknown (external binary))
+- ScriptC: **oxipng-ts 0.1.0** (`/Users/yarna/Project/Test/oxipng-ts/dist/bin/oxipng-ts-scriptc`, startup ≈ 3.8 ms; compiler 0.2.8, mode: static (LLVM, no JavaScript engine))
+- Host: darwin/arm64, Apple M3 Pro, Node v26.7.0
+- Options: `-o 2` applied identically to all 4 tools
+- Timing: 3 fresh processes per image, no warmup; discard the fastest run and average the remaining 2, with startup included
+- Startup: best of 3 fresh processes compressing the 1×1 PNG at `test/files/fully_optimized.png`; no warmup
+- Native builds: automatically discovered in `dist/bin`; explicit binary environment overrides take precedence
+- Input directory: `benchmark/sample` (8 files)
 
 ## Output size
 
 | File | Input (B) | Rust (B) | Node (B) | Porffor (B) | ScriptC (B) | TS − Rust (B) | All TS bytes |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| IMG_5112.PNG | 1220437 | 808313 | 817288 | 817288 | 817288 | +8975 (1.11%) | identical |
-| Image Capture.png | 757550 | 551303 | 558294 | 558294 | 558294 | +6991 (1.27%) | identical |
-| Qjiao.png | 827230 | 554704 | 562538 | 562538 | 562538 | +7834 (1.41%) | identical |
-| Siri AI.png | 811487 | 559103 | 563067 | 563067 | 563067 | +3964 (0.71%) | identical |
-| **Total** | **3616704** | **2473423** | **2501187** | **2501187** | **2501187** | **+27764 (1.12%)** | **identical** |
+| Anime.png | 1220437 | 808313 | 833135 | 833135 | 833135 | +24822 (3.07%) | identical |
+| Game.png | 1666457 | 1383200 | 1427779 | 1427779 | 1427779 | +44579 (3.22%) | identical |
+| Icon0.png | 811487 | 559103 | 580339 | 580339 | 580339 | +21236 (3.80%) | identical |
+| Icon1.png | 757550 | 551303 | 572382 | 572382 | 572382 | +21079 (3.82%) | identical |
+| Icon2.png | 827230 | 554704 | 579562 | 579562 | 579562 | +24858 (4.48%) | identical |
+| Web.png | 1337550 | 878403 | 913112 | 913112 | 913112 | +34709 (3.95%) | identical |
+| icon-samll.png | 8563 | 6098 | 6376 | 6376 | 6376 | +278 (4.56%) | identical |
+| icon-small2.png | 78637 | 38827 | 42300 | 42300 | 42300 | +3473 (8.94%) | identical |
+| **Total** | 6707911 | 4779951 | 4954985 | 4954985 | 4954985 | +175034 (3.66%) | identical |
 
 ## CLI time
 
-Ratios show elapsed time relative to the denominator; lower is faster.
+Ratios compare summed elapsed time across all images; lower is faster.
 
 | File | Rust | Node | Porffor | ScriptC | Node / Rust | Porffor / Node | ScriptC / Node |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| IMG_5112.PNG | 657.6 ms | 1474.1 ms | 8381.9 ms | 6511.2 ms | 2.24× | 5.69× | 4.42× |
-| Image Capture.png | 774.4 ms | 1815.0 ms | 10504.2 ms | 7804.2 ms | 2.34× | 5.79× | 4.30× |
-| Qjiao.png | 1066.7 ms | 2215.2 ms | 13045.4 ms | 9568.6 ms | 2.08× | 5.89× | 4.32× |
-| Siri AI.png | 887.5 ms | 2074.1 ms | 12137.3 ms | 8967.5 ms | 2.34× | 5.85× | 4.32× |
-| **Total** | **3386.2 ms** | **7578.4 ms** | **44068.8 ms** | **32851.5 ms** | **2.24×** | **5.82×** | **4.33×** |
+| Anime.png | 570.0 ms | 817.5 ms | 4404.2 ms | 3168.0 ms | 1.43× | 5.39× | 3.88× |
+| Game.png | 847.5 ms | 1246.2 ms | 6634.6 ms | 4673.1 ms | 1.47× | 5.32× | 3.75× |
+| Icon0.png | 744.6 ms | 1154.7 ms | 6529.4 ms | 4174.6 ms | 1.55× | 5.65× | 3.62× |
+| Icon1.png | 634.6 ms | 1077.3 ms | 5609.1 ms | 3833.0 ms | 1.70× | 5.21× | 3.56× |
+| Icon2.png | 850.4 ms | 1214.6 ms | 7094.7 ms | 4430.1 ms | 1.43× | 5.84× | 3.65× |
+| Web.png | 940.6 ms | 2258.0 ms | 11292.8 ms | 8147.8 ms | 2.40× | 5.00× | 3.61× |
+| icon-samll.png | 14.4 ms | 79.4 ms | 73.0 ms | 56.2 ms | 5.52× | 0.92× | 0.71× |
+| icon-small2.png | 126.2 ms | 313.7 ms | 1192.4 ms | 773.6 ms | 2.49× | 3.80× | 2.47× |
+| **Total** | 4728.2 ms | 8161.3 ms | 42830.0 ms | 29256.5 ms | 1.73× | 5.25× | 3.58× |
 
 ## Summary
 
-- **Output size:** oxipng-ts produced **101.12%** of native oxipng's total — 1.12% larger (+27764 bytes over 4 files).
-- **Porffor parity:** all 4 outputs are byte-for-byte identical to Node output. This check is outside the timed region; the benchmark fails on a mismatch.
-- **ScriptC parity:** all 4 outputs are byte-for-byte identical to Node output, checked outside the timed region.
-- **Time (CLI vs CLI):** Rust 3386.2 ms, Node 7578.4 ms, Porffor 44068.8 ms. Porffor took **5.82×** Node's time and **13.01×** Rust's time.
-- **ScriptC time:** 32851.5 ms, **4.33×** Node's time and **9.70×** Rust's time.
+- **Output size:** Node output is 103.66% of Rust (+175034 bytes).
+- **Porffor parity:** all 8 outputs are byte-for-byte identical to Node, checked outside the timed region; the benchmark fails on a mismatch.
+- **Porffor time:** 42830.0 ms, **5.25×** Node and **9.06×** Rust.
+- **ScriptC parity:** all 8 outputs are byte-for-byte identical to Node, checked outside the timed region; the benchmark fails on a mismatch.
+- **ScriptC time:** 29256.5 ms, **3.58×** Node and **6.19×** Rust.
 
 ## Caveats
 
-- oxipng-ts uses its own built-in pure-JavaScript DEFLATE encoder (LZ77 + cost-based parsing + dynamic Huffman) rather than libdeflate in Node, Porffor, and ScriptC builds; the TS − Rust column quantifies that gap per file.
-- All tools start a fresh process per file. Startup floors: Rust 3.3 ms, Node 38.2 ms, Porffor 3.8 ms, ScriptC 4.3 ms. Reported file times include startup; it is not subtracted.
-- Node, Porffor, and ScriptC execute the same TypeScript optimization core synchronously on one thread. Rust oxipng uses its default thread count (logical CPU count); this benchmark does not force `--threads 1`.
-- The default ScriptC build compiles the CLI and compression core statically through LLVM without a JavaScript engine. Its build gates require zero failed/dynamic statements and no dynamic-engine references in LLVM output. External binary build metadata is shown above when available.
-- All tools receive the same `-o` preset and identical semantics (no `--force`, so a file that cannot be improved is written unchanged).
+- All TypeScript targets execute the same built-in DEFLATE core synchronously on one thread. Rust uses libdeflate and its default thread count; this benchmark does not force `--threads 1`.
+- Each file starts a fresh process. Startup is reported separately and is not subtracted from file times.
+- All tools receive the same preset without `--force`; inputs that cannot be improved are written unchanged.
+- Only available native builds are measured. Missing builds are omitted, and explicitly configured binaries must run successfully.
+- Compiler version and mode come from adjacent `.build.json` files when available; external binaries without metadata are reported as unknown.

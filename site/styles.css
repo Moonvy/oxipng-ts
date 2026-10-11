@@ -117,7 +117,7 @@ button {
 }
 
 .eyebrow {
-  font: 11px/1.5 var(--mono);
+  font: 12px/1.5 var(--mono);
   font-weight: 500;
   color: var(--green);
 }
@@ -191,14 +191,35 @@ button {
 }
 
 .nav-cta {
-  border: 1px solid #b7c4b1;
-  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 40px;
+  padding: 8px 16px;
+  border: 1px solid #c7d4be;
+  border-radius: 9px;
+  background: #eaf0e3;
+  color: var(--green);
   font-size: 12px;
-  padding: 8px 15px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
+}
+
+.nav-cta:hover {
+  background: var(--accent);
+  border-color: #adc49c;
+  box-shadow: 0 3px 10px #1b5c4510;
+}
+
+.nav-cta:focus-visible {
+  outline: 3px solid #74a786;
+  outline-offset: 3px;
 }
 
 .nav-cta span {
-  margin-left: 18px;
   font-size: 17px;
 }
 
@@ -236,8 +257,9 @@ button {
 
 .cta-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 25px;
+  gap: 12px 18px;
   margin-top: 30px;
 }
 
@@ -271,6 +293,16 @@ button {
   background: #124a36;
 }
 
+.btn.github-link {
+  gap: 12px;
+  background: #203c31;
+  color: #fff;
+}
+
+.btn.github-link:hover {
+  background: #2e4b3d;
+}
+
 .btn.ghost {
   border-color: var(--line);
   background: transparent;
@@ -288,7 +320,7 @@ button {
 
 .hero-facts {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   margin-top: 42px;
   border-top: 1px solid var(--line);
@@ -304,9 +336,25 @@ button {
 
 .hero-facts span {
   display: block;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 4px;
+}
+
+.hero-facts > div {
+  min-width: 0;
+}
+
+.hero-facts small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font: 12px/1.5 var(--mono);
+}
+
+.hero-facts .core-size b {
+  white-space: nowrap;
+  letter-spacing: -0.04em;
 }
 
 .race-panel {
@@ -329,11 +377,11 @@ button {
 
 .race-top .eyebrow {
   color: #b0c6a9;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .race-badge {
-  font: 10px var(--mono);
+  font: 12px var(--mono);
   padding: 5px 8px;
   border: 1px solid #53715c;
   border-radius: 4px;
@@ -346,7 +394,7 @@ button {
 }
 
 .race-subtitle {
-  font-size: 11px;
+  font-size: 12px;
   color: #b3c8b6;
   margin-top: 7px;
 }
@@ -365,7 +413,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  font: 11px var(--mono);
+  font: 12px var(--mono);
   margin-bottom: 8px;
 }
 
@@ -377,7 +425,7 @@ button {
 }
 
 .lane-heading small {
-  font-size: 10px;
+  font-size: 12px;
   color: #b9cbbb;
 }
 
@@ -454,13 +502,6 @@ button {
   }
 }
 
-.race-note {
-  font-size: 10px;
-  line-height: 1.8;
-  color: #a9bfa8;
-  margin-top: 13px;
-}
-
 .loading-note {
   font-size: 12px;
   color: #bdccb8;
@@ -484,7 +525,7 @@ button {
 }
 
 .principle-number {
-  font: 11px var(--mono);
+  font: 12px var(--mono);
   color: #86937b;
   margin-top: 5px;
 }
@@ -497,7 +538,7 @@ button {
 
 .principles p > span {
   display: block;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 6px;
 }
@@ -531,7 +572,7 @@ button {
   gap: 10px;
   flex-wrap: wrap;
   justify-content: flex-end;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .benchmark-controls > label {
@@ -546,14 +587,14 @@ button {
   border-radius: 6px;
   background: var(--paper);
   color: var(--ink);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .refresh-button {
   padding: 8px 2px 8px 8px;
   background: none;
   color: var(--green);
-  font-size: 11px;
+  font-size: 12px;
   white-space: nowrap;
 }
 
@@ -564,7 +605,7 @@ button {
   gap: 15px;
   border-top: 1px solid var(--line);
   padding: 16px 0;
-  font: 10px/1.7 var(--mono);
+  font: 12px/1.7 var(--mono);
   color: var(--muted);
 }
 
@@ -605,13 +646,13 @@ button {
 }
 
 .chart-heading .eyebrow {
-  font-size: 9px;
+  font-size: 12px;
   color: #8a9486;
   margin-bottom: 8px;
 }
 
 .metric-unit {
-  font-size: 10px;
+  font-size: 12px;
   color: #899180;
   white-space: nowrap;
   align-self: flex-end;
@@ -635,7 +676,7 @@ button {
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   min-width: 0;
 }
@@ -660,7 +701,7 @@ button {
   padding-left: 4px;
   transform: translateY(-50%);
   color: var(--ink);
-  font: 9px var(--mono);
+  font: 12px var(--mono);
   white-space: nowrap;
 }
 
@@ -678,7 +719,7 @@ button {
 }
 
 .chart-pending {
-  font-size: 11px;
+  font-size: 12px;
   color: #74816e;
 }
 
@@ -714,13 +755,13 @@ button {
 .chart-value {
   text-align: right;
   color: var(--green);
-  font: 11px var(--mono);
+  font: 12px var(--mono);
   font-weight: 700;
   white-space: nowrap;
 }
 
 .chart-value small {
-  font-size: 9px;
+  font-size: 12px;
   color: var(--muted);
 }
 
@@ -734,19 +775,12 @@ button {
 .axis-ticks {
   display: flex;
   justify-content: space-between;
-  font: 9px var(--mono);
+  font: 12px var(--mono);
   color: #8c9787;
 }
 
 .axis-ticks > span {
   white-space: nowrap;
-}
-
-.chart-caption {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 12px;
-  line-height: 1.8;
 }
 
 .chart-placeholder {
@@ -786,7 +820,7 @@ button {
 .methodology {
   margin-top: 23px;
   border-bottom: 1px solid var(--line);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .methodology summary {
@@ -827,7 +861,7 @@ button {
   align-items: center;
   flex-wrap: wrap;
   margin-top: 18px;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
 }
 
@@ -907,7 +941,7 @@ button {
 }
 
 .dz-sub {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 8px;
 }
@@ -927,7 +961,7 @@ button {
 }
 
 .samples-label {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   margin-right: 4px;
 }
@@ -937,7 +971,7 @@ button {
   background: var(--paper);
   border-radius: 4px;
   padding: 5px 10px;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .chip:hover {
@@ -956,7 +990,7 @@ button {
 
 .field > span {
   display: block;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   margin-bottom: 8px;
 }
@@ -975,7 +1009,7 @@ button {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
+  font-size: 12px;
   color: #61715b;
 }
 
@@ -987,7 +1021,7 @@ button {
 }
 
 .hint {
-  font-size: 10px;
+  font-size: 12px;
   color: #85927a;
   margin-top: 17px;
   line-height: 1.8;
@@ -1005,6 +1039,10 @@ button {
   padding: 35px 10px;
 }
 
+.cancel-compression {
+  margin-top: 10px;
+}
+
 .placeholder {
   font-size: 15px;
   font-weight: 550;
@@ -1012,7 +1050,7 @@ button {
 
 .muted {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 9px;
 }
 
@@ -1090,7 +1128,7 @@ button {
 .stat-label {
   display: block;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   margin-bottom: 4px;
 }
 
@@ -1172,7 +1210,7 @@ button {
   position: absolute;
   top: 9px;
   padding: 3px 8px;
-  font-size: 10px;
+  font-size: 12px;
   background: #fffef9df;
   border: 1px solid var(--line);
   border-radius: 4px;
@@ -1203,7 +1241,7 @@ button {
 }
 
 .compare-note {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 10px;
   text-align: center;
@@ -1218,12 +1256,12 @@ button {
 
 .result-actions .btn {
   min-height: 38px;
-  font-size: 11px;
+  font-size: 12px;
   padding: 8px 14px;
 }
 
 .runtime-label {
-  font: 11px var(--mono);
+  font: 12px var(--mono);
   color: var(--green);
   padding-bottom: 3px;
 }
@@ -1258,7 +1296,7 @@ button {
   justify-content: space-between;
   padding: 15px 20px;
   border-bottom: 1px solid #48634b4a;
-  font: 10px var(--mono);
+  font: 12px var(--mono);
 }
 
 .code-dot {
@@ -1272,7 +1310,7 @@ button {
 
 .copy {
   padding: 4px 9px;
-  font: 10px var(--mono);
+  font: 12px var(--mono);
   border: 1px solid #5a755b;
   border-radius: 4px;
   background: transparent;
@@ -1312,12 +1350,12 @@ button {
 }
 
 .footer p {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
 }
 
 .footer-inner > span {
-  font: 10px var(--mono);
+  font: 12px var(--mono);
   color: var(--muted);
 }
 
@@ -1345,7 +1383,7 @@ button {
     font-size: 48px;
   }
   .hero-facts {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
   .hero-facts b {
     font-size: 24px;
@@ -1362,13 +1400,13 @@ button {
     gap: 6px;
   }
   .chart-row-label {
-    font-size: 10px;
+    font-size: 12px;
   }
   .chart-value {
-    font-size: 10px;
+    font-size: 12px;
   }
   .metric-unit {
-    font-size: 9px;
+    font-size: 12px;
   }
   .benchmark-controls {
     max-width: 290px;
@@ -1377,7 +1415,7 @@ button {
     gap: 25px;
   }
   .principles p > span {
-    font-size: 10px;
+    font-size: 12px;
   }
   .demo-grid {
     grid-template-columns: 1fr 1fr;
@@ -1409,7 +1447,7 @@ button {
   }
   .nav-links {
     gap: 17px;
-    font-size: 11px;
+    font-size: 12px;
   }
   .nav-cta {
     display: none;
@@ -1431,14 +1469,15 @@ button {
     font-size: 14px;
   }
   .hero-facts {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 16px;
     margin-top: 30px;
   }
   .hero-facts b {
     font-size: 24px;
   }
   .hero-facts span {
-    font-size: 9px;
+    font-size: 12px;
   }
   .race-panel {
     padding: 24px;
@@ -1458,7 +1497,7 @@ button {
     margin-bottom: 7px;
   }
   .principles strong {
-    font-size: 11px;
+    font-size: 12px;
   }
   .section {
     padding-block: 52px;
@@ -1474,7 +1513,7 @@ button {
   }
   .benchmark-meta {
     align-items: flex-start;
-    font-size: 9px;
+    font-size: 12px;
   }
   .benchmark-meta > span:first-child {
     max-width: 60%;
@@ -1497,16 +1536,16 @@ button {
     gap: 8px;
   }
   .chart-row-label {
-    font-size: 11px;
+    font-size: 12px;
   }
   .chart-value {
-    font-size: 11px;
+    font-size: 12px;
   }
   .chart-body {
     min-height: 0;
   }
   .metric-unit {
-    font-size: 10px;
+    font-size: 12px;
   }
   .source-links {
     gap: 12px 18px;
@@ -1548,7 +1587,7 @@ button {
   }
   .nav-links {
     gap: 12px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .brand {
     gap: 5px;
@@ -1565,7 +1604,7 @@ button {
     gap: 7px;
   }
   .hero-facts span {
-    font-size: 8px;
+    font-size: 12px;
   }
   .hero-facts b {
     font-size: 23px;
@@ -1580,7 +1619,7 @@ button {
     gap: 12px;
   }
   .principles p > span {
-    font-size: 9px;
+    font-size: 12px;
   }
   .chart-card {
     padding: 16px 14px 12px;
@@ -1592,13 +1631,13 @@ button {
   }
   .chart-row-label,
   .chart-value {
-    font-size: 10px;
+    font-size: 12px;
   }
   .axis-ticks {
-    font-size: 8px;
+    font-size: 12px;
   }
   .metric-unit {
-    font-size: 9px;
+    font-size: 12px;
   }
   .benchmark-controls {
     gap: 8px;
@@ -1614,11 +1653,11 @@ button {
     gap: 22px;
   }
   .code-card pre {
-    font-size: 10px;
+    font-size: 12px;
     padding-inline: 18px;
   }
   .footer-inner > span {
-    font-size: 9px;
+    font-size: 12px;
   }
 }
 

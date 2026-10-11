@@ -29,12 +29,8 @@ possible. Presets range from `0` (fastest) to `6` (`Options.maxCompression()`).
 chunk stripping, DEFLATE settings, timeouts, and decompressed size limits.
 `RawImage.createOptimizedPng()` accepts raw pixel data.
 
-Preset `2` retains four filters and level-11 match search, with cheaper filter
-scoring on eligible 8-bit truecolor inputs and one parsing pass for ordinary
-blocks. Highly compressible blocks retain three passes. The speed budget was
-validated within a 5% per-image output increase against the previous preset
-on the checked corpus; this is not a universal size guarantee. Explicit
-`--zc 11` retains full parsing. See the [size/speed measurements](benchmark/O2-BUDGET.md).
+Preset `2` balances speed and ratio via adaptive filter scoring and match search.
+See the [size/speed budget measurements](benchmark/O2-BUDGET.md) for details.
 
 For file I/O in Node.js:
 
@@ -57,10 +53,8 @@ cat input.png | npx oxipng-ts - > output.png
 npx oxipng-ts --help
 ```
 
-Supports recursive input, stdin/stdout, JSON output, attribute preservation,
-PNG/APNG transformations, and compression controls. All TypeScript builds run
-synchronously on one thread, including when compatibility flags such as
-`--threads` are supplied.
+Supports recursive directories, stdin/stdout, JSON output, metadata preservation,
+and compression controls (runs single-threaded in pure TypeScript).
 
 ## Development
 
@@ -77,57 +71,25 @@ npm test
 
 ### Native CLI
 
-`build:ts` clears only `dist/js`, `build:bin` clears only `dist/bin`, and
-`build:site` clears only `docs`. Native builds can run independently of the TS
-build. All targets compile the shared CLI and compression core and need no
-Node.js at runtime. `build:site` requires a prior `build:ts` output.
-A C compiler (`cc`, or `CC=clang`) is required. Build separately for each target
-OS/architecture. Porffor and ScriptC have been verified on macOS ARM64, support
-Linux hosts, and require WSL on Windows. Perry uses its host platform toolchain.
+Ahead-of-time (AOT) native binaries compile the shared TypeScript core into standalone executables with zero runtime dependencies. A C compiler (`cc` or `CC=clang`) is required.
 
-| Target | Build prerequisite | Output |
+| Target | Prerequisite | Output |
 | --- | --- | --- |
-| Porffor | [alpha 17](https://github.com/CanadaHonk/porffor/releases/tag/alpha-17), `porf` on PATH | `dist/bin/oxipng-ts-porffor` |
-| ScriptC | Node.js 24+, pinned `@scriptc/compiler@0.2.8` installed by `npm ci` | `dist/bin/oxipng-ts-scriptc` |
-| Perry | [Perry](https://www.perryts.com/), `perry` on PATH and its platform linker | `dist/bin/oxipng-perry` (`.exe` on Windows) |
+| [Porffor](https://porffor.dev/) | [alpha 17](https://github.com/CanadaHonk/porffor/releases/tag/alpha-17), `porf` on PATH | `dist/bin/oxipng-ts-porffor` |
+| [ScriptC](https://scriptc.dev/) | Node.js 24+, `@scriptc/compiler@0.2.8` (installed via `npm ci`) | `dist/bin/oxipng-ts-scriptc` |
+| [Perry](https://www.perryts.com/) | `bun add --global @perryts/perry`, `perry` on PATH | `dist/bin/oxipng-perry` |
 
 ```sh
-bun run build:bin                      # targets with installed compilers
-bun run build:bin -- perry             # only Perry
-bun run build:bin -- porffor scriptc    # select multiple targets
-./dist/bin/oxipng-ts-scriptc --out output.png input.png
-./dist/bin/oxipng-perry --out output.png input.png
+bun run build:bin                      # build targets with available compilers
+bun run build:bin -- perry             # build specific target(s)
+bun run build:bin -- porffor scriptc
 
+./dist/bin/oxipng-perry --out output.png input.png
 npm run test:porffor
 npm run test:scriptc
 ```
 
-Without target arguments, missing compilers are reported and skipped. Explicitly
-selected targets and compiler path overrides must be available. Compiler checks
-run before clearing `dist/bin`; if no compiler is available, existing output is
-preserved. Compilation errors from available targets still fail the build.
-
-Set `PORFFOR_BIN=/path/to/porf` if the compiler is outside PATH. Compiler-specific
-adaptations are applied during builds; the public TypeScript implementation is
-shared. Porffor restores source types and uses a checked native DEFLATE word
-reader. ScriptC applies a guarded compiler initialization fix, compiles through
-LLVM with no JavaScript engine, and requires 100% static coverage with zero failed
-or dynamic statements. Its `.build.json` and `.coverage.json` accompany the binary.
-Set `PORFFOR_KEEP_BUILD=1` or `SCRIPTC_KEEP_BUILD=1` to retain intermediate inputs.
-
-Install Perry with `bun add --global @perryts/perry` and follow its
-[platform setup instructions](https://docs.perryts.com/getting-started/installation.html).
-The Perry target stages the original TypeScript modules so Perry can see their
-type annotations, then compiles the CLI with Perry's Node API compatibility
-layer and a generic CPU baseline. Its staged `headers.ts` contains a narrow
-workaround for a cross-module inline linker issue in Perry 0.5.1520. The zlib
-writer serializes Adler-32 from its 16-bit parts to avoid Perry's incorrect
-unsigned 32-bit return lowering. Set `PERRY_BIN=/path/to/perry` to select a
-compiler and `PERRY_KEEP_BUILD=1` to retain intermediate output.
-Compiler version, host platform, architecture and binary size are recorded in
-`dist/bin/oxipng-perry.build.json` (on Windows, `dist/bin/oxipng-perry.exe.build.json`).
-Perry builds for the current host; build on each destination OS/architecture.
-The CLI benchmark covers Rust, Node, Porffor and ScriptC.
+Compiler binaries outside `PATH` can be specified via `PORFFOR_BIN`, `SCRIPTC_BIN`, or `PERRY_BIN`. Set `<TARGET>_KEEP_BUILD=1` to retain intermediate build artifacts.
 
 ### Browser demo
 
@@ -137,72 +99,37 @@ npm run build:site
 npm run site        # http://localhost:5199
 ```
 
-`site/` contains the static HTML/CSS/JS website source; `docs/` is its generated
-GitHub Pages output with a local PNG optimizer, comparison
-charts and a ball animation whose relative speed comes from the CLI benchmark.
-Processing stays on the browser's main thread; images are never uploaded.
-The browser bundle, samples and cited benchmark artifacts are generated by the build.
-
-The charts and animation read `benchmark/results.json`, including each sample's
-elapsed time, output size, preset, environment and measurement date. Values are
-not embedded in the page. Select an individual sample or the complete set;
-pause, reset or change animation playback speed. Reduced-motion preferences
-start the animation paused.
-
-`npm run site` serves the canonical benchmark files directly: after a benchmark
-run, reload the page or click **刷新数据** to see the new results. For static hosting,
-run `npm run build:site` after updating benchmark results, then deploy the entire
-`docs/` directory. It refreshes `docs/benchmark/` and its source reports on every
-build. Commit `docs/` and configure GitHub Pages to publish from the branch’s
-`/docs` folder. A `.nojekyll` file is generated alongside the site. CLI measurements include process
-startup and are displayed separately from the interactive browser's own timings.
+The demo runs completely client-side (no images are uploaded) and includes an interactive optimizer and benchmark visualizations driven by `benchmark/results.json`. The static site builds to `docs/` for GitHub Pages.
 
 ### Benchmark
 
-Run `build:ts` and `build:bin` for the native targets to compare, and install Rust
-oxipng (`brew install oxipng` on macOS), then run:
+Compare performance and byte parity against upstream Rust oxipng (`brew install oxipng`):
 
 ```sh
 npm run benchmark
 ```
 
-The benchmark discovers available native CLIs in `dist/bin` and reads the Node
-CLI from `dist/js/cli.js`. It checks output byte parity and measures CLI/startup
-time; native targets that have not been built are omitted. Rust oxipng is found
-in `dist/bin/oxipng`, on PATH, or through `OXIPNG_BIN`.
-See [benchmark/README.md](benchmark/README.md) for options and binary paths, and
-[benchmark/REPORT.md](benchmark/REPORT.md) for the latest results.
+Discovers built binaries in `dist/bin` and benchmarks Node and native targets against Rust `oxipng` (or `OXIPNG_BIN`). See [benchmark/README.md](benchmark/README.md) and [benchmark/REPORT.md](benchmark/REPORT.md).
 
-A separate lossless UPNG.js comparison covers oxipng-ts presets `-o 0` through
-`-o 3`:
+For the UPNG.js comparison (`-o 0` through `-o 3`):
 
 ```sh
 npm run benchmark:upng -- --runs 5
 ```
 
-See [benchmark/UPNG-REPORT.md](benchmark/UPNG-REPORT.md) for the saved results
-and [benchmark/README.md](benchmark/README.md#upngjs-comparison) for limitations.
+See [benchmark/UPNG-REPORT.md](benchmark/UPNG-REPORT.md).
 
 ## Compression
 
-The built-in TypeScript DEFLATE encoder uses LZ77 and dynamic Huffman coding.
-Levels 7–9 combine nearest three/four-byte matches with an eight-byte hash chain.
-Levels 10–12 use a four-byte-prefix binary tree to cache progressively longer
-matches with their nearer distance alternatives, including five-to-seven-byte
-matches. They seed the Huffman cost model from a greedy parse of the current
-block, then reparse the cache and retain the smallest measured result.
-High-level trials stop when measured gains fall below a level-specific threshold
-and retain the smallest block across passes. Byte-distribution changes guide
-block boundaries, with blocks capped at 65,535 bytes. The encoder reuses fixed-size
-scratch buffers and uses the same parser for encoding and exact size counting.
-Rust oxipng uses libdeflate, so compression size, speed, and some
-borderline reduction choices can differ. PNG/APNG optimization remains lossless
-unless an explicitly lossy option such as `--scale16` is enabled.
-The `libdeflater` option names the built-in encoder's level convention; it does
-not load libdeflate. The `zopfli` option currently uses built-in level 12 and
-does not implement Zopfli's iteration algorithm.
-See [the optimization measurements](benchmark/PERFORMANCE.md) for before/after
-results and the remaining gap to Rust.
+The built-in TypeScript DEFLATE engine uses custom LZ77 and dynamic Huffman coding:
+- **Levels 7–9**: Hash-chain match finder (3–4 byte matches with 8-byte hash chains).
+- **Levels 10–12**: 4-byte-prefix binary tree caching match alternatives, seeded Huffman cost modeling, and multi-pass optimal parsing.
+- **Block splitting**: Guided by byte-distribution changes (capped at 65,535 bytes per block).
+
+Optimization remains lossless unless explicitly lossy options (such as `--scale16`) are specified.
+
+> **Note**: Rust oxipng uses C `libdeflate`, so minor differences in output size or reduction decisions may occur. The `libdeflater` option configures matching compression levels without loading external libraries; `zopfli` currently maps to level 12.
+> See [benchmark/PERFORMANCE.md](benchmark/PERFORMANCE.md) for detailed measurements.
 
 ## Project layout
 

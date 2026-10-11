@@ -1,4 +1,3 @@
-import { Options, optimizeFromMemory } from './dist/oxipng-ts.js';
 import { parse, render } from 'sugar-high/core';
 import * as shellLanguage from 'sugar-high/lang/shell';
 import * as typescriptLanguage from 'sugar-high/lang/typescript';
@@ -27,6 +26,8 @@ const els = {
 };
 
 let currentRequest = 0;
+let activeWorker = null;
+let activeWorkerCancel = null;
 
 const codeSources = new WeakMap();
 const codeLanguages = { shell: shellLanguage, typescript: typescriptLanguage };
@@ -35,26 +36,51 @@ for (const code of document.querySelectorAll('.code-card code[data-lang]')) {
   codeSources.set(code, source);
   const language = codeLanguages[code.dataset.lang];
   if (!language) continue;
-  code.innerHTML = render(parse(source, language));
+  const previewSource = source.split('\n').filter((line) => line.trim().length > 0).join('\n');
+  const highlighted = render(parse(previewSource, language));
+  code.innerHTML = highlighted.replace(/\n(?=<span class="sh__line)/g, '');
   code.classList.add('sh');
 }
 
 /* -------------------------------------------------------------- compression --- */
 
-async function optimizeOnMainThread(buffer, params, requestId) {
-  // Let the pending status render before synchronous compression begins.
-  await new Promise((resolve) => setTimeout(resolve, 30));
-  if (requestId !== currentRequest) return null;
-  const opts = params.level === 'max' ? Options.maxCompression() : Options.fromPreset(Number(params.level));
-  opts.optimizeAlpha = Boolean(params.alpha);
-  if (params.strip) opts.strip = { mode: 'safe' };
-  if (params.interlace === 'on') opts.interlace = true;
-  else if (params.interlace === 'off') opts.interlace = false;
-  else opts.interlace = null;
-  const t0 = performance.now();
-  const output = optimizeFromMemory(new Uint8Array(buffer), opts);
-  // Preserve the returned view's byteOffset and byteLength when making a Blob.
-  return { output, timeMs: performance.now() - t0, size: output.length };
+function cancelActiveCompression() {
+  activeWorkerCancel?.();
+}
+
+function optimizeInWorker(buffer, params) {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker(new URL('./compression.worker.js', import.meta.url), { type: 'module' });
+    let settled = false;
+
+    const finish = (callback, value) => {
+      if (settled) return;
+      settled = true;
+      worker.terminate();
+      if (activeWorker === worker) activeWorker = null;
+      if (activeWorkerCancel === cancel) activeWorkerCancel = null;
+      callback(value);
+    };
+    const cancel = () => finish(resolve, null);
+
+    activeWorker = worker;
+    activeWorkerCancel = cancel;
+    worker.onmessage = ({ data }) => {
+      if (data?.type === 'result') finish(resolve, data);
+      else if (data?.type === 'error') finish(reject, new Error(data.message || '压缩失败'));
+    };
+    worker.onerror = (event) => {
+      event.preventDefault();
+      finish(reject, new Error(event.message || '压缩工作线程出错'));
+    };
+    worker.onmessageerror = () => finish(reject, new Error('无法读取工作线程的压缩结果'));
+
+    try {
+      worker.postMessage({ type: 'optimize', buffer, params }, [buffer]);
+    } catch (error) {
+      finish(reject, error);
+    }
+  });
 }
 
 /* ------------------------------------------------------------------ utils --- */
@@ -106,6 +132,7 @@ function readParams() {
 async function handleFile(file, requestId = ++currentRequest) {
   if (!file) return;
   if (requestId !== currentRequest) return;
+  cancelActiveCompression();
   const isPng = /\.(png|apng)$/i.test(file.name) || file.type === 'image/png' || file.type === 'image/apng';
   if (!isPng && file.type !== '') {
     showError('请选择 PNG 或 APNG 图片。', `当前文件类型：${file.type || '未知'}`);
@@ -118,13 +145,14 @@ async function handleFile(file, requestId = ++currentRequest) {
   els.imgOriginal.src = originalUrl;
   els.imgOptimized.removeAttribute('src');
 
-  setStatus('<div class="spinner"></div><p>正在本地优化…</p>');
+  setStatus('<div class="spinner"></div><p>正在本地优化…</p><button class="btn ghost cancel-compression" data-cancel-compression type="button">取消压缩</button>');
 
   try {
     const arrayBuffer = await file.arrayBuffer();
     if (requestId !== currentRequest) return;
-    const result = await optimizeOnMainThread(arrayBuffer, params, requestId);
+    const result = await optimizeInWorker(arrayBuffer, params);
     if (requestId !== currentRequest) return;
+    if (!result) return;
     const { output, timeMs, size } = result;
     const optimizedBlob = new Blob([output], { type: 'image/png' });
     const optimizedUrl = URL.createObjectURL(optimizedBlob);
@@ -143,6 +171,7 @@ async function handleFile(file, requestId = ++currentRequest) {
 
 async function loadSample(name) {
   const requestId = ++currentRequest;
+  cancelActiveCompression();
   try {
     const res = await fetch(`./samples/${encodeURIComponent(name)}`);
     if (!res.ok) throw new Error('未找到样本图片');
@@ -244,11 +273,22 @@ els.compareRange.addEventListener('input', () => {
 
 els.reset.addEventListener('click', () => {
   currentRequest++;
+  cancelActiveCompression();
   clearObjectUrls();
   els.imgOriginal.removeAttribute('src');
   els.imgOptimized.removeAttribute('src');
   setStatus('<p class="placeholder">选一张图片，继续轻装上路。</p>');
   els.fileInput.click();
+});
+
+els.status.addEventListener('click', (event) => {
+  if (!event.target.closest('[data-cancel-compression]')) return;
+  currentRequest++;
+  cancelActiveCompression();
+  clearObjectUrls();
+  els.imgOriginal.removeAttribute('src');
+  els.imgOptimized.removeAttribute('src');
+  setStatus('<p class="placeholder">已取消压缩。</p><p class="muted">可以重新选择图片继续。</p>');
 });
 
 document.querySelectorAll('.copy').forEach((btn) =>

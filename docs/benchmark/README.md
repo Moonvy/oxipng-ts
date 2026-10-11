@@ -13,12 +13,16 @@ Install Rust oxipng (`brew install oxipng` on macOS) and follow the
 npm run build:ts
 npm run build:bin -- porffor scriptc
 npm run benchmark                            # -o 2, three runs, no warmup
+npm run benchmark:min                        # Rust + Node only, three runs, no warmup
 npm run benchmark -- --opt 6 --runs 3
 ```
 
+`benchmark:min` compares only Rust Native and the Node.js TypeScript build.
 Each image and engine is measured three times without warmup; the fastest time
 is discarded and the other two are averaged. `--runs` can increase the number
 of measurements but must be at least three. `--warmup` accepts only `0`.
+Run `npm run build:ts` after source changes. It writes the same `REPORT.md` and
+`results.json` as the full benchmark; use `--output-dir` to keep a separate report.
 
 Build outputs are independent: `build:ts` clears `dist/js`, `build:bin` clears
 `dist/bin`, and `build:site` clears `docs`. The benchmark automatically includes
@@ -170,3 +174,30 @@ The baseline encoder's SHA-256 is
 `a198f9461d469674699879b416bc87c713e90d01bb6e9b09bdf0fd8c0c080a8f`.
 These API measurements exclude startup and validate full-precision pixels,
 APNG frames and controls, and deterministic output independently of timing.
+
+## Presets and speed/size tuning
+
+See [PRESETS.md](PRESETS.md) for the complete Rust/Node `-o 0–6` CLI matrix,
+filter/compression/depth/pass experiments, and additional PNG/APNG validation.
+The subsequent default `-o 2` budget change, including the seven-file sample
+corpus and broader fixture checks, is recorded in [DEFAULT-O2.md](DEFAULT-O2.md).
+
+The current match-interior insertion budget, its per-image 2% size check,
+five-run API comparison and fresh-process CLI measurements are recorded in
+[O2-INSERTION.md](O2-INSERTION.md). Use `--node-cli PATH` with `benchmark/run.mjs`
+to compare a saved CLI build, and `--output-dir` to preserve existing reports.
+These scripts write separate artifacts and preserve the main CLI report:
+
+```sh
+npm run build:ts
+node benchmark/presets.mjs --runs 3 --output benchmark/presets.json
+node benchmark/tune.mjs --output benchmark/tuning-screen.json
+```
+
+`presets.mjs` also accepts `--profiles` with named public CLI combinations;
+`tune.mjs` accepts `--candidates`, `--runs`, `--warmup`, and
+`--corpus pilot|sample|extended|validation|fixtures`. `validation` contains only the nine
+additional generated/fixture files; `fixtures` audits 8-bit fixtures with at
+least 64 KiB of raw pixels and records invalid input skips. Experimental encoder parameters are applied
+to temporary bundles, without changing production defaults. Both scripts check
+decoded pixels and deterministic output outside measured intervals.

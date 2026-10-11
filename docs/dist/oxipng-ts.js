@@ -927,6 +927,9 @@ const pathLen = new Uint16Array(OPT_BLOCK_SIZE);
 const bestLenTokens = new Uint16Array(OPT_BLOCK_SIZE);
 const bestDistTokens = new Uint16Array(OPT_BLOCK_SIZE);
 const lengthCosts = new Uint8Array(MAX_MATCH + 1);
+const lengthCostEnd = new Uint16Array(MAX_MATCH + 1);
+const previousLiteralCosts = new Uint8Array(286);
+const previousDistanceCosts = new Uint8Array(30);
 const trialLiteralCosts = new Uint8Array(286);
 const trialDistanceCosts = new Uint8Array(30);
 const blockHistogram = new Uint32Array(256);
@@ -1055,7 +1058,7 @@ function findWideMatch(data, view, end, pos, chain, nice) {
     }
     return 0 === bestLen ? 0 : bestLen << 16 | bestDist - 1;
 }
-function cacheMatches(data, view, pos, end, depth, nice, record, knownDistance, knownLength) {
+function cacheMatches(data, view, pos, end, depth, nice) {
     const remaining = end - pos;
     if (remaining < 3) return 0;
     const first = remaining >= 4 ? view.getUint32(pos, true) : data[pos] | data[pos + 1] << 8 | data[pos + 2] << 16;
@@ -1064,7 +1067,7 @@ function cacheMatches(data, view, pos, end, depth, nice, record, knownDistance, 
     let best = 2;
     if (short >= 0 && pos - short <= WINDOW && data[short] === data[pos] && data[short + 1] === data[pos + 1] && data[short + 2] === data[pos + 2]) {
         best = 3;
-        if (record) matchCache[cacheCount++] = 196608 | pos - short - 1;
+        matchCache[cacheCount++] = 196608 | pos - short - 1;
     }
     head3[h3] = pos;
     head3Epoch[h3] = epoch;
@@ -1080,13 +1083,19 @@ function cacheMatches(data, view, pos, end, depth, nice, record, knownDistance, 
     const max = Math.min(MAX_MATCH, data.length - pos);
     while(cand >= 0 && pos - cand <= WINDOW && depth-- > 0){
         let len = Math.min(leftLength, rightLength);
-        if (pos - cand === knownDistance && knownLength > len) len = knownLength;
-        while(len + 4 <= max && view.getUint32(pos + len, true) === view.getUint32(cand + len, true))len += 4;
-        while(len < max && data[pos + len] === data[cand + len])len++;
+        while(len + 4 <= max){
+            const diff = (0 === len ? first : view.getUint32(pos + len, true)) ^ view.getUint32(cand + len, true);
+            if (0 !== diff) {
+                len += 31 - Math.clz32(diff & -diff) >>> 3;
+                break;
+            }
+            len += 4;
+        }
+        if (len + 4 > max) while(len < max && data[pos + len] === data[cand + len])len++;
         const usable = Math.min(len, remaining);
         if (usable > best) {
             best = usable;
-            if (record) matchCache[cacheCount++] = usable << 16 | pos - cand - 1;
+            matchCache[cacheCount++] = usable << 16 | pos - cand - 1;
         }
         const slot = (cand & WINDOW_MASK) * 2;
         if (pos - cand === WINDOW) break;
@@ -1111,7 +1120,136 @@ function cacheMatches(data, view, pos, end, depth, nice, record, knownDistance, 
     treeChildren[right] = -1;
     return best;
 }
-function optimalTokens(data, start, end, passes, minImprovement) {
+function insertTree(data, view, pos, end, depth, nice, knownDistance, knownLength) {
+    const remaining = end - pos;
+    if (remaining < 3) return;
+    const first = remaining >= 4 ? view.getUint32(pos, true) : data[pos] | data[pos + 1] << 8 | data[pos + 2] << 16;
+    const h3 = Math.imul(0xffffff & first, 0x9e3779b1) >>> 32 - HASH_BITS;
+    head3[h3] = pos;
+    head3Epoch[h3] = epoch;
+    if (remaining < 4) return;
+    const hash = Math.imul(first, 0x9e3779b1) >>> 32 - HASH_BITS;
+    let cand = headEpoch[hash] === epoch ? deflate_head[hash] : -1;
+    headEpoch[hash] = epoch;
+    deflate_head[hash] = pos;
+    let left = (pos & WINDOW_MASK) * 2;
+    let right = left + 1;
+    let leftLength = 0;
+    let rightLength = 0;
+    const max = Math.min(nice, data.length - pos);
+    while(cand >= 0 && pos - cand <= WINDOW && depth-- > 0){
+        let len = Math.min(leftLength, rightLength);
+        if (pos - cand === knownDistance && knownLength > len) len = knownLength;
+        while(len + 4 <= max){
+            const diff = (0 === len ? first : view.getUint32(pos + len, true)) ^ view.getUint32(cand + len, true);
+            if (0 !== diff) {
+                len += 31 - Math.clz32(diff & -diff) >>> 3;
+                break;
+            }
+            len += 4;
+        }
+        if (len + 4 > max) while(len < max && data[pos + len] === data[cand + len])len++;
+        const slot = (cand & WINDOW_MASK) * 2;
+        if (pos - cand === WINDOW) break;
+        if (len >= max) {
+            treeChildren[left] = treeChildren[slot];
+            treeChildren[right] = treeChildren[slot + 1];
+            return;
+        }
+        if (data[cand + len] < data[pos + len]) {
+            treeChildren[left] = cand;
+            left = slot + 1;
+            cand = treeChildren[left];
+            leftLength = len;
+        } else {
+            treeChildren[right] = cand;
+            right = slot;
+            cand = treeChildren[right];
+            rightLength = len;
+        }
+    }
+    treeChildren[left] = -1;
+    treeChildren[right] = -1;
+}
+function monotoneMatch(i, first, last, best) {
+    let length = 0;
+    for(let len = first; len <= last;){
+        const end = Math.min(lengthCostEnd[len], last);
+        const trial = lengthCosts[len] + pathCost[i + end];
+        if (trial < best) {
+            best = trial;
+            length = end;
+        }
+        len = end + 1;
+    }
+    return 512 * best + length;
+}
+function findOptimalPath(data, start, size, literalCosts, distanceCosts) {
+    pathCost[size] = 0;
+    for(let i = size - 1; i >= 0; i--){
+        let cost = (literalCosts[data[start + i]] || 12) + pathCost[i + 1];
+        let length = 1;
+        let distance = 0;
+        let minLength = MIN_MATCH;
+        for(let m = matchStarts[i]; m < matchStarts[i + 1]; m++){
+            const match = matchCache[m];
+            const max = Math.min(match >>> 16, size - i);
+            const dist = (0xffff & match) + 1;
+            const distanceCost = (distanceCosts[distSym[dist]] || 12) + distExtraCnt[dist];
+            let best = cost - distanceCost;
+            for(let len = minLength; len <= max; len++){
+                const trial = lengthCosts[len] + pathCost[i + len];
+                if (trial < best) {
+                    best = trial;
+                    length = len;
+                    distance = dist;
+                }
+            }
+            cost = best + distanceCost;
+            minLength = max + 1;
+        }
+        pathCost[i] = cost;
+        pathLen[i] = length;
+        matchDist[i] = distance;
+    }
+}
+function findOptimalPathRanges(data, start, size, literalCosts, distanceCosts) {
+    pathCost[size] = 0;
+    for(let i = size - 1; i >= 0; i--){
+        let cost = (literalCosts[data[start + i]] || 12) + pathCost[i + 1];
+        let length = 1;
+        let distance = 0;
+        let minLength = MIN_MATCH;
+        for(let m = matchStarts[i]; m < matchStarts[i + 1]; m++){
+            const match = matchCache[m];
+            const max = Math.min(match >>> 16, size - i);
+            const dist = (0xffff & match) + 1;
+            const distanceCost = (distanceCosts[distSym[dist]] || 12) + distExtraCnt[dist];
+            let best = cost - distanceCost;
+            if (max - minLength >= 16 && matchStarts[i + minLength] === matchStarts[i + max]) {
+                const result = monotoneMatch(i, minLength, max, best);
+                if ((511 & result) !== 0) {
+                    best = Math.floor(result / 512);
+                    length = 511 & result;
+                    distance = dist;
+                }
+            } else for(let len = minLength; len <= max; len++){
+                const trial = lengthCosts[len] + pathCost[i + len];
+                if (trial < best) {
+                    best = trial;
+                    length = len;
+                    distance = dist;
+                }
+            }
+            cost = best + distanceCost;
+            minLength = max + 1;
+        }
+        pathCost[i] = cost;
+        pathLen[i] = length;
+        matchDist[i] = distance;
+    }
+}
+function optimalTokens(data, start, end, passes, minImprovement, fastOptimal = false) {
     const size = end - start;
     let initialCount = 0;
     for(let i = 0; i < size;){
@@ -1124,41 +1262,25 @@ function optimalTokens(data, start, end, passes, minImprovement) {
         tDist[initialCount++] = 1 === len ? 0 : (0xffff & match) + 1;
         i += len;
     }
+    const useRanges = 32 * initialCount < size;
     const initialCounter = new SizeCounter(1 / 0);
     emitBlock(initialCounter, false, data, start, end, initialCount, true);
     let literalCosts = trialLiteralCosts;
     let distanceCosts = trialDistanceCosts;
     let bestSize = initialCounter.bitLength();
+    if (fastOptimal && bestSize >= size) passes = 1;
     let bestCount = initialCount;
     bestLenTokens.set(tLen.subarray(0, initialCount));
     bestDistTokens.set(tDist.subarray(0, initialCount));
     for(let pass = 0; pass < passes; pass++){
+        previousLiteralCosts.set(literalCosts);
+        previousDistanceCosts.set(distanceCosts);
         for(let len = MIN_MATCH; len <= MAX_MATCH; len++)lengthCosts[len] = (literalCosts[lenSym[len]] || 12) + lenExtraCnt[len];
-        pathCost[size] = 0;
-        for(let i = size - 1; i >= 0; i--){
-            let cost = (literalCosts[data[start + i]] || 12) + pathCost[i + 1];
-            let length = 1;
-            let distance = 0;
-            let minLength = MIN_MATCH;
-            for(let m = matchStarts[i]; m < matchStarts[i + 1]; m++){
-                const match = matchCache[m];
-                const max = Math.min(match >>> 16, size - i);
-                const dist = (0xffff & match) + 1;
-                const distanceCost = (distanceCosts[distSym[dist]] || 12) + distExtraCnt[dist];
-                for(let len = minLength; len <= max; len++){
-                    const trial = lengthCosts[len] + distanceCost + pathCost[i + len];
-                    if (trial < cost) {
-                        cost = trial;
-                        length = len;
-                        distance = dist;
-                    }
-                }
-                minLength = max + 1;
-            }
-            pathCost[i] = cost;
-            pathLen[i] = length;
-            matchDist[i] = distance;
-        }
+        if (useRanges) {
+            lengthCostEnd[MAX_MATCH] = MAX_MATCH;
+            for(let len = MAX_MATCH - 1; len >= MIN_MATCH; len--)lengthCostEnd[len] = lengthCosts[len] === lengthCosts[len + 1] ? lengthCostEnd[len + 1] : len;
+            findOptimalPathRanges(data, start, size, literalCosts, distanceCosts);
+        } else findOptimalPath(data, start, size, literalCosts, distanceCosts);
         let count = 0;
         for(let i = 0; i < size;){
             const len = pathLen[i];
@@ -1178,6 +1300,18 @@ function optimalTokens(data, start, end, passes, minImprovement) {
             bestDistTokens.set(tDist.subarray(0, count));
         }
         if (pass > 0 && improvement < minImprovement) break;
+        let converged = true;
+        for(let s = 0; s < 286; s++)if (previousLiteralCosts[s] !== trialLiteralCosts[s]) {
+            converged = false;
+            break;
+        }
+        if (converged) {
+            for(let s = 0; s < 30; s++)if (previousDistanceCosts[s] !== trialDistanceCosts[s]) {
+                converged = false;
+                break;
+            }
+        }
+        if (converged) break;
         literalCosts = trialLiteralCosts;
         distanceCosts = trialDistanceCosts;
     }
@@ -1204,12 +1338,27 @@ function optimalBlockEnd(data, start) {
     }
     return limit;
 }
-function deflateOptimal(bw, data, view, level) {
+function deflateOptimal(bw, data, view, level, fastOptimal = false) {
     const depth = level >= 12 ? 128 : level >= 11 ? 64 : 32;
     const nice = level >= 12 ? MAX_MATCH : 128;
     const skipLength = level >= 12 ? 128 : 32;
     for(let start = 0; start < data.length;){
         let end = optimalBlockEnd(data, start);
+        let insertionDepth = depth;
+        if (fastOptimal && 11 === level) {
+            let symbols = 0;
+            let concentrated = false;
+            const size = end - start;
+            for(let s = 0; s < 256; s++){
+                const count = blockHistogram[s];
+                if (8 * count >= 7 * size) {
+                    concentrated = true;
+                    break;
+                }
+                if (1024 * count >= size) symbols++;
+            }
+            if (!concentrated && symbols > 16) insertionDepth = 24;
+        }
         cacheCount = 0;
         for(let pos = start; pos < end;){
             if (cacheCount + MAX_MATCH >= matchCache.length) {
@@ -1217,18 +1366,18 @@ function deflateOptimal(bw, data, view, level) {
                 break;
             }
             matchStarts[pos - start] = cacheCount;
-            const len = cacheMatches(data, view, pos, end, depth, nice, true, 0, 0);
+            const len = cacheMatches(data, view, pos, end, depth, nice);
             const next = len >= skipLength ? pos + len : pos + 1;
             const distance = cacheCount > matchStarts[pos - start] ? (0xffff & matchCache[cacheCount - 1]) + 1 : 0;
             for(let p = pos + 1; p < next; p++){
                 matchStarts[p - start] = cacheCount;
-                cacheMatches(data, view, p, end, depth, nice, false, distance, next - p);
+                insertTree(data, view, p, end, insertionDepth, nice, distance, next - p);
             }
             matchStarts[next - start] = cacheCount;
             pos = next;
         }
         matchStarts[end - start] = cacheCount;
-        const count = optimalTokens(data, start, end, level >= 12 ? 4 : 3, level >= 12 ? 1 : level >= 11 ? 16 : 32);
+        const count = optimalTokens(data, start, end, level >= 12 ? 4 : 3, level >= 12 ? 1 : level >= 11 ? 16 : 32, fastOptimal && 11 === level);
         emitBlock(bw, end === data.length, data, start, end, count);
         start = end;
     }
@@ -1422,7 +1571,7 @@ function emitBlock(bw, final, data, start, end, count, collectCosts = false) {
     }
     writeTokens(bw, buildCodes(litLen), buildCodes(distLen), count);
 }
-function deflateInto(bw, data, level) {
+function deflateInto(bw, data, level, fastOptimal = false) {
     const n = data.length;
     const view = n >= 4 ? new DataView(data.buffer, data.byteOffset, n) : null;
     if (0 === n) return void emitStored(bw, true, data, 0, 0);
@@ -1444,7 +1593,7 @@ function deflateInto(bw, data, level) {
         epoch = 1;
     }
     wideMatches = level >= 7;
-    if (level >= 10 && n >= 4) return void deflateOptimal(bw, data, view, level);
+    if (level >= 10 && n >= 4) return void deflateOptimal(bw, data, view, level, fastOptimal);
     const chain = params.chain;
     const nice = params.nice;
     const lazy = params.lazy;
@@ -1499,20 +1648,20 @@ function deflateInto(bw, data, level) {
         blockStart = pos;
     }
 }
-function deflateRawSize(data, level, maxSize = 1 / 0) {
+function deflateRawSize(data, level, maxSize = 1 / 0, fastOptimal = false) {
     const counter = new SizeCounter(maxSize);
-    deflateInto(counter, data, level);
+    deflateInto(counter, data, level, fastOptimal);
     return counter.finish();
 }
-function deflateRaw(data, level, maxSize) {
+function deflateRaw(data, level, maxSize, fastOptimal = false) {
     const bw = new BitWriter(Math.max(64, data.length >>> 1), maxSize ?? 1 / 0);
-    deflateInto(bw, data, level);
+    deflateInto(bw, data, level, fastOptimal);
     return bw.finish();
 }
-function zlibCompress(data, level, maxSize) {
+function zlibCompress(data, level, maxSize, fastOptimal = false) {
     const bw = new BitWriter(Math.max(64, data.length >>> 1), maxSize ?? 1 / 0);
     bw.skip(2);
-    deflateInto(bw, data, level);
+    deflateInto(bw, data, level, fastOptimal);
     const tail = new Uint8Array(4);
     adler32Bytes(data, tail, 1);
     bw.pushBytes(tail);
@@ -1521,7 +1670,12 @@ function zlibCompress(data, level, maxSize) {
     out[1] = 0x01;
     return out;
 }
-function libdeflater(compression) {
+function libdeflater(compression, fastOptimal = false) {
+    if (fastOptimal) return {
+        kind: 'libdeflater',
+        compression,
+        fastOptimal
+    };
     return {
         kind: 'libdeflater',
         compression
@@ -1538,7 +1692,7 @@ function zopfli(options = {}) {
 }
 function deflaterEquals(a, b) {
     if (a.kind !== b.kind) return false;
-    if ('libdeflater' === a.kind && 'libdeflater' === b.kind) return a.compression === b.compression;
+    if ('libdeflater' === a.kind && 'libdeflater' === b.kind) return a.compression === b.compression && Boolean(a.fastOptimal) === Boolean(b.fastOptimal);
     if ('zopfli' !== a.kind || 'zopfli' !== b.kind) return false;
     const bo = b.options;
     return a.options.iterationCount === bo.iterationCount && a.options.iterationsWithoutImprovement === bo.iterationsWithoutImprovement;
@@ -1549,25 +1703,25 @@ function deflaterToString(d) {
 function mapLevel(compression) {
     return Math.max(0, Math.min(12, Math.round(compression)));
 }
-function deflate(data, compression, maxSize) {
+function deflate(data, compression, maxSize, fastOptimal = false) {
     try {
-        return zlibCompress(data, mapLevel(compression), maxSize);
+        return zlibCompress(data, mapLevel(compression), maxSize, fastOptimal);
     } catch (err) {
         if (err instanceof SizeLimitExceeded) throw PngError.deflatedDataTooLong(maxSize);
         throw err;
     }
 }
-function deflate_deflateRaw(data, compression, maxSize) {
+function deflate_deflateRaw(data, compression, maxSize, fastOptimal = false) {
     try {
-        return deflateRaw(data, mapLevel(compression), maxSize);
+        return deflateRaw(data, mapLevel(compression), maxSize, fastOptimal);
     } catch (err) {
         if (err instanceof SizeLimitExceeded) throw PngError.deflatedDataTooLong(maxSize);
         throw err;
     }
 }
-function deflate_deflateRawSize(data, compression, maxSize) {
+function deflate_deflateRawSize(data, compression, maxSize, fastOptimal = false) {
     try {
-        return deflateRawSize(data, mapLevel(compression), maxSize);
+        return deflateRawSize(data, mapLevel(compression), maxSize, fastOptimal);
     } catch (err) {
         if (err instanceof SizeLimitExceeded) return null;
         throw err;
@@ -1583,12 +1737,12 @@ function inflate(data, outSize) {
 }
 function deflaterDeflate(deflater, data, maxSize) {
     const compression = 'libdeflater' === deflater.kind ? deflater.compression : 12;
-    return deflate(data, compression, maxSize);
+    return deflate(data, compression, maxSize, 'libdeflater' === deflater.kind && deflater.fastOptimal);
 }
 function deflaterDeflateSize(deflater, data, maxSize) {
     const compression = 'libdeflater' === deflater.kind ? deflater.compression : 12;
     if (void 0 !== maxSize && maxSize < 6) throw PngError.deflatedDataTooLong(maxSize);
-    const size = deflate_deflateRawSize(data, compression, void 0 === maxSize ? void 0 : maxSize - 6);
+    const size = deflate_deflateRawSize(data, compression, void 0 === maxSize ? void 0 : maxSize - 6, 'libdeflater' === deflater.kind && deflater.fastOptimal);
     if (null === size) throw PngError.deflatedDataTooLong(maxSize);
     return size + 6;
 }
@@ -3057,7 +3211,7 @@ class Options {
     strip = {
         mode: 'none'
     };
-    deflater = libdeflater(11);
+    deflater = libdeflater(11, true);
     fastEvaluation = true;
     timeout = null;
     maxDecompressedSize = null;
@@ -3153,6 +3307,7 @@ function preset1() {
 }
 function preset3() {
     const o = new Options();
+    o.deflater = libdeflater(11);
     o.filters = filterSetFrom([
         NONE,
         SUB,
@@ -4563,12 +4718,14 @@ function optimizeRaw(image, opts, deadline, maxSize) {
     let newImage = performReductions(image, opts, deadline, eval_);
     const evalResult = eval_.getBestCandidate();
     if (evalResult) newImage = evalResult.image;
+    const cheapEvaluation = opts.fastEvaluation && null === evalResult && 'libdeflater' === opts.deflater.kind && 11 === opts.deflater.compression && 4 === opts.filters.length && 8 === image.ihdr.bitDepth && !image.ihdr.interlaced && 8 === newImage.ihdr.bitDepth && ('rgb' === newImage.ihdr.colorType.kind || 'rgba' === newImage.ihdr.colorType.kind) && newImage.data.length >= 65536 && void 0 !== maxSize && 8 * maxSize >= newImage.data.length;
+    const trialDeflater = cheapEvaluation ? libdeflater(2) : evalDeflater;
     const reductionOccurred = !colorTypeEquals(newImage.ihdr.colorType, image.ihdr.colorType) || newImage.ihdr.bitDepth !== image.ihdr.bitDepth || newImage.ihdr.interlaced !== image.ihdr.interlaced;
     if (reductionOccurred) logDebug(`Transformed image to ${image.ihdr.bitDepth}-bit ${colorTypeToString(newImage.ihdr.colorType)}`);
     let result;
     let deflater;
     if (opts.idatRecoding || reductionOccurred) {
-        result = performTrials(newImage, opts, deadline, maxSize, evalResult, evalFilters, evalDeflater);
+        result = performTrials(newImage, opts, deadline, maxSize, evalResult, evalFilters, trialDeflater);
         if (null === result) return null;
         deflater = opts.deflater;
     } else {
