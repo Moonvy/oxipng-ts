@@ -95,6 +95,104 @@ export function filterLine(
 }
 
 /**
+ * Internal MinSum trial: filter and score together, stopping once it cannot win.
+ * Only a score below `bestSize` guarantees a complete row appended to `out`.
+ */
+export function filterLineMinSum(
+  filter: RowFilter,
+  bpp: number,
+  data: Uint8Array,
+  prevLine: Uint8Array,
+  out: ByteBuffer,
+  alphaBytes: number,
+  bestSize: number,
+): number {
+  // Alpha updates must finish even for a rejected trial: later filters see
+  // these mutations, and the winning raw row is snapshotted by the caller.
+  if (alphaBytes !== 0) optimizeAlpha(filter, bpp, data, prevLine, bpp - alphaBytes);
+  const len = data.length;
+  out.reserve(len + 1);
+  const buf = out.buf;
+  let p = out.len;
+  buf[p++] = filter;
+  let size = filter; // The filter byte participates in MinSum's score.
+  if (size >= bestSize) return size;
+  switch (filter) {
+    case RowFilter.None: {
+      for (let i = 0; i < len; i++) {
+        const value = data[i];
+        buf[p++] = value;
+        size += Math.abs((value << 24) >> 24);
+        if (size >= bestSize) return size;
+      }
+      break;
+    }
+    case RowFilter.Sub: {
+      for (let i = 0; i < bpp; i++) {
+        const value = data[i];
+        buf[p++] = value;
+        size += Math.abs((value << 24) >> 24);
+        if (size >= bestSize) return size;
+      }
+      for (let i = bpp; i < len; i++) {
+        const value = data[i] - data[i - bpp];
+        buf[p++] = value;
+        size += Math.abs((value << 24) >> 24);
+        if (size >= bestSize) return size;
+      }
+      break;
+    }
+    case RowFilter.Up: {
+      for (let i = 0; i < len; i++) {
+        const value = data[i] - prevLine[i];
+        buf[p++] = value;
+        size += Math.abs((value << 24) >> 24);
+        if (size >= bestSize) return size;
+      }
+      break;
+    }
+    case RowFilter.Average: {
+      for (let i = 0; i < bpp; i++) {
+        const value = data[i] - (prevLine[i] >> 1);
+        buf[p++] = value;
+        size += Math.abs((value << 24) >> 24);
+        if (size >= bestSize) return size;
+      }
+      for (let i = bpp; i < len; i++) {
+        const value = data[i] - ((data[i - bpp] + prevLine[i]) >> 1);
+        buf[p++] = value;
+        size += Math.abs((value << 24) >> 24);
+        if (size >= bestSize) return size;
+      }
+      break;
+    }
+    case RowFilter.Paeth: {
+      for (let i = 0; i < bpp; i++) {
+        const value = data[i] - prevLine[i];
+        buf[p++] = value;
+        size += Math.abs((value << 24) >> 24);
+        if (size >= bestSize) return size;
+      }
+      for (let i = bpp; i < len; i++) {
+        const a = data[i - bpp];
+        const b = prevLine[i];
+        const c = prevLine[i - bpp];
+        const pa = Math.abs(b - c);
+        const pb = Math.abs(a - c);
+        const pc = Math.abs(a + b - 2 * c);
+        const value = data[i] - (pa <= pb && pa <= pc ? a : pb <= pc ? b : c);
+        buf[p++] = value;
+        size += Math.abs((value << 24) >> 24);
+        if (size >= bestSize) return size;
+      }
+      break;
+    }
+  }
+  out.len = p;
+  return size;
+}
+
+/**
  * Optimise fully transparent pixels of a scanline so they zero out after filtering.
  * Mutates `data` in place.
  */

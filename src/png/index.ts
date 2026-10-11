@@ -18,6 +18,7 @@ import { crc32, readBeU32, writeBeU16, writeBeU32 } from '../util/bytes.js';
 import { ByteBuffer } from '../util/byteBuffer.js';
 import {
   filterLine,
+  filterLineMinSum,
   ROW_FILTER_ALL,
   rowFilterFromNumber,
   unfilterLine,
@@ -181,9 +182,18 @@ export class PngImage {
       const offset = out.len;
       const evaluator = heuristic!;
       evaluator.reset(lineLen + 1);
+      let bestSize = Number.MAX_SAFE_INTEGER;
       for (const f of ROW_FILTER_ALL) {
-        filterLine(f, bpp, cur, prev, out, alphaBytes);
-        if (evaluator.evaluate(out.buf, offset, out.len)) {
+        let improved: boolean;
+        if (strategy.kind === 'minSum') {
+          const size = filterLineMinSum(f, bpp, cur, prev, out, alphaBytes, bestSize);
+          improved = size < bestSize;
+          if (improved) bestSize = size;
+        } else {
+          filterLine(f, bpp, cur, prev, out, alphaBytes);
+          improved = evaluator.evaluate(out.buf, offset, out.len);
+        }
+        if (improved) {
           best.set(out.buf.subarray(offset, out.len));
           if (alphaBytes !== 0) bestRaw.set(cur);
           bestFilter = f;

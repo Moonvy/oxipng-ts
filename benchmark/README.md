@@ -87,3 +87,18 @@ See [BROWSER-ROUND3.md](./BROWSER-ROUND3.md) for URL configuration, validation
 details, and reproducible baseline creation from commit
 `71e2a48d58eed527ee629d7bdf94b0ae648590c0`. Baseline builds and `dist/` may be
 ignored by Git, so create or rebuild the snapshot before starting a comparison.
+
+See [OPTIMIZATION-ROUND3.md](./OPTIMIZATION-ROUND3.md) for the completed changes,
+validation results, full browser timings, and the separate Qjiao preset-6 rerun.
+
+## Fourth-round comparison
+
+Save the round-three final build (`d8c0f23`) to
+`benchmark/baseline-round4/dist/` before making further changes. Run
+`node benchmark/browser-server.mjs --round 4` and open
+`http://127.0.0.1:8787/?presets=0,2,6&runs=3&warmup=1` to compare it with the
+current build. The same foreground, API restriction, byte and pixel checks
+apply. Results save separately to `comparison-round4-browser.json`.
+
+See [OPTIMIZATION-ROUND4.md](./OPTIMIZATION-ROUND4.md) for retained changes,
+rejected experiments, auxiliary microbenchmarks and validation.

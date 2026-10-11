@@ -132,7 +132,13 @@ function findMatch(data: Uint8Array, view: DataView, n: number, pos: number, cha
           }
           l = 4;
           while (l + 4 <= maxLen) {
-            if (view.getUint32(pos + l, true) !== view.getUint32(cand + l, true)) break;
+            const diff = view.getUint32(pos + l, true) ^ view.getUint32(cand + l, true);
+            if (diff !== 0) {
+              // The lowest set bit identifies the first differing byte in
+              // these little-endian words, including a difference at bit 31.
+              l += (31 - Math.clz32(diff & -diff)) >>> 3;
+              break;
+            }
             l += 4;
           }
         } else if (bestLen >= 3) {

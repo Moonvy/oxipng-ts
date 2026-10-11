@@ -58,7 +58,7 @@ const median = values => {
   const i = sorted.length >> 1;
   return sorted.length % 2 ? sorted[i] : (sorted[i - 1] + sorted[i]) / 2;
 };
-const paint = () => new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 0)));
+const paint = () => new Promise(resolve => setTimeout(resolve, 0));
 const getJSON = async url => {
   const response = await fetch(url, { cache: 'no-store' });
   if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
@@ -66,13 +66,21 @@ const getJSON = async url => {
 };
 const cell = (tr, value) => { const td = document.createElement('td'); td.textContent = value; tr.append(td); };
 let downloadURL;
+let activeManifest;
 window.benchmarkResult = null;
 window.benchmarkDone = false;
-const publishProgress = async (status, result, startedAt, error) => {
+const publishProgress = async (status, result, startedAt, error, visibility = result?.visibility) => {
+  const manifest = result?.manifest ?? activeManifest;
+  if (!manifest) return;
   const progress = {
-    label: 'round3-browser', execution: 'window-main-thread', startedAt,
+    label: manifest.label, round: manifest.round, execution: 'window-main-thread', startedAt,
     updatedAt: new Date().toISOString(), status,
     rows: (result?.rows ?? []).map(({ name, preset, baselineMs, currentMs, speedup, currentBytes }) => ({ name, preset, baselineMs, currentMs, speedup, currentBytes })),
+    ...(visibility ? { visibility: {
+      initialState: visibility.initialState, currentState: visibility.currentState,
+      hiddenEvents: visibility.hiddenEvents, changes: visibility.changes.length,
+      callsChecked: visibility.callsChecked,
+    } } : {}),
     ...(error ? { error } : {}),
   };
   const response = await fetch('/api/progress', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(progress) });
@@ -90,30 +98,51 @@ async function runBenchmark() {
   window.benchmarkSaved = false;
   $('progress').value = 0;
   const startedAt = new Date().toISOString();
+  const visibility = {
+    monitoringStartedAt: null, initialState: null, currentState: document.visibilityState,
+    hiddenEvents: 0, changes: [], callsChecked: 0,
+  };
+  const onVisibilityChange = () => {
+    visibility.currentState = document.visibilityState;
+    visibility.changes.push({ at: new Date().toISOString(), state: document.visibilityState });
+    if (document.visibilityState !== 'visible') visibility.hiddenEvents++;
+  };
+  const requireVisible = context => {
+    visibility.currentState = document.visibilityState;
+    if (document.visibilityState !== 'visible' || visibility.hiddenEvents > 0) {
+      throw new Error(`${context}: benchmark tab must remain visible throughout measurement (state=${document.visibilityState}, hidden events=${visibility.hiddenEvents})`);
+    }
+  };
   let result;
   try {
     if (window !== globalThis || typeof document === 'undefined') throw new Error('A window main thread is required');
     $('status').textContent = `Preparing — starting in ${startDelayMs / 1000} seconds.`;
-    await publishProgress('preparing', null, startedAt);
-    await new Promise(resolve => setTimeout(resolve, startDelayMs));
-    $('status').textContent = 'Loading and fingerprinting builds and inputs…';
     const manifest = await getJSON('/api/manifest');
+    activeManifest = manifest;
+    log(`Round ${manifest.round}: ${manifest.baseline.path} → ${manifest.current.path}; save benchmark/${manifest.resultFilename}`);
+    await publishProgress('preparing', null, startedAt, undefined, visibility);
+    await new Promise(resolve => setTimeout(resolve, startDelayMs));
+    visibility.monitoringStartedAt = new Date().toISOString();
+    visibility.initialState = document.visibilityState;
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    requireVisible('Startup');
+    $('status').textContent = 'Loading and fingerprinting builds and inputs…';
     const [baseline, current] = await Promise.all([
-      import(`/benchmark/baseline-round3/dist/index.js?sha256=${manifest.baseline.sha256}`),
-      import(`/dist/index.js?sha256=${manifest.current.sha256}`),
+      import(`${manifest.baseline.url}?sha256=${manifest.baseline.sha256}`),
+      import(`${manifest.current.url}?sha256=${manifest.current.sha256}`),
     ]);
     const samples = manifest.samples.filter(sample => !selectedSamples.length || selectedSamples.includes(sample.name));
     if (!samples.length || selectedSamples.some(name => !samples.some(sample => sample.name === name))) throw new Error('Unknown or empty sample selection');
     const modules = [baseline, current];
     const labels = ['baseline', 'current'];
     result = {
-      label: 'round3-browser', execution: 'window-main-thread', startedAt,
+      label: manifest.label, round: manifest.round, execution: 'window-main-thread', startedAt,
       userAgent: navigator.userAgent, platform: navigator.platform, hardwareConcurrency: navigator.hardwareConcurrency,
       url: location.href, runs, warmup, startDelayMs, presets, samples: samples.map(sample => sample.name),
       timing: 'performance.now; synchronous compression only; median; alternating baseline/current order; yields between calls; options and input copy prepared outside timing',
       validation: 'every output: exact baseline/current bytes, deterministic across rounds, independent browser Image + Canvas RGBA comparison against original; input immutability',
       limitations: 'Canvas checks rendered 8-bit RGBA; browser color management and alpha premultiplication apply; PNG encoded bytes are independently required to match exactly',
-      disabledAPIs: ['Worker', 'SharedWorker', 'WebAssembly'], manifest, rows: [], calls: [],
+      disabledAPIs: ['Worker', 'SharedWorker', 'WebAssembly'], manifest, visibility, rows: [], calls: [],
     };
     window.benchmarkResult = result;
     $('progress').max = presets.length * samples.length * (warmup + runs) * 2;
@@ -137,15 +166,18 @@ async function runBenchmark() {
           await paint();
           const copy = input.slice();
           const options = modules[index].Options.fromPreset(preset);
+          requireVisible(label);
+          visibility.callsChecked++;
           const start = performance.now();
           const output = modules[index].oxipngSync(copy, options);
           const ms = performance.now() - start;
+          requireVisible(`${label}: completed call`);
           if (!(output instanceof Uint8Array)) throw new Error(`${label}: expected synchronous Uint8Array`);
           equalBytes(copy, input, `${label}: input mutation`);
           if (forbiddenCalls.length) throw new Error(`Forbidden API used: ${forbiddenCalls.join(', ')}`);
           if (measured) times[index].push(ms);
           outputs[index] = output;
-          result.calls.push({ name: sample.name, preset, round, measured, build: labels[index], ms, bytes: output.length });
+          result.calls.push({ name: sample.name, preset, round, measured, build: labels[index], ms, bytes: output.length, visibility: document.visibilityState });
           await verifyPixels(output, original, label);
           $('progress').value++;
           log(`${label}: ${ms.toFixed(2)} ms, ${output.length} bytes, pixels verified`);
@@ -171,6 +203,10 @@ async function runBenchmark() {
     }
     const manifestAfter = await getJSON('/api/manifest');
     if (JSON.stringify(manifestAfter) !== JSON.stringify(manifest)) throw new Error('Builds or input files changed during benchmark');
+    await paint();
+    requireVisible('Completion');
+    visibility.monitoringFinishedAt = new Date().toISOString();
+    document.removeEventListener('visibilitychange', onVisibilityChange);
     result.finishedAt = new Date().toISOString();
     result.passed = true;
     result.forbiddenCalls = forbiddenCalls.slice();
@@ -178,7 +214,7 @@ async function runBenchmark() {
     if (downloadURL) URL.revokeObjectURL(downloadURL);
     downloadURL = URL.createObjectURL(new Blob([`${json}\n`], { type: 'application/json' }));
     $('download').href = downloadURL;
-    $('download').download = 'comparison-round3-browser.json';
+    $('download').download = manifest.resultFilename;
     $('download').hidden = false;
     try {
       const saved = await fetch('/api/result', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: json });
@@ -196,11 +232,12 @@ async function runBenchmark() {
     $('status').textContent = `Failed: ${error.message}`;
     window.benchmarkError = error.stack || error.message;
     if (result) { result.passed = false; result.error = window.benchmarkError; }
-    try { await publishProgress('failed', result, startedAt, error.message); }
+    try { await publishProgress('failed', result, startedAt, error.message, visibility); }
     catch (progressError) { log(progressError.message); }
     log(window.benchmarkError);
     console.error(error);
   } finally {
+    document.removeEventListener('visibilitychange', onVisibilityChange);
     window.benchmarkDone = true;
     $('run').disabled = false;
   }

@@ -1,0 +1,1364 @@
+{
+  "label": "round4-browser",
+  "round": 4,
+  "execution": "window-main-thread",
+  "startedAt": "2026-10-11T00:38:55.363Z",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+  "platform": "MacIntel",
+  "hardwareConcurrency": 8,
+  "url": "http://127.0.0.1:8787/?presets=0,2,6&runs=3&warmup=1",
+  "runs": 3,
+  "warmup": 1,
+  "startDelayMs": 5000,
+  "presets": [
+    0,
+    2,
+    6
+  ],
+  "samples": [
+    "IMG_5112.PNG",
+    "Image Capture.png",
+    "Qjiao.png",
+    "Siri AI.png"
+  ],
+  "timing": "performance.now; synchronous compression only; median; alternating baseline/current order; yields between calls; options and input copy prepared outside timing",
+  "validation": "every output: exact baseline/current bytes, deterministic across rounds, independent browser Image + Canvas RGBA comparison against original; input immutability",
+  "limitations": "Canvas checks rendered 8-bit RGBA; browser color management and alpha premultiplication apply; PNG encoded bytes are independently required to match exactly",
+  "disabledAPIs": [
+    "Worker",
+    "SharedWorker",
+    "WebAssembly"
+  ],
+  "manifest": {
+    "round": 4,
+    "label": "round4-browser",
+    "resultFilename": "comparison-round4-browser.json",
+    "progressFilename": ".round4-browser-progress.json",
+    "baseline": {
+      "path": "benchmark/baseline-round4/dist/index.js",
+      "bytes": 142643,
+      "sha256": "d64d5ef8a1e51a920fa823a1878d3a0638b4140e489d87374870d1ff57ba3ba9",
+      "url": "/benchmark/baseline-round4/dist/index.js"
+    },
+    "current": {
+      "path": "dist/index.js",
+      "bytes": 146186,
+      "sha256": "203b7111297cc94c30ea9e7b1530692dc549d16deea9061ac160bc772f4e27de",
+      "url": "/dist/index.js"
+    },
+    "samples": [
+      {
+        "name": "IMG_5112.PNG",
+        "path": "benchmark/sample/IMG_5112.PNG",
+        "bytes": 1220437,
+        "sha256": "04bc3bb965fb3298007ca2f647d9b55bef731e251735d29b8d0b75d0a58afce4"
+      },
+      {
+        "name": "Image Capture.png",
+        "path": "benchmark/sample/Image Capture.png",
+        "bytes": 757550,
+        "sha256": "c02908d7c526d2dff0a31540a24db7a848d2797a0830c162db02c8625251b9c6"
+      },
+      {
+        "name": "Qjiao.png",
+        "path": "benchmark/sample/Qjiao.png",
+        "bytes": 827230,
+        "sha256": "2a380b6f3228ec8162248529d9a6eb1045fdb010f5caa4621c2e5d8c16ed5487"
+      },
+      {
+        "name": "Siri AI.png",
+        "path": "benchmark/sample/Siri AI.png",
+        "bytes": 811487,
+        "sha256": "4a888d254ab51bb657b08dd6c501fd07543587e6c111c7bd3b5cf1f9291f3b21"
+      }
+    ]
+  },
+  "visibility": {
+    "monitoringStartedAt": "2026-10-11T00:39:00.379Z",
+    "initialState": "visible",
+    "currentState": "visible",
+    "hiddenEvents": 0,
+    "changes": [],
+    "callsChecked": 96,
+    "monitoringFinishedAt": "2026-10-11T00:44:36.104Z"
+  },
+  "rows": [
+    {
+      "preset": 0,
+      "name": "IMG_5112.PNG",
+      "inputBytes": 1220437,
+      "width": 700,
+      "height": 1180,
+      "baselineBytes": 872135,
+      "currentBytes": 872135,
+      "baselineMs": 264.30000000447035,
+      "currentMs": 244,
+      "speedup": 1.0831967213297966,
+      "baselineTimes": [
+        264.30000000447035,
+        261.3999999985099,
+        265.3999999985099
+      ],
+      "currentTimes": [
+        243.20000000298023,
+        246.5,
+        244
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "4a310b4c241cce300e0244142a17e81e8dae51a27cc9072187bb32a87916e003"
+    },
+    {
+      "preset": 0,
+      "name": "Image Capture.png",
+      "inputBytes": 757550,
+      "width": 1024,
+      "height": 1024,
+      "baselineBytes": 620073,
+      "currentBytes": 620073,
+      "baselineMs": 273.1000000014901,
+      "currentMs": 243.30000000447035,
+      "speedup": 1.122482531839179,
+      "baselineTimes": [
+        275.29999999701977,
+        273.1000000014901,
+        269.30000000447035
+      ],
+      "currentTimes": [
+        245.39999999850988,
+        243.30000000447035,
+        241.10000000149012
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "3e584263a63ce22539962d86f1537b4f0bd6b74eb1771840803818ad56c866d3"
+    },
+    {
+      "preset": 0,
+      "name": "Qjiao.png",
+      "inputBytes": 827230,
+      "width": 1024,
+      "height": 1024,
+      "baselineBytes": 656854,
+      "currentBytes": 656854,
+      "baselineMs": 349.69999999552965,
+      "currentMs": 311.70000000298023,
+      "speedup": 1.1219120949380368,
+      "baselineTimes": [
+        349.69999999552965,
+        348.70000000298023,
+        358.59999999403954
+      ],
+      "currentTimes": [
+        311.70000000298023,
+        311,
+        316.8999999985099
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "8fd3304394ac6a67fc7c646c948b81cd90fc2311440577518cc52d174e8f6dff"
+    },
+    {
+      "preset": 0,
+      "name": "Siri AI.png",
+      "inputBytes": 811487,
+      "width": 1024,
+      "height": 1024,
+      "baselineBytes": 650346,
+      "currentBytes": 650346,
+      "baselineMs": 337.09999999403954,
+      "currentMs": 299.3999999985099,
+      "speedup": 1.1259185036597104,
+      "baselineTimes": [
+        337.3999999985099,
+        337.09999999403954,
+        334
+      ],
+      "currentTimes": [
+        303.20000000298023,
+        299.3999999985099,
+        298.5
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "0d945b23702af511dd355cdffe73d30923739917d5302395d76cb8d90d55c21e"
+    },
+    {
+      "preset": 2,
+      "name": "IMG_5112.PNG",
+      "inputBytes": 1220437,
+      "width": 700,
+      "height": 1180,
+      "baselineBytes": 846944,
+      "currentBytes": 846944,
+      "baselineMs": 824.8999999985099,
+      "currentMs": 796.0999999940395,
+      "speedup": 1.036176359759686,
+      "baselineTimes": [
+        824.8999999985099,
+        823.3999999985099,
+        828.8999999985099
+      ],
+      "currentTimes": [
+        811.8999999985099,
+        795.5,
+        796.0999999940395
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "49235d5a055732fcf97d4f84851e1210bd4bfc356c6107fae81f5bd42d024ad7"
+    },
+    {
+      "preset": 2,
+      "name": "Image Capture.png",
+      "inputBytes": 757550,
+      "width": 1024,
+      "height": 1024,
+      "baselineBytes": 596603,
+      "currentBytes": 596603,
+      "baselineMs": 904.6000000014901,
+      "currentMs": 861,
+      "speedup": 1.0506387921039375,
+      "baselineTimes": [
+        909,
+        904.6000000014901,
+        899.2000000029802
+      ],
+      "currentTimes": [
+        861,
+        856.7999999970198,
+        878.2000000029802
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "501192e9fd9423bc3bbf7f9f8e624f02f17b9fac1bcf7b71451cb89db39ff488"
+    },
+    {
+      "preset": 2,
+      "name": "Qjiao.png",
+      "inputBytes": 827230,
+      "width": 1024,
+      "height": 1024,
+      "baselineBytes": 615570,
+      "currentBytes": 615570,
+      "baselineMs": 1381.6000000014901,
+      "currentMs": 1318.3999999985099,
+      "speedup": 1.047936893206198,
+      "baselineTimes": [
+        1392,
+        1379.5,
+        1381.6000000014901
+      ],
+      "currentTimes": [
+        1318.3999999985099,
+        1309.3999999985099,
+        1327.8999999985099
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "a88b80039e98f3ea7dc843f74190c0c21ec7e5341222deeb6b4957c997b7da26"
+    },
+    {
+      "preset": 2,
+      "name": "Siri AI.png",
+      "inputBytes": 811487,
+      "width": 1024,
+      "height": 1024,
+      "baselineBytes": 614713,
+      "currentBytes": 614713,
+      "baselineMs": 1317.8999999985099,
+      "currentMs": 1271.6000000014901,
+      "speedup": 1.0364108210105107,
+      "baselineTimes": [
+        1312.8999999985099,
+        1317.8999999985099,
+        1328.1999999955297
+      ],
+      "currentTimes": [
+        1272.6999999955297,
+        1258,
+        1271.6000000014901
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "dacd3a8f5922d0fd10e9c6713b2b4b5fe924ea3a42c98d30a129c7488d665502"
+    },
+    {
+      "preset": 6,
+      "name": "IMG_5112.PNG",
+      "inputBytes": 1220437,
+      "width": 700,
+      "height": 1180,
+      "baselineBytes": 837838,
+      "currentBytes": 837838,
+      "baselineMs": 6594.79999999702,
+      "currentMs": 6271.60000000149,
+      "speedup": 1.0515338988448646,
+      "baselineTimes": [
+        6745.19999999553,
+        6594.79999999702,
+        6594.10000000149
+      ],
+      "currentTimes": [
+        6275.89999999851,
+        6271.60000000149,
+        6252.9000000059605
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "bb131df1bd9934c7fe9a2b76b82c0dc1646b53c51f2797489831320a52e21e8c"
+    },
+    {
+      "preset": 6,
+      "name": "Image Capture.png",
+      "inputBytes": 757550,
+      "width": 1024,
+      "height": 1024,
+      "baselineBytes": 590345,
+      "currentBytes": 590345,
+      "baselineMs": 7153.20000000298,
+      "currentMs": 6773,
+      "speedup": 1.0561346522963206,
+      "baselineTimes": [
+        7150.5,
+        7153.20000000298,
+        7231.10000000149
+      ],
+      "currentTimes": [
+        6744.5,
+        6878.5,
+        6773
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "3f0fa7a10362939910f97011cfb21d2123ddc90ce9485c1d668298e38fdeecf2"
+    },
+    {
+      "preset": 6,
+      "name": "Qjiao.png",
+      "inputBytes": 827230,
+      "width": 1024,
+      "height": 1024,
+      "baselineBytes": 605135,
+      "currentBytes": 605135,
+      "baselineMs": 12026,
+      "currentMs": 11334,
+      "speedup": 1.0610552320451738,
+      "baselineTimes": [
+        11985.29999999702,
+        12335.69999999553,
+        12026
+      ],
+      "currentTimes": [
+        11335.89999999851,
+        11334,
+        11296.60000000149
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "20e10ef5c6b9aaaaa1fa8faaa0c5736ed4c0a8c8ab2bce825453eb8be6f04d54"
+    },
+    {
+      "preset": 6,
+      "name": "Siri AI.png",
+      "inputBytes": 811487,
+      "width": 1024,
+      "height": 1024,
+      "baselineBytes": 594917,
+      "currentBytes": 594917,
+      "baselineMs": 11100.39999999851,
+      "currentMs": 10544.80000000447,
+      "speedup": 1.0526894772773123,
+      "baselineTimes": [
+        11257.69999999553,
+        11100.39999999851,
+        11096.10000000149
+      ],
+      "currentTimes": [
+        10544.60000000149,
+        10570.70000000298,
+        10544.80000000447
+      ],
+      "identical": true,
+      "pixelsIdentical": true,
+      "inputUnchanged": true,
+      "outputSHA256": "07c69086ed329376634f4acaf1d0fb5e75f4652913a7ca07f52b6c779a32e77d"
+    }
+  ],
+  "calls": [
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 0,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 297.8999999985099,
+      "bytes": 872135,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 0,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 281.5,
+      "bytes": 872135,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 0,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 243.20000000298023,
+      "bytes": 872135,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 0,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 264.30000000447035,
+      "bytes": 872135,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 0,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 261.3999999985099,
+      "bytes": 872135,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 0,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 246.5,
+      "bytes": 872135,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 0,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 244,
+      "bytes": 872135,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 0,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 265.3999999985099,
+      "bytes": 872135,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 0,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 289.5,
+      "bytes": 620073,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 0,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 259,
+      "bytes": 620073,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 0,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 245.39999999850988,
+      "bytes": 620073,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 0,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 275.29999999701977,
+      "bytes": 620073,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 0,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 273.1000000014901,
+      "bytes": 620073,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 0,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 243.30000000447035,
+      "bytes": 620073,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 0,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 241.10000000149012,
+      "bytes": 620073,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 0,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 269.30000000447035,
+      "bytes": 620073,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 0,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 350,
+      "bytes": 656854,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 0,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 311.29999999701977,
+      "bytes": 656854,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 0,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 311.70000000298023,
+      "bytes": 656854,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 0,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 349.69999999552965,
+      "bytes": 656854,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 0,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 348.70000000298023,
+      "bytes": 656854,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 0,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 311,
+      "bytes": 656854,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 0,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 316.8999999985099,
+      "bytes": 656854,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 0,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 358.59999999403954,
+      "bytes": 656854,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 0,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 336.69999999552965,
+      "bytes": 650346,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 0,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 300.3999999985099,
+      "bytes": 650346,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 0,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 303.20000000298023,
+      "bytes": 650346,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 0,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 337.3999999985099,
+      "bytes": 650346,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 0,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 337.09999999403954,
+      "bytes": 650346,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 0,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 299.3999999985099,
+      "bytes": 650346,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 0,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 298.5,
+      "bytes": 650346,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 0,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 334,
+      "bytes": 650346,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 2,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 832,
+      "bytes": 846944,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 2,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 812.5,
+      "bytes": 846944,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 2,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 811.8999999985099,
+      "bytes": 846944,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 2,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 824.8999999985099,
+      "bytes": 846944,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 2,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 823.3999999985099,
+      "bytes": 846944,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 2,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 795.5,
+      "bytes": 846944,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 2,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 796.0999999940395,
+      "bytes": 846944,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 2,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 828.8999999985099,
+      "bytes": 846944,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 2,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 904,
+      "bytes": 596603,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 2,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 872.5,
+      "bytes": 596603,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 2,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 861,
+      "bytes": 596603,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 2,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 909,
+      "bytes": 596603,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 2,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 904.6000000014901,
+      "bytes": 596603,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 2,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 856.7999999970198,
+      "bytes": 596603,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 2,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 878.2000000029802,
+      "bytes": 596603,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 2,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 899.2000000029802,
+      "bytes": 596603,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 2,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 1388.8999999985099,
+      "bytes": 615570,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 2,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 1306.3999999985099,
+      "bytes": 615570,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 2,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 1318.3999999985099,
+      "bytes": 615570,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 2,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 1392,
+      "bytes": 615570,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 2,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 1379.5,
+      "bytes": 615570,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 2,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 1309.3999999985099,
+      "bytes": 615570,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 2,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 1327.8999999985099,
+      "bytes": 615570,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 2,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 1381.6000000014901,
+      "bytes": 615570,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 2,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 1316.5,
+      "bytes": 614713,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 2,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 1263.2999999970198,
+      "bytes": 614713,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 2,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 1272.6999999955297,
+      "bytes": 614713,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 2,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 1312.8999999985099,
+      "bytes": 614713,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 2,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 1317.8999999985099,
+      "bytes": 614713,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 2,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 1258,
+      "bytes": 614713,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 2,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 1271.6000000014901,
+      "bytes": 614713,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 2,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 1328.1999999955297,
+      "bytes": 614713,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 6,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 6606.10000000149,
+      "bytes": 837838,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 6,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 6262.20000000298,
+      "bytes": 837838,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 6,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 6275.89999999851,
+      "bytes": 837838,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 6,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 6745.19999999553,
+      "bytes": 837838,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 6,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 6594.79999999702,
+      "bytes": 837838,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 6,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 6271.60000000149,
+      "bytes": 837838,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 6,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 6252.9000000059605,
+      "bytes": 837838,
+      "visibility": "visible"
+    },
+    {
+      "name": "IMG_5112.PNG",
+      "preset": 6,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 6594.10000000149,
+      "bytes": 837838,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 6,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 7163.60000000149,
+      "bytes": 590345,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 6,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 6756.30000000447,
+      "bytes": 590345,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 6,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 6744.5,
+      "bytes": 590345,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 6,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 7150.5,
+      "bytes": 590345,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 6,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 7153.20000000298,
+      "bytes": 590345,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 6,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 6878.5,
+      "bytes": 590345,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 6,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 6773,
+      "bytes": 590345,
+      "visibility": "visible"
+    },
+    {
+      "name": "Image Capture.png",
+      "preset": 6,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 7231.10000000149,
+      "bytes": 590345,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 6,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 11987.90000000596,
+      "bytes": 605135,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 6,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 11428,
+      "bytes": 605135,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 6,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 11335.89999999851,
+      "bytes": 605135,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 6,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 11985.29999999702,
+      "bytes": 605135,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 6,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 12335.69999999553,
+      "bytes": 605135,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 6,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 11334,
+      "bytes": 605135,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 6,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 11296.60000000149,
+      "bytes": 605135,
+      "visibility": "visible"
+    },
+    {
+      "name": "Qjiao.png",
+      "preset": 6,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 12026,
+      "bytes": 605135,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 6,
+      "round": 0,
+      "measured": false,
+      "build": "baseline",
+      "ms": 11142.09999999404,
+      "bytes": 594917,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 6,
+      "round": 0,
+      "measured": false,
+      "build": "current",
+      "ms": 10779.39999999851,
+      "bytes": 594917,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 6,
+      "round": 1,
+      "measured": true,
+      "build": "current",
+      "ms": 10544.60000000149,
+      "bytes": 594917,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 6,
+      "round": 1,
+      "measured": true,
+      "build": "baseline",
+      "ms": 11257.69999999553,
+      "bytes": 594917,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 6,
+      "round": 2,
+      "measured": true,
+      "build": "baseline",
+      "ms": 11100.39999999851,
+      "bytes": 594917,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 6,
+      "round": 2,
+      "measured": true,
+      "build": "current",
+      "ms": 10570.70000000298,
+      "bytes": 594917,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 6,
+      "round": 3,
+      "measured": true,
+      "build": "current",
+      "ms": 10544.80000000447,
+      "bytes": 594917,
+      "visibility": "visible"
+    },
+    {
+      "name": "Siri AI.png",
+      "preset": 6,
+      "round": 3,
+      "measured": true,
+      "build": "baseline",
+      "ms": 11096.10000000149,
+      "bytes": 594917,
+      "visibility": "visible"
+    }
+  ],
+  "finishedAt": "2026-10-11T00:44:36.104Z",
+  "passed": true,
+  "forbiddenCalls": []
+}
