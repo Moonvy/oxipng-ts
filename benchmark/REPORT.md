@@ -27,7 +27,7 @@ Generated: 2026-10-11T15:04:30.796Z
 
 ## CLI time
 
-Per-file columns show measured elapsed time. The Total elapsed row sums those times for reference; its ratio columns show the geometric mean of per-image ratios, giving every image equal weight.
+Per-file columns show measured elapsed time. The Total row sums each engine's per-image times; ratios compare those summed elapsed times, so longer-running images contribute more.
 
 | File | Rust | Node | Node / Rust |
 | --- | ---: | ---: | ---: |
@@ -39,7 +39,7 @@ Per-file columns show measured elapsed time. The Total elapsed row sums those ti
 | Web.png | 1070.2 ms | 2770.6 ms | 2.59× |
 | icon-samll.png | 16.2 ms | 95.2 ms | 5.87× |
 | icon-small2.png | 135.4 ms | 360.5 ms | 2.66× |
-| **Total elapsed** | 7829.4 ms | 14148.0 ms | 2.15× |
+| **Total** | 7829.4 ms | 14148.0 ms | 1.81× |
 
 ## Summary
 

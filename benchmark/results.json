@@ -11,8 +11,7 @@
     "runs": 3,
     "warmup": 0,
     "startupRuns": 3,
-    "timeAggregation": "drop-fastest-mean",
-    "comparisonAggregation": "geomean-per-image-vs-rust"
+    "timeAggregation": "drop-fastest-mean"
   },
   "totals": {
     "files": 8,
@@ -25,10 +24,10 @@
     "tsCliStartupMs": 39.55387499999999,
     "sizeOverheadPercent": 4.2702715834140985,
     "nativeVsNativeTimeRatio": 1,
-    "nativeVsNodeTimeRatio": 0.46438268779654585,
-    "tsVsNativeTimeRatio": 2.153396382507087,
+    "nativeVsNodeTimeRatio": 0.553393180187946,
+    "tsVsNativeTimeRatio": 1.807033472404512,
     "tsVsNodeTimeRatio": 1,
-    "slowdown": 2.153396382507087
+    "slowdown": 1.807033472404512
   },
   "rows": [
     {
