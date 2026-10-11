@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-11T15:04:30.796Z",
+  "generatedAt": "2026-10-11T15:15:02.810Z",
   "environment": {
     "platform": "darwin",
     "arch": "arm64",
-    "cpu": "Apple M3 Pro",
-    "node": "v26.7.0"
+    "cpu": "Apple M1",
+    "node": "v24.21.0"
   },
   "options": {
     "opt": "2",
@@ -17,100 +17,96 @@
     "files": 8,
     "originalBytes": 9149036,
     "nativeBytes": 7080182,
-    "nativeMs": 7829.392728500003,
-    "nativeStartupMs": 5.509458000000009,
+    "nativeMs": 9228.6455005,
+    "nativeStartupMs": 4.315957999999995,
     "tsBytes": 7382525,
-    "tsCliMs": 14147.974728999998,
-    "tsCliStartupMs": 39.55387499999999,
+    "tsCliMs": 15962.598270999995,
+    "tsCliStartupMs": 45.53708399999999,
     "sizeOverheadPercent": 4.2702715834140985,
-    "nativeVsNativeTimeRatio": 1,
-    "nativeVsNodeTimeRatio": 0.553393180187946,
-    "tsVsNativeTimeRatio": 1.807033472404512,
-    "tsVsNodeTimeRatio": 1,
-    "slowdown": 1.807033472404512
+    "slowdown": 1.729679428052053
   },
   "rows": [
     {
       "name": "Anime.png",
       "originalSize": 1220437,
       "nativeSize": 808313,
-      "nativeMs": 581.1688750000001,
+      "nativeMs": 696.6175420000001,
       "tsSize": 831762,
-      "tsCliMs": 911.301354,
+      "tsCliMs": 1043.0686044999995,
       "sizeDelta": 23449
     },
     {
       "name": "Game.png",
       "originalSize": 4107582,
       "nativeSize": 3683431,
-      "nativeMs": 3676.6432705,
+      "nativeMs": 4183.155687500001,
       "tsSize": 3861490,
-      "tsCliMs": 6203.951687000001,
+      "tsCliMs": 6881.856479,
       "sizeDelta": 178059
     },
     {
       "name": "Icon0.png",
       "originalSize": 811487,
       "nativeSize": 559103,
-      "nativeMs": 782.745812000001,
+      "nativeMs": 963.8939375000009,
       "tsSize": 580339,
-      "tsCliMs": 1243.7408544999998,
+      "tsCliMs": 1391.443083500002,
       "sizeDelta": 21236
     },
     {
       "name": "Icon1.png",
       "originalSize": 757550,
       "nativeSize": 551303,
-      "nativeMs": 671.265437500002,
+      "nativeMs": 752.2833334999959,
       "tsSize": 571901,
-      "tsCliMs": 1188.8031875000015,
+      "tsCliMs": 1527.0342290000008,
       "sizeDelta": 20598
     },
     {
       "name": "Icon2.png",
       "originalSize": 827230,
       "nativeSize": 554704,
-      "nativeMs": 895.6945625000008,
+      "nativeMs": 1096.1451460000062,
       "tsSize": 579562,
-      "tsCliMs": 1373.8797709999963,
+      "tsCliMs": 1554.235937999998,
       "sizeDelta": 24858
     },
     {
       "name": "Web.png",
       "originalSize": 1337550,
       "nativeSize": 878403,
-      "nativeMs": 1070.2355419999985,
+      "nativeMs": 1331.8281664999959,
       "tsSize": 909096,
-      "tsCliMs": 2770.5628749999996,
+      "tsCliMs": 3064.3702085000004,
       "sizeDelta": 30693
     },
     {
       "name": "icon-samll.png",
       "originalSize": 8563,
       "nativeSize": 6098,
-      "nativeMs": 16.20262499999808,
+      "nativeMs": 16.616000000001804,
       "tsSize": 6373,
-      "tsCliMs": 95.18512499999633,
+      "tsCliMs": 100.48272899999574,
       "sizeDelta": 275
     },
     {
       "name": "icon-small2.png",
       "originalSize": 78637,
       "nativeSize": 38827,
-      "nativeMs": 135.43660400000226,
+      "nativeMs": 188.10568749999948,
       "tsSize": 42002,
-      "tsCliMs": 360.54987500000425,
+      "tsCliMs": 400.1069994999998,
       "sizeDelta": 3175
     }
   ],
   "native": {
     "bin": "oxipng",
     "version": "oxipng 10.2.1",
-    "startupMs": 5.509458000000009
+    "startupMs": 4.315957999999995
   },
   "ts": {
     "name": "oxipng-ts",
     "version": "0.1.0",
-    "cliStartupMs": 39.55387499999999
+    "cliStartupMs": 45.53708399999999
   }
 }

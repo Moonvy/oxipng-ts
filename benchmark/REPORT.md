@@ -1,10 +1,10 @@
 # oxipng-ts benchmark
 
-Generated: 2026-10-11T15:04:30.796Z
+Generated: 2026-10-11T15:15:02.810Z
 
-- Rust: **oxipng 10.2.1** (`oxipng`, startup ≈ 5.5 ms)
-- Node: **oxipng-ts 0.1.0** (`/usr/local/bin/node /Users/yarna/Project/Test/oxipng-ts/dist/js/cli.js`, startup ≈ 39.6 ms)
-- Host: darwin/arm64, Apple M3 Pro, Node v26.7.0
+- Rust: **oxipng 10.2.1** (`oxipng`, startup ≈ 4.3 ms)
+- Node: **oxipng-ts 0.1.0** (`/Users/sxcc/.vite-plus/js_runtime/node/24.21.0/bin/node /Users/sxcc/四喜茶茶文件/个人文件/AI/Oxipng-ts/oxipng-ts/dist/js/cli.js`, startup ≈ 45.5 ms)
+- Host: darwin/arm64, Apple M1, Node v24.21.0
 - Options: `-o 2` applied identically to all 2 tools
 - Timing: 3 fresh processes per image, no warmup; discard the fastest run and average the remaining 2, with startup included
 - Startup: best of 3 fresh processes compressing the 1×1 PNG at `test/files/fully_optimized.png`; no warmup
@@ -27,19 +27,19 @@ Generated: 2026-10-11T15:04:30.796Z
 
 ## CLI time
 
-Per-file columns show measured elapsed time. The Total row sums each engine's per-image times; ratios compare those summed elapsed times, so longer-running images contribute more.
+Ratios compare summed elapsed time across all images; lower is faster.
 
 | File | Rust | Node | Node / Rust |
 | --- | ---: | ---: | ---: |
-| Anime.png | 581.2 ms | 911.3 ms | 1.57× |
-| Game.png | 3676.6 ms | 6204.0 ms | 1.69× |
-| Icon0.png | 782.7 ms | 1243.7 ms | 1.59× |
-| Icon1.png | 671.3 ms | 1188.8 ms | 1.77× |
-| Icon2.png | 895.7 ms | 1373.9 ms | 1.53× |
-| Web.png | 1070.2 ms | 2770.6 ms | 2.59× |
-| icon-samll.png | 16.2 ms | 95.2 ms | 5.87× |
-| icon-small2.png | 135.4 ms | 360.5 ms | 2.66× |
-| **Total** | 7829.4 ms | 14148.0 ms | 1.81× |
+| Anime.png | 696.6 ms | 1043.1 ms | 1.50× |
+| Game.png | 4183.2 ms | 6881.9 ms | 1.65× |
+| Icon0.png | 963.9 ms | 1391.4 ms | 1.44× |
+| Icon1.png | 752.3 ms | 1527.0 ms | 2.03× |
+| Icon2.png | 1096.1 ms | 1554.2 ms | 1.42× |
+| Web.png | 1331.8 ms | 3064.4 ms | 2.30× |
+| icon-samll.png | 16.6 ms | 100.5 ms | 6.05× |
+| icon-small2.png | 188.1 ms | 400.1 ms | 2.13× |
+| **Total** | 9228.6 ms | 15962.6 ms | 1.73× |
 
 ## Summary
 

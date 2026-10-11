@@ -1,0 +1,1157 @@
+{
+  "generatedAt": "2026-10-11T15:23:00.314Z",
+  "environment": {
+    "cpu": "Apple M1",
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v24.21.0"
+  },
+  "settings": {
+    "runs": 1,
+    "warmup": 0,
+    "corpus": "extended",
+    "candidates": "insertion-before,insertion-48,insertion-32,insertion-16,insertion-8",
+    "output": "benchmark/o2-insertion-screen.json"
+  },
+  "encoderSha256": "4652663f37d778fe37277f0b16838a207541a0c584d36c05da0a18ce742a7847",
+  "optimizerSha256": "4b90ecf4bc86e28c7df6f05531d7e241383ecb301386de09ad46d6affd04b236",
+  "timing": "In-process API; alternating/rotating candidates; PNG checks outside timing; all bundles built identically",
+  "complete": true,
+  "configurations": [
+    {
+      "name": "insertion-before",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 64
+    },
+    {
+      "name": "insertion-48",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 48,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "insertion-32",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 32,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "insertion-16",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 16,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "insertion-8",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 8,
+      "maxGrowthPercent": 2
+    }
+  ],
+  "rows": [
+    {
+      "name": "Anime.png",
+      "category": "screenshot",
+      "inputBytes": 1220437,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 831762,
+          "medianMs": 1023.702875,
+          "minMs": 1023.702875,
+          "samplesMs": [
+            1023.702875
+          ],
+          "sha256": "0d9a2e90b44a3b4b904d996cc8f2e7fb1ced9fd176a50c07ec6b772638d8b60c",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 831863,
+          "medianMs": 1014.9514590000001,
+          "minMs": 1014.9514590000001,
+          "samplesMs": [
+            1014.9514590000001
+          ],
+          "sha256": "c6908a7afd2bfc60ffdfcd04aabda385bea5ed7d6607afd5dc70269d5b5e1a88",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 832356,
+          "medianMs": 1009.8074999999999,
+          "minMs": 1009.8074999999999,
+          "samplesMs": [
+            1009.8074999999999
+          ],
+          "sha256": "7d461ae9fcde7e4aac182ddbaff4d5b87fa5256f6d151d2940657b629cdca826",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 835229,
+          "medianMs": 901.9670830000005,
+          "minMs": 901.9670830000005,
+          "samplesMs": [
+            901.9670830000005
+          ],
+          "sha256": "3a1b423524a3e3d2906567275b0717994de2b70d36c6ecd8e04d75df13751b6e",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 840249,
+          "medianMs": 829.8082919999997,
+          "minMs": 829.8082919999997,
+          "samplesMs": [
+            829.8082919999997
+          ],
+          "sha256": "74b0b3a3fd42a37ec919db481190f0e39646162b1568e868a3dc716388ba8880",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Game.png",
+      "category": "screenshot",
+      "inputBytes": 4107582,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 3861490,
+          "medianMs": 6722.341875,
+          "minMs": 6722.341875,
+          "samplesMs": [
+            6722.341875
+          ],
+          "sha256": "b7b7bd42bec94aee9c2ea6eb6c4949a264c2235c509b87a4ca05325bb5027dc8",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 3862924,
+          "medianMs": 6339.654125000001,
+          "minMs": 6339.654125000001,
+          "samplesMs": [
+            6339.654125000001
+          ],
+          "sha256": "a84a3e5a12c777b8803edd9a2f7e48b729b7232f57a537fa9da7e4ec6e3e8509",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 3865078,
+          "medianMs": 5760.359249999998,
+          "minMs": 5760.359249999998,
+          "samplesMs": [
+            5760.359249999998
+          ],
+          "sha256": "4ed152f6214d4a60c2acdd62dbbda4e0da2234ccbd6647332f763da1c1cbb09d",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 3878741,
+          "medianMs": 4917.111958999998,
+          "minMs": 4917.111958999998,
+          "samplesMs": [
+            4917.111958999998
+          ],
+          "sha256": "2fa2ec026332f9d2a3b676b6b7da1d4fd26053bb40738cde490bafc584b3c7bc",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 3907386,
+          "medianMs": 4326.962457999998,
+          "minMs": 4326.962457999998,
+          "samplesMs": [
+            4326.962457999998
+          ],
+          "sha256": "e5d8fbaee49791cde35645cd418898bc484d82f80b783f9e1c76a0252fb7c117",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Icon0.png",
+      "category": "screenshot",
+      "inputBytes": 811487,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 580339,
+          "medianMs": 1334.780375000002,
+          "minMs": 1334.780375000002,
+          "samplesMs": [
+            1334.780375000002
+          ],
+          "sha256": "17149348ad09a8dff925b6c0418f6c2badafefc04753b7a505e0dbd62df6c390",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 580493,
+          "medianMs": 1298.5498339999976,
+          "minMs": 1298.5498339999976,
+          "samplesMs": [
+            1298.5498339999976
+          ],
+          "sha256": "86fffb9b4658df3684cb586567b963c717addef3498584b8f0c79afa47952a13",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 580759,
+          "medianMs": 1252.1056670000035,
+          "minMs": 1252.1056670000035,
+          "samplesMs": [
+            1252.1056670000035
+          ],
+          "sha256": "72848e7bec9e284de16afc2e88ea44b80cc44fa3118b6cc15d4f28b1609e5b8f",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 582641,
+          "medianMs": 1188.6367909999972,
+          "minMs": 1188.6367909999972,
+          "samplesMs": [
+            1188.6367909999972
+          ],
+          "sha256": "ccbc2211fb6db4931add66410d45e0ce9c5f9ae930a7cee4b5ef49d35856d34d",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 588491,
+          "medianMs": 1089.7287919999944,
+          "minMs": 1089.7287919999944,
+          "samplesMs": [
+            1089.7287919999944
+          ],
+          "sha256": "43cdd789e6d1e13c6876db994e37aac7bb56082de92ce3ec021965896eec34c1",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Icon1.png",
+      "category": "screenshot",
+      "inputBytes": 757550,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 571901,
+          "medianMs": 1246.9477499999994,
+          "minMs": 1246.9477499999994,
+          "samplesMs": [
+            1246.9477499999994
+          ],
+          "sha256": "5f2c8b10696bd5d03029dcedc8bf628cfbb957ad2c5921276f5ab8729c38eeab",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 572042,
+          "medianMs": 1199.5373749999999,
+          "minMs": 1199.5373749999999,
+          "samplesMs": [
+            1199.5373749999999
+          ],
+          "sha256": "f9d71f862f324a99d0591e9ba0e82248b3bc64af4b33d8bf34d3370488c0c487",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 572402,
+          "medianMs": 1148.004832999999,
+          "minMs": 1148.004832999999,
+          "samplesMs": [
+            1148.004832999999
+          ],
+          "sha256": "609b7492cae46303831a770c448e96025331b410e3b613923ffe77ce450143b2",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 575244,
+          "medianMs": 1081.0805000000037,
+          "minMs": 1081.0805000000037,
+          "samplesMs": [
+            1081.0805000000037
+          ],
+          "sha256": "77504cb1720a7d471f2c17e514d31bf3c3183434e33cecc44862ca62cd541c75",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 581503,
+          "medianMs": 950.6634170000034,
+          "minMs": 950.6634170000034,
+          "samplesMs": [
+            950.6634170000034
+          ],
+          "sha256": "97acfca6f13364c8f19a338565f7ff40893bfae44a84ab73cca9a0258d5a0805",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Icon2.png",
+      "category": "screenshot",
+      "inputBytes": 827230,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 579562,
+          "medianMs": 1409.940125000001,
+          "minMs": 1409.940125000001,
+          "samplesMs": [
+            1409.940125000001
+          ],
+          "sha256": "9f6ee6fbbc6e6bb8fffba87150849bb5caf43208d8e04d12896f8c2803b1faa7",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 579667,
+          "medianMs": 1373.560749999997,
+          "minMs": 1373.560749999997,
+          "samplesMs": [
+            1373.560749999997
+          ],
+          "sha256": "b833f767f5dc5df07d5bd358f708b5fe5646f444004acb37dc926c91e46bb0a9",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 579946,
+          "medianMs": 1370.9877500000002,
+          "minMs": 1370.9877500000002,
+          "samplesMs": [
+            1370.9877500000002
+          ],
+          "sha256": "fa3e44165ee63e207dffc860ceb3149d50f5b2730a871aa6550a63bb2641fb36",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 582735,
+          "medianMs": 1247.5675420000043,
+          "minMs": 1247.5675420000043,
+          "samplesMs": [
+            1247.5675420000043
+          ],
+          "sha256": "670e5022959e182603eb4f6b33543a8958d53c6fcca53442d93e276bab6f7177",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 591303,
+          "medianMs": 1133.2586670000019,
+          "minMs": 1133.2586670000019,
+          "samplesMs": [
+            1133.2586670000019
+          ],
+          "sha256": "e0eb10a1d0e880c2d8a67c85a5f62b947f130eb7e369e1f6f7d0cb236bb0d92c",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Web.png",
+      "category": "screenshot",
+      "inputBytes": 1337550,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 909096,
+          "medianMs": 3070.6850410000043,
+          "minMs": 3070.6850410000043,
+          "samplesMs": [
+            3070.6850410000043
+          ],
+          "sha256": "d62393ec186f2fd9ac57adf27aa4200bdc9404f9404bd5aaf3e04d42b71bf7e4",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 909722,
+          "medianMs": 2804.393916000001,
+          "minMs": 2804.393916000001,
+          "samplesMs": [
+            2804.393916000001
+          ],
+          "sha256": "2e46cce314988e214b9d9519124eb9bbbab9784e7e2d4a5b8c418ab0f52ec796",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 911803,
+          "medianMs": 2631.6141659999994,
+          "minMs": 2631.6141659999994,
+          "samplesMs": [
+            2631.6141659999994
+          ],
+          "sha256": "eee07cd3975a1e8211a827b5267dd4d9e609114abd55d853dcc362d2219cfec7",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 917729,
+          "medianMs": 2334.3307080000013,
+          "minMs": 2334.3307080000013,
+          "samplesMs": [
+            2334.3307080000013
+          ],
+          "sha256": "db57da98a1c2c6d58f4b5c8c72b3f6676245cbd41de75db41bb746458ee0158c",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 924068,
+          "medianMs": 2151.6297919999997,
+          "minMs": 2151.6297919999997,
+          "samplesMs": [
+            2151.6297919999997
+          ],
+          "sha256": "6a89138f49457069ada844ef7c3c806ea12b62833eb80ec987a5fc5a8c1569d2",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "icon-samll.png",
+      "category": "screenshot",
+      "inputBytes": 8563,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 6373,
+          "medianMs": 26.95487499999581,
+          "minMs": 26.95487499999581,
+          "samplesMs": [
+            26.95487499999581
+          ],
+          "sha256": "99a9d8f1728f7e48e9fb7c66761173eb2675479673d2df88ba6d4c1e9f8865e1",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 6379,
+          "medianMs": 25.27004200000374,
+          "minMs": 25.27004200000374,
+          "samplesMs": [
+            25.27004200000374
+          ],
+          "sha256": "11ff85ad4e82fe54d3cdf6eee9f036f1e69eea77f67fe83337e0d1bab62e88de",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 6380,
+          "medianMs": 23.76533300000301,
+          "minMs": 23.76533300000301,
+          "samplesMs": [
+            23.76533300000301
+          ],
+          "sha256": "18443b2aac0d466e0a78ad741c3e8667d14486196dea1b3052bfef681a6a9539",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 6399,
+          "medianMs": 20.429959000000963,
+          "minMs": 20.429959000000963,
+          "samplesMs": [
+            20.429959000000963
+          ],
+          "sha256": "e55b27d22256a07be33b09aa88a25d9504e1ee1e8cf8910db910262b2eb8bfae",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 6409,
+          "medianMs": 16.97183400001086,
+          "minMs": 16.97183400001086,
+          "samplesMs": [
+            16.97183400001086
+          ],
+          "sha256": "f9986469b2f17f8b905fb7d4b78f8ff86e647c91fee2511539b7dc4ddc3e3b31",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "icon-small2.png",
+      "category": "screenshot",
+      "inputBytes": 78637,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 42002,
+          "medianMs": 289.68954200000735,
+          "minMs": 289.68954200000735,
+          "samplesMs": [
+            289.68954200000735
+          ],
+          "sha256": "f660efd30267addc8ccfd85a2bdbaf0525fe9ab1ac8e70a28b5ca497b050b96d",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 42204,
+          "medianMs": 281.5399999999936,
+          "minMs": 281.5399999999936,
+          "samplesMs": [
+            281.5399999999936
+          ],
+          "sha256": "aa70a149da9c7449fb04cb34a9796c61f49d91f35a5d6d4b558af7b312ec7b93",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 42295,
+          "medianMs": 265.4539999999979,
+          "minMs": 265.4539999999979,
+          "samplesMs": [
+            265.4539999999979
+          ],
+          "sha256": "8d53486d9b99c94b158b861e201edac3d54db1b412a1dcaeb8f9305cf81f444b",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 42667,
+          "medianMs": 238.3684579999972,
+          "minMs": 238.3684579999972,
+          "samplesMs": [
+            238.3684579999972
+          ],
+          "sha256": "67b1eb2a9f28267a301d28f4f760680fccfca8c7bb9497f8c69645b68f89d54f",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 43085,
+          "medianMs": 209.52987500000745,
+          "minMs": 209.52987500000745,
+          "samplesMs": [
+            209.52987500000745
+          ],
+          "sha256": "af8986b5c2576ad6bf9f0f2e40f9e267ff2b19c2d28c0278fb8c65598c3ec19c",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "generated/gradient.png",
+      "category": "generated",
+      "inputBytes": 521263,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 24141,
+          "medianMs": 852.6035830000037,
+          "minMs": 852.6035830000037,
+          "samplesMs": [
+            852.6035830000037
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 26286,
+          "medianMs": 787.7335419999872,
+          "minMs": 787.7335419999872,
+          "samplesMs": [
+            787.7335419999872
+          ],
+          "sha256": "1cfbbe9fe29833cda6ee0aa86f4098f28b94b23ef41f26e89595158a4c06598a",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 32104,
+          "medianMs": 672.1595840000082,
+          "minMs": 672.1595840000082,
+          "samplesMs": [
+            672.1595840000082
+          ],
+          "sha256": "dc81c1ceca5af5ffed83f1d17382c17103ad70873214b8a39db6615da8961189",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 40213,
+          "medianMs": 508.9005000000034,
+          "minMs": 508.9005000000034,
+          "samplesMs": [
+            508.9005000000034
+          ],
+          "sha256": "e633df4d1a796cea3962ea5e9988a8c5a9425440a9779ad466e275a65c7a80ea",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 49590,
+          "medianMs": 391.09891600000265,
+          "minMs": 391.09891600000265,
+          "samplesMs": [
+            391.09891600000265
+          ],
+          "sha256": "8d0f122d0bb5b81c5c5052939fe9252f505260b0121a9be22706e82f5e22194c",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "generated/shapes.png",
+      "category": "generated",
+      "inputBytes": 8382,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 3966,
+          "medianMs": 192.95183299999917,
+          "minMs": 192.95183299999917,
+          "samplesMs": [
+            192.95183299999917
+          ],
+          "sha256": "2fc0f819fd3da75c7f560b6be4baa18e2d5eb9b770b33f7faca9092652f50445",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 4040,
+          "medianMs": 173.63074999999662,
+          "minMs": 173.63074999999662,
+          "samplesMs": [
+            173.63074999999662
+          ],
+          "sha256": "f806e8b89c6a95203f3fa8373393c018a7bbc8e0b93068ed320126ed7cbbea67",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 4179,
+          "medianMs": 149.57612500000687,
+          "minMs": 149.57612500000687,
+          "samplesMs": [
+            149.57612500000687
+          ],
+          "sha256": "e528d2d2b22a01884d8ede95b98129397786edc88f9d860050d9c6431bbd387c",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 4336,
+          "medianMs": 119.87041699999827,
+          "minMs": 119.87041699999827,
+          "samplesMs": [
+            119.87041699999827
+          ],
+          "sha256": "d0f624c9f619a56051edf7e440d3d5f894993567ddd5963f7f4d97647d8a3abc",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 4443,
+          "medianMs": 105.174291000003,
+          "minMs": 105.174291000003,
+          "samplesMs": [
+            105.174291000003
+          ],
+          "sha256": "1bb908c524a71278bb8c9e183f5c8a15112f03f0ecfc2b6fea501f72314df62a",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "generated/photo.png",
+      "category": "generated",
+      "inputBytes": 354331,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 222579,
+          "medianMs": 457.4751669999969,
+          "minMs": 457.4751669999969,
+          "samplesMs": [
+            457.4751669999969
+          ],
+          "sha256": "49bb6a68110adbf10f07817db5c1966f787d2112973d6d32cd4db46846f2b990",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 222570,
+          "medianMs": 451.8038329999981,
+          "minMs": 451.8038329999981,
+          "samplesMs": [
+            451.8038329999981
+          ],
+          "sha256": "6fbeb5d960d357839dc919816f28d341609ce54594be2f20b7637f638718f5bf",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 222560,
+          "medianMs": 451.2245410000032,
+          "minMs": 451.2245410000032,
+          "samplesMs": [
+            451.2245410000032
+          ],
+          "sha256": "25a888142b265e89739fbdecefd2df22611394e537d11420b34d3fa3443bbab2",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 222728,
+          "medianMs": 450.56262500000594,
+          "minMs": 450.56262500000594,
+          "samplesMs": [
+            450.56262500000594
+          ],
+          "sha256": "800799b9860780167028b6bd6bb64038aa5bab573f03f59167b4432c5cb51ab8",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 225022,
+          "medianMs": 426.47458399999596,
+          "minMs": 426.47458399999596,
+          "samplesMs": [
+            426.47458399999596
+          ],
+          "sha256": "0f31324b5d67e8370c8b9e1dc92c79d0efacf5a7e5f2e92f284d00b8b260359a",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/palette_8_should_be_palette_8.png",
+      "category": "fixture",
+      "inputBytes": 32558,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 30688,
+          "medianMs": 148.61587500000314,
+          "minMs": 148.61587500000314,
+          "samplesMs": [
+            148.61587500000314
+          ],
+          "sha256": "f13eb9c8a4224318c8966367a0cfceeb0ce9b237ca3d7d8ea0ced84b6b27b254",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 30699,
+          "medianMs": 144.56754200000432,
+          "minMs": 144.56754200000432,
+          "samplesMs": [
+            144.56754200000432
+          ],
+          "sha256": "1904143cf94ceaafd649cbf5c9197f9249fd9b79ad4756221458ae42a82c566b",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 30758,
+          "medianMs": 137.91849999999977,
+          "minMs": 137.91849999999977,
+          "samplesMs": [
+            137.91849999999977
+          ],
+          "sha256": "68a45a375ecd533461b5b40cf42ecc259451616f9ef2dd19105ea14f4a6fea29",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 30835,
+          "medianMs": 130.9608750000043,
+          "minMs": 130.9608750000043,
+          "samplesMs": [
+            130.9608750000043
+          ],
+          "sha256": "c1d4cc3fddffc585e9ab4178952dc4ee87fbc54f705bf5acc20af4b6733a4460",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 30912,
+          "medianMs": 122.61475000000792,
+          "minMs": 122.61475000000792,
+          "samplesMs": [
+            122.61475000000792
+          ],
+          "sha256": "cf271d87178eed7b60889c524c34c7571b29c2e5d4460d44142ad76dda87367c",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/rgb_trns_8_should_be_palette_8.png",
+      "category": "fixture",
+      "inputBytes": 40736,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 30688,
+          "medianMs": 128.8353749999951,
+          "minMs": 128.8353749999951,
+          "samplesMs": [
+            128.8353749999951
+          ],
+          "sha256": "f13eb9c8a4224318c8966367a0cfceeb0ce9b237ca3d7d8ea0ced84b6b27b254",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 30699,
+          "medianMs": 125.02495799999451,
+          "minMs": 125.02495799999451,
+          "samplesMs": [
+            125.02495799999451
+          ],
+          "sha256": "1904143cf94ceaafd649cbf5c9197f9249fd9b79ad4756221458ae42a82c566b",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 30758,
+          "medianMs": 120.15837499999907,
+          "minMs": 120.15837499999907,
+          "samplesMs": [
+            120.15837499999907
+          ],
+          "sha256": "68a45a375ecd533461b5b40cf42ecc259451616f9ef2dd19105ea14f4a6fea29",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 30835,
+          "medianMs": 112.20337499999732,
+          "minMs": 112.20337499999732,
+          "samplesMs": [
+            112.20337499999732
+          ],
+          "sha256": "c1d4cc3fddffc585e9ab4178952dc4ee87fbc54f705bf5acc20af4b6733a4460",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 30912,
+          "medianMs": 120.93045800000255,
+          "minMs": 120.93045800000255,
+          "samplesMs": [
+            120.93045800000255
+          ],
+          "sha256": "cf271d87178eed7b60889c524c34c7571b29c2e5d4460d44142ad76dda87367c",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/rgba_16_should_be_rgba_16.png",
+      "category": "fixture",
+      "inputBytes": 88684,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 82292,
+          "medianMs": 720.1410000000033,
+          "minMs": 720.1410000000033,
+          "samplesMs": [
+            720.1410000000033
+          ],
+          "sha256": "74f075611127aa5a16f67ae15b1912a01855d8466ace27d21e9ca835e6133d35",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 82506,
+          "medianMs": 659.3573330000072,
+          "minMs": 659.3573330000072,
+          "samplesMs": [
+            659.3573330000072
+          ],
+          "sha256": "fe6ad9d8643fcee9558f328ab53a35220552c8cb3457bac2ac73032990d9e688",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 83026,
+          "medianMs": 576.0275830000028,
+          "minMs": 576.0275830000028,
+          "samplesMs": [
+            576.0275830000028
+          ],
+          "sha256": "4783f610bf9f94cb92e91ba040b051c671dd1d063cf17d1f1415d97806697be4",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 86847,
+          "medianMs": 549.7485830000078,
+          "minMs": 549.7485830000078,
+          "samplesMs": [
+            549.7485830000078
+          ],
+          "sha256": "8b4f8b670c4a8cd29ccd05df012655b939c235a0477e85f9e61cb521cfd44629",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 88684,
+          "medianMs": 356.1065840000083,
+          "minMs": 356.1065840000083,
+          "samplesMs": [
+            356.1065840000083
+          ],
+          "sha256": "228fb96fb19269f55073b96e4f6e22c4db31aaf6e834a04b3d113b9b20f3b1d4",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/interlaced_rgba_16_should_be_rgba_16.png",
+      "category": "fixture",
+      "inputBytes": 113711,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 82292,
+          "medianMs": 709.840875000009,
+          "minMs": 709.840875000009,
+          "samplesMs": [
+            709.840875000009
+          ],
+          "sha256": "74f075611127aa5a16f67ae15b1912a01855d8466ace27d21e9ca835e6133d35",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 82506,
+          "medianMs": 665.4406250000029,
+          "minMs": 665.4406250000029,
+          "samplesMs": [
+            665.4406250000029
+          ],
+          "sha256": "fe6ad9d8643fcee9558f328ab53a35220552c8cb3457bac2ac73032990d9e688",
+          "matchesBaseline": false
+        },
+        "insertion-32": {
+          "bytes": 83026,
+          "medianMs": 583.9105410000047,
+          "minMs": 583.9105410000047,
+          "samplesMs": [
+            583.9105410000047
+          ],
+          "sha256": "4783f610bf9f94cb92e91ba040b051c671dd1d063cf17d1f1415d97806697be4",
+          "matchesBaseline": false
+        },
+        "insertion-16": {
+          "bytes": 86847,
+          "medianMs": 457.82504199999676,
+          "minMs": 457.82504199999676,
+          "samplesMs": [
+            457.82504199999676
+          ],
+          "sha256": "8b4f8b670c4a8cd29ccd05df012655b939c235a0477e85f9e61cb521cfd44629",
+          "matchesBaseline": false
+        },
+        "insertion-8": {
+          "bytes": 90665,
+          "medianMs": 375.8615839999984,
+          "minMs": 375.8615839999984,
+          "samplesMs": [
+            375.8615839999984
+          ],
+          "sha256": "ec924295556a38420859ff8016430030fe329444d32672d02e320fdc64f6f1d4",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/small_files.png",
+      "category": "fixture",
+      "inputBytes": 90,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 89,
+          "medianMs": 0.7650830000056885,
+          "minMs": 0.7650830000056885,
+          "samplesMs": [
+            0.7650830000056885
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 89,
+          "medianMs": 0.5959579999907874,
+          "minMs": 0.5959579999907874,
+          "samplesMs": [
+            0.5959579999907874
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "insertion-32": {
+          "bytes": 89,
+          "medianMs": 0.5672500000073342,
+          "minMs": 0.5672500000073342,
+          "samplesMs": [
+            0.5672500000073342
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "insertion-16": {
+          "bytes": 89,
+          "medianMs": 0.5558749999909196,
+          "minMs": 0.5558749999909196,
+          "samplesMs": [
+            0.5558749999909196
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "insertion-8": {
+          "bytes": 89,
+          "medianMs": 0.49712499999441206,
+          "minMs": 0.49712499999441206,
+          "samplesMs": [
+            0.49712499999441206
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "fixture/apng_file.png",
+      "category": "fixture",
+      "inputBytes": 63435,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 63435,
+          "medianMs": 21.23795799999789,
+          "minMs": 21.23795799999789,
+          "samplesMs": [
+            21.23795799999789
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        },
+        "insertion-48": {
+          "bytes": 63435,
+          "medianMs": 21.206208999996306,
+          "minMs": 21.206208999996306,
+          "samplesMs": [
+            21.206208999996306
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        },
+        "insertion-32": {
+          "bytes": 63435,
+          "medianMs": 17.53208300001279,
+          "minMs": 17.53208300001279,
+          "samplesMs": [
+            17.53208300001279
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        },
+        "insertion-16": {
+          "bytes": 63435,
+          "medianMs": 14.80595799999719,
+          "minMs": 14.80595799999719,
+          "samplesMs": [
+            14.80595799999719
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        },
+        "insertion-8": {
+          "bytes": 63435,
+          "medianMs": 14.072165999998106,
+          "minMs": 14.072165999998106,
+          "samplesMs": [
+            14.072165999998106
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        }
+      }
+    }
+  ],
+  "totals": [
+    {
+      "name": "insertion-before",
+      "bytes": 7922695,
+      "medianMs": 18357.509207000025,
+      "minMs": 18357.509207000025
+    },
+    {
+      "name": "insertion-48",
+      "bytes": 7928124,
+      "medianMs": 17366.81825099997,
+      "minMs": 17366.81825099997
+    },
+    {
+      "name": "insertion-32",
+      "bytes": 7940954,
+      "medianMs": 16171.173081000044,
+      "minMs": 16171.173081000044
+    },
+    {
+      "name": "insertion-16",
+      "bytes": 7987550,
+      "medianMs": 14274.926250000004,
+      "minMs": 14274.926250000004
+    },
+    {
+      "name": "insertion-8",
+      "bytes": 8066246,
+      "medianMs": 12621.383585000027,
+      "minMs": 12621.383585000027
+    }
+  ],
+  "budgetFailures": [
+    {
+      "name": "Icon2.png",
+      "candidate": "insertion-8",
+      "baselineBytes": 579562,
+      "bytes": 591303,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "icon-small2.png",
+      "candidate": "insertion-8",
+      "baselineBytes": 42002,
+      "bytes": 43085,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "generated/gradient.png",
+      "candidate": "insertion-48",
+      "baselineBytes": 24141,
+      "bytes": 26286,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "generated/gradient.png",
+      "candidate": "insertion-32",
+      "baselineBytes": 24141,
+      "bytes": 32104,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "generated/gradient.png",
+      "candidate": "insertion-16",
+      "baselineBytes": 24141,
+      "bytes": 40213,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "generated/gradient.png",
+      "candidate": "insertion-8",
+      "baselineBytes": 24141,
+      "bytes": 49590,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "generated/shapes.png",
+      "candidate": "insertion-32",
+      "baselineBytes": 3966,
+      "bytes": 4179,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "generated/shapes.png",
+      "candidate": "insertion-16",
+      "baselineBytes": 3966,
+      "bytes": 4336,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "generated/shapes.png",
+      "candidate": "insertion-8",
+      "baselineBytes": 3966,
+      "bytes": 4443,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "fixture/rgba_16_should_be_rgba_16.png",
+      "candidate": "insertion-16",
+      "baselineBytes": 82292,
+      "bytes": 86847,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "fixture/rgba_16_should_be_rgba_16.png",
+      "candidate": "insertion-8",
+      "baselineBytes": 82292,
+      "bytes": 88684,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "fixture/interlaced_rgba_16_should_be_rgba_16.png",
+      "candidate": "insertion-16",
+      "baselineBytes": 82292,
+      "bytes": 86847,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "fixture/interlaced_rgba_16_should_be_rgba_16.png",
+      "candidate": "insertion-8",
+      "baselineBytes": 82292,
+      "bytes": 90665,
+      "maxGrowthPercent": 2
+    }
+  ]
+}

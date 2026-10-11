@@ -637,6 +637,22 @@ function deflateOptimal(bw: BitWriter | SizeCounter, data: Uint8Array, view: Dat
   const skipLength = level >= 12 ? 128 : 32;
   for (let start = 0; start < data.length;) {
     let end = optimalBlockEnd(data, start);
+    let insertionDepth = depth;
+    if (fastOptimal && level === 11) {
+      // Reuse the block histogram to protect concentrated and low-colour
+      // streams, including reduced palettes with several common bytes.
+      let symbols = 0;
+      let concentrated = false;
+      const size = end - start;
+      for (let s = 0; s < 256; s++) {
+        const count = blockHistogram[s];
+        if (count * 8 >= size * 7) { concentrated = true; break; }
+        if (count * 1024 >= size) symbols++;
+      }
+      // Finding useful matches still uses the full search depth. Only tree
+      // maintenance for skipped match interiors gets a smaller budget.
+      if (!concentrated && symbols > 16) insertionDepth = 24;
+    }
     cacheCount = 0;
     for (let pos = start; pos < end;) {
       // Reserve the worst-case 256 length records before inserting a position.
@@ -652,7 +668,7 @@ function deflateOptimal(bw: BitWriter | SizeCounter, data: Uint8Array, view: Dat
       // the parse cache. The known suffix avoids comparing the same run again.
       for (let p = pos + 1; p < next; p++) {
         matchStarts[p - start] = cacheCount;
-        insertTree(data, view, p, end, depth, nice, distance, next - p);
+        insertTree(data, view, p, end, insertionDepth, nice, distance, next - p);
       }
       matchStarts[next - start] = cacheCount;
       pos = next;

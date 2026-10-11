@@ -1,0 +1,933 @@
+{
+  "generatedAt": "2026-10-11T15:33:26.844Z",
+  "environment": {
+    "cpu": "Apple M1",
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v24.21.0"
+  },
+  "settings": {
+    "runs": 5,
+    "warmup": 1,
+    "corpus": "extended",
+    "candidates": "insertion-before,insertion-24-symbols16,insertion-32-symbols16",
+    "output": "benchmark/o2-insertion-results.json"
+  },
+  "encoderSha256": "4652663f37d778fe37277f0b16838a207541a0c584d36c05da0a18ce742a7847",
+  "optimizerSha256": "4b90ecf4bc86e28c7df6f05531d7e241383ecb301386de09ad46d6affd04b236",
+  "timing": "In-process API; alternating/rotating candidates; PNG checks outside timing; all bundles built identically",
+  "complete": true,
+  "configurations": [
+    {
+      "name": "insertion-before",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 64
+    },
+    {
+      "name": "insertion-32-symbols16",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 32,
+      "dominantPermille": 875,
+      "minSymbols": 16,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "insertion-24-symbols16",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 24,
+      "dominantPermille": 875,
+      "minSymbols": 16,
+      "maxGrowthPercent": 2
+    }
+  ],
+  "rows": [
+    {
+      "name": "Anime.png",
+      "category": "screenshot",
+      "inputBytes": 1220437,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 831762,
+          "medianMs": 971.891583999999,
+          "minMs": 958.8833340000001,
+          "samplesMs": [
+            972.9730000000004,
+            966.5257919999995,
+            958.8833340000001,
+            971.891583999999,
+            997.9726249999985
+          ],
+          "sha256": "0d9a2e90b44a3b4b904d996cc8f2e7fb1ced9fd176a50c07ec6b772638d8b60c",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 832305,
+          "medianMs": 922.5893750000005,
+          "minMs": 916.9651249999988,
+          "samplesMs": [
+            932.1733340000001,
+            922.5893750000005,
+            916.9651249999988,
+            922.2560830000002,
+            929.3699579999993
+          ],
+          "sha256": "cfe579d8215f54d67c836d17a622a5ea55ff404b1f876da37648404ade686f55",
+          "matchesBaseline": false
+        },
+        "insertion-24-symbols16": {
+          "bytes": 833135,
+          "medianMs": 898.3597909999999,
+          "minMs": 891.5901670000003,
+          "samplesMs": [
+            898.3597909999999,
+            891.5901670000003,
+            930.8706249999996,
+            921.5088749999995,
+            897.5616250000021
+          ],
+          "sha256": "842049cdc96928e12cda974dab20ce64faec9f5d63ec9a72d6621b211d2b0250",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Game.png",
+      "category": "screenshot",
+      "inputBytes": 4107582,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 3861490,
+          "medianMs": 6864.143416999999,
+          "minMs": 6723.923416999998,
+          "samplesMs": [
+            6723.923416999998,
+            6897.334416000005,
+            6864.143416999999,
+            6878.655375000002,
+            6764.019084
+          ],
+          "sha256": "b7b7bd42bec94aee9c2ea6eb6c4949a264c2235c509b87a4ca05325bb5027dc8",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 3865063,
+          "medianMs": 5843.614000000001,
+          "minMs": 5756.901582999999,
+          "samplesMs": [
+            5756.901582999999,
+            5855.643708999996,
+            5843.614000000001,
+            5818.7249160000065,
+            5848.961582999997
+          ],
+          "sha256": "e6f06d674b92adea1c03801395379048a7f1d9ef82ae32a1590eee15c8d52e2c",
+          "matchesBaseline": false
+        },
+        "insertion-24-symbols16": {
+          "bytes": 3868075,
+          "medianMs": 5441.583415999994,
+          "minMs": 5392.0112080000035,
+          "samplesMs": [
+            5392.0112080000035,
+            5487.432832999999,
+            5551.265291000003,
+            5433.456291999988,
+            5441.583415999994
+          ],
+          "sha256": "b98ddbb1815ddc69102b8c573119a23893f961856260bab5c7641137ad898eef",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Icon0.png",
+      "category": "screenshot",
+      "inputBytes": 811487,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 580339,
+          "medianMs": 1334.7912089999882,
+          "minMs": 1332.8388749999867,
+          "samplesMs": [
+            1332.8388749999867,
+            1343.9259159999783,
+            1334.7912089999882,
+            1332.8717499999912,
+            1359.733500000002
+          ],
+          "sha256": "17149348ad09a8dff925b6c0418f6c2badafefc04753b7a505e0dbd62df6c390",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 580339,
+          "medianMs": 1336.3358749999898,
+          "minMs": 1334.9790829999838,
+          "samplesMs": [
+            1336.3167919999978,
+            1349.084291999985,
+            1334.9790829999838,
+            1354.864666999987,
+            1336.3358749999898
+          ],
+          "sha256": "17149348ad09a8dff925b6c0418f6c2badafefc04753b7a505e0dbd62df6c390",
+          "matchesBaseline": true
+        },
+        "insertion-24-symbols16": {
+          "bytes": 580339,
+          "medianMs": 1332.6975419999799,
+          "minMs": 1325.5008329999982,
+          "samplesMs": [
+            1347.2674169999955,
+            1325.5008329999982,
+            1342.2684170000139,
+            1332.6975419999799,
+            1327.0245839999989
+          ],
+          "sha256": "17149348ad09a8dff925b6c0418f6c2badafefc04753b7a505e0dbd62df6c390",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "Icon1.png",
+      "category": "screenshot",
+      "inputBytes": 757550,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 571901,
+          "medianMs": 1249.2219999999797,
+          "minMs": 1246.9519999999902,
+          "samplesMs": [
+            1263.8625420000171,
+            1246.9519999999902,
+            1248.2312500000116,
+            1249.2219999999797,
+            1277.611459000007
+          ],
+          "sha256": "5f2c8b10696bd5d03029dcedc8bf628cfbb957ad2c5921276f5ab8729c38eeab",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 572047,
+          "medianMs": 1235.1776250000112,
+          "minMs": 1233.654708999995,
+          "samplesMs": [
+            1234.2083749999874,
+            1237.7102920000034,
+            1236.683458000014,
+            1233.654708999995,
+            1235.1776250000112
+          ],
+          "sha256": "35f8677deff6df83c07acc89563aa066adc94c8b40d3eb6e5283c084dcc5f0bc",
+          "matchesBaseline": false
+        },
+        "insertion-24-symbols16": {
+          "bytes": 572382,
+          "medianMs": 1222.597833000007,
+          "minMs": 1215.2537909999955,
+          "samplesMs": [
+            1216.3562499999825,
+            1225.8431669999845,
+            1215.2537909999955,
+            1222.597833000007,
+            1229.4649999999965
+          ],
+          "sha256": "010e66791037744d7b400a6895b1061ea1d6ae538a8a2094f4b9b8cd45600838",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Icon2.png",
+      "category": "screenshot",
+      "inputBytes": 827230,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 579562,
+          "medianMs": 1405.024792000011,
+          "minMs": 1402.606958999997,
+          "samplesMs": [
+            1406.304833000002,
+            1405.024792000011,
+            1404.2620419999876,
+            1402.606958999997,
+            1414.7417500000156
+          ],
+          "sha256": "9f6ee6fbbc6e6bb8fffba87150849bb5caf43208d8e04d12896f8c2803b1faa7",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 579562,
+          "medianMs": 1411.8205420000013,
+          "minMs": 1410.0062499999767,
+          "samplesMs": [
+            1410.0062499999767,
+            1412.684917000006,
+            1411.8205420000013,
+            1422.6687920000113,
+            1411.7947089999798
+          ],
+          "sha256": "9f6ee6fbbc6e6bb8fffba87150849bb5caf43208d8e04d12896f8c2803b1faa7",
+          "matchesBaseline": true
+        },
+        "insertion-24-symbols16": {
+          "bytes": 579562,
+          "medianMs": 1411.9140829999815,
+          "minMs": 1402.4272079999791,
+          "samplesMs": [
+            1411.9140829999815,
+            1402.4272079999791,
+            1526.3410840000142,
+            1403.4969589999819,
+            1422.9408340000082
+          ],
+          "sha256": "9f6ee6fbbc6e6bb8fffba87150849bb5caf43208d8e04d12896f8c2803b1faa7",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "Web.png",
+      "category": "screenshot",
+      "inputBytes": 1337550,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 909096,
+          "medianMs": 2989.289541999984,
+          "minMs": 2915.395084000018,
+          "samplesMs": [
+            2978.309500000003,
+            2989.289541999984,
+            3079.491791999986,
+            2991.3257079999894,
+            2915.395084000018
+          ],
+          "sha256": "d62393ec186f2fd9ac57adf27aa4200bdc9404f9404bd5aaf3e04d42b71bf7e4",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 911311,
+          "medianMs": 2746.0787919999857,
+          "minMs": 2684.8748340000166,
+          "samplesMs": [
+            2746.0787919999857,
+            2771.991333999991,
+            2855.6277080000145,
+            2684.8748340000166,
+            2703.2828750000044
+          ],
+          "sha256": "bf4be4d39005c756982c3f9a44073ab561a2ba197f7bfede382fbbb9bb35fcee",
+          "matchesBaseline": false
+        },
+        "insertion-24-symbols16": {
+          "bytes": 913112,
+          "medianMs": 2613.5698339999944,
+          "minMs": 2600.870041999995,
+          "samplesMs": [
+            2666.136415999994,
+            2600.870041999995,
+            2613.5698339999944,
+            2671.464082999999,
+            2610.733124999999
+          ],
+          "sha256": "71060ff2cc994bef65ef1aab01048ded2b1377f75601840aeafc85e4fe537b0d",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "icon-samll.png",
+      "category": "screenshot",
+      "inputBytes": 8563,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 6373,
+          "medianMs": 20.37204099999508,
+          "minMs": 19.903916999988724,
+          "samplesMs": [
+            22.30129199998919,
+            20.37204099999508,
+            20.729374999995343,
+            20.045874999981606,
+            19.903916999988724
+          ],
+          "sha256": "99a9d8f1728f7e48e9fb7c66761173eb2675479673d2df88ba6d4c1e9f8865e1",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 6380,
+          "medianMs": 17.420375000016065,
+          "minMs": 17.12208400000236,
+          "samplesMs": [
+            19.11850000001141,
+            17.4402499999851,
+            17.420375000016065,
+            17.12208400000236,
+            17.126457999984268
+          ],
+          "sha256": "18443b2aac0d466e0a78ad741c3e8667d14486196dea1b3052bfef681a6a9539",
+          "matchesBaseline": false
+        },
+        "insertion-24-symbols16": {
+          "bytes": 6376,
+          "medianMs": 16.482791999995243,
+          "minMs": 16.12716599999112,
+          "samplesMs": [
+            18.194707999995444,
+            16.482791999995243,
+            16.66370899998583,
+            16.12716599999112,
+            16.181042000011075
+          ],
+          "sha256": "574b7bd6a5f13a543a23aab43f0d01dc0b26564f0a738a8d45abbbb93319f114",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "icon-small2.png",
+      "category": "screenshot",
+      "inputBytes": 78637,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 42002,
+          "medianMs": 285.65829199997825,
+          "minMs": 277.92104200000176,
+          "samplesMs": [
+            281.3750829999917,
+            277.92104200000176,
+            285.65829199997825,
+            306.2114579999761,
+            304.5474160000158
+          ],
+          "sha256": "f660efd30267addc8ccfd85a2bdbaf0525fe9ab1ac8e70a28b5ca497b050b96d",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 42128,
+          "medianMs": 272.3845830000064,
+          "minMs": 268.97495800000615,
+          "samplesMs": [
+            273.3302909999911,
+            272.3845830000064,
+            272.273749999993,
+            268.97495800000615,
+            309.7081670000043
+          ],
+          "sha256": "b9030571f042380062e883215cda69e1397a552d16a8be642fd643e15c40b583",
+          "matchesBaseline": false
+        },
+        "insertion-24-symbols16": {
+          "bytes": 42300,
+          "medianMs": 265.3159169999999,
+          "minMs": 262.6532920000027,
+          "samplesMs": [
+            265.3159169999999,
+            263.6521660000144,
+            274.13179200000013,
+            262.6532920000027,
+            274.7433749999909
+          ],
+          "sha256": "a1c824a7ed8974180a12c34c4d41a249e07c28c1be838e5fe088e98ff260857d",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "generated/gradient.png",
+      "category": "generated",
+      "inputBytes": 521263,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 24141,
+          "medianMs": 859.1792090000235,
+          "minMs": 856.3900409999769,
+          "samplesMs": [
+            859.1792090000235,
+            875.7444999999716,
+            856.3949579999899,
+            856.3900409999769,
+            862.8195839999826
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 24141,
+          "medianMs": 867.1114169999491,
+          "minMs": 855.054999999993,
+          "samplesMs": [
+            859.530999999959,
+            867.8321250000154,
+            867.2377090000082,
+            867.1114169999491,
+            855.054999999993
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        },
+        "insertion-24-symbols16": {
+          "bytes": 24141,
+          "medianMs": 857.6520000000019,
+          "minMs": 850.1711249999935,
+          "samplesMs": [
+            863.2358329999843,
+            857.6887920000008,
+            850.1711249999935,
+            857.6520000000019,
+            850.6795409999904
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "generated/shapes.png",
+      "category": "generated",
+      "inputBytes": 8382,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 3966,
+          "medianMs": 190.70029200002318,
+          "minMs": 182.90908300003503,
+          "samplesMs": [
+            186.38966600003187,
+            191.60833299998194,
+            199.4710409999825,
+            190.70029200002318,
+            182.90908300003503
+          ],
+          "sha256": "2fc0f819fd3da75c7f560b6be4baa18e2d5eb9b770b33f7faca9092652f50445",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 3966,
+          "medianMs": 191.79666599998018,
+          "minMs": 180.76458399998955,
+          "samplesMs": [
+            187.19479199999478,
+            191.79666599998018,
+            211.01812500000233,
+            180.76458399998955,
+            218.37879200000316
+          ],
+          "sha256": "2fc0f819fd3da75c7f560b6be4baa18e2d5eb9b770b33f7faca9092652f50445",
+          "matchesBaseline": true
+        },
+        "insertion-24-symbols16": {
+          "bytes": 3966,
+          "medianMs": 190.81104199995752,
+          "minMs": 179.81312499998603,
+          "samplesMs": [
+            190.66854199999943,
+            190.81104199995752,
+            179.81312499998603,
+            191.985708000022,
+            217.7415420000325
+          ],
+          "sha256": "2fc0f819fd3da75c7f560b6be4baa18e2d5eb9b770b33f7faca9092652f50445",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "generated/photo.png",
+      "category": "generated",
+      "inputBytes": 354331,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 222579,
+          "medianMs": 456.3466250000056,
+          "minMs": 454.53800000000047,
+          "samplesMs": [
+            466.61966599995503,
+            456.3466250000056,
+            454.53800000000047,
+            466.9325420000241,
+            456.0585410000058
+          ],
+          "sha256": "49bb6a68110adbf10f07817db5c1966f787d2112973d6d32cd4db46846f2b990",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 222579,
+          "medianMs": 454.60195899999235,
+          "minMs": 452.62374999996973,
+          "samplesMs": [
+            456.97583299997495,
+            454.60195899999235,
+            453.2767079999903,
+            452.62374999996973,
+            458.0188330000383
+          ],
+          "sha256": "49bb6a68110adbf10f07817db5c1966f787d2112973d6d32cd4db46846f2b990",
+          "matchesBaseline": true
+        },
+        "insertion-24-symbols16": {
+          "bytes": 222579,
+          "medianMs": 451.8884170000092,
+          "minMs": 450.8821250000037,
+          "samplesMs": [
+            456.1949580000364,
+            451.88287500001024,
+            451.8884170000092,
+            450.8821250000037,
+            460.90762499999255
+          ],
+          "sha256": "49bb6a68110adbf10f07817db5c1966f787d2112973d6d32cd4db46846f2b990",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "fixture/palette_8_should_be_palette_8.png",
+      "category": "fixture",
+      "inputBytes": 32558,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 30688,
+          "medianMs": 135.70704200002365,
+          "minMs": 135.17370899999514,
+          "samplesMs": [
+            135.5918750000419,
+            137.87095800001407,
+            138.18212499999208,
+            135.70704200002365,
+            135.17370899999514
+          ],
+          "sha256": "f13eb9c8a4224318c8966367a0cfceeb0ce9b237ca3d7d8ea0ced84b6b27b254",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 30758,
+          "medianMs": 126.90570799994748,
+          "minMs": 126.3825829999987,
+          "samplesMs": [
+            126.75129200000083,
+            130.4690830000327,
+            129.4755839999998,
+            126.90570799994748,
+            126.3825829999987
+          ],
+          "sha256": "68a45a375ecd533461b5b40cf42ecc259451616f9ef2dd19105ea14f4a6fea29",
+          "matchesBaseline": false
+        },
+        "insertion-24-symbols16": {
+          "bytes": 30796,
+          "medianMs": 123.29762500000652,
+          "minMs": 122.36495799996192,
+          "samplesMs": [
+            123.29762500000652,
+            126.42816700000549,
+            125.93975000001956,
+            122.53954099997645,
+            122.36495799996192
+          ],
+          "sha256": "81f23ea1a0936b708fc1f104e428a95706a8389e4e9b373881e5d03d001bfc67",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/rgb_trns_8_should_be_palette_8.png",
+      "category": "fixture",
+      "inputBytes": 40736,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 30688,
+          "medianMs": 124.07883299997775,
+          "minMs": 123.53574999998091,
+          "samplesMs": [
+            123.53574999998091,
+            124.07883299997775,
+            133.41841600002954,
+            131.077042000019,
+            124.03162500000326
+          ],
+          "sha256": "f13eb9c8a4224318c8966367a0cfceeb0ce9b237ca3d7d8ea0ced84b6b27b254",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 30758,
+          "medianMs": 121.7194170000148,
+          "minMs": 116.24741700000595,
+          "samplesMs": [
+            116.47508300002664,
+            121.7194170000148,
+            125.51312499999767,
+            122.94250000000466,
+            116.24741700000595
+          ],
+          "sha256": "68a45a375ecd533461b5b40cf42ecc259451616f9ef2dd19105ea14f4a6fea29",
+          "matchesBaseline": false
+        },
+        "insertion-24-symbols16": {
+          "bytes": 30796,
+          "medianMs": 114.65937499998836,
+          "minMs": 111.76779200002784,
+          "samplesMs": [
+            111.76779200002784,
+            114.65937499998836,
+            123.38833399995929,
+            119.05170900002122,
+            112.03308299998753
+          ],
+          "sha256": "81f23ea1a0936b708fc1f104e428a95706a8389e4e9b373881e5d03d001bfc67",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/rgba_16_should_be_rgba_16.png",
+      "category": "fixture",
+      "inputBytes": 88684,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 82292,
+          "medianMs": 708.2803750000312,
+          "minMs": 705.0988329999964,
+          "samplesMs": [
+            708.5547079999815,
+            709.0669999999809,
+            706.2451670000446,
+            708.2803750000312,
+            705.0988329999964
+          ],
+          "sha256": "74f075611127aa5a16f67ae15b1912a01855d8466ace27d21e9ca835e6133d35",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 82342,
+          "medianMs": 702.7110410000314,
+          "minMs": 700.6370420000167,
+          "samplesMs": [
+            713.3134999999893,
+            701.7058749999851,
+            702.7110410000314,
+            710.3970830000471,
+            700.6370420000167
+          ],
+          "sha256": "70452d088b45091d994d4fa28ac6c90bf6aa9966bbf1b82ce5cd1b87fca35521",
+          "matchesBaseline": false
+        },
+        "insertion-24-symbols16": {
+          "bytes": 82404,
+          "medianMs": 701.3470419999794,
+          "minMs": 698.3791250000359,
+          "samplesMs": [
+            707.4893340000417,
+            698.3791250000359,
+            701.3470419999794,
+            701.3723330000066,
+            699.7408750000177
+          ],
+          "sha256": "7304e3796ae4dd858a41ba84c8d5f9a322ac87fc78db34c1fac61d6905b04b97",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/interlaced_rgba_16_should_be_rgba_16.png",
+      "category": "fixture",
+      "inputBytes": 113711,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 82292,
+          "medianMs": 711.5840000000317,
+          "minMs": 703.3090420000372,
+          "samplesMs": [
+            708.8994579999708,
+            703.3090420000372,
+            711.5840000000317,
+            810.9470410000067,
+            752.0947080000187
+          ],
+          "sha256": "74f075611127aa5a16f67ae15b1912a01855d8466ace27d21e9ca835e6133d35",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 82342,
+          "medianMs": 701.0106669999659,
+          "minMs": 700.633749999979,
+          "samplesMs": [
+            700.633749999979,
+            703.0129999999772,
+            700.6626249999972,
+            701.9929159999592,
+            701.0106669999659
+          ],
+          "sha256": "70452d088b45091d994d4fa28ac6c90bf6aa9966bbf1b82ce5cd1b87fca35521",
+          "matchesBaseline": false
+        },
+        "insertion-24-symbols16": {
+          "bytes": 82404,
+          "medianMs": 700.4456670000218,
+          "minMs": 696.4909169999883,
+          "samplesMs": [
+            698.5931249999558,
+            703.0360840000212,
+            707.4680839999928,
+            696.4909169999883,
+            700.4456670000218
+          ],
+          "sha256": "7304e3796ae4dd858a41ba84c8d5f9a322ac87fc78db34c1fac61d6905b04b97",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/small_files.png",
+      "category": "fixture",
+      "inputBytes": 90,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 89,
+          "medianMs": 0.2645000000484288,
+          "minMs": 0.23995800002012402,
+          "samplesMs": [
+            0.2943749999976717,
+            0.33791599998949096,
+            0.2645000000484288,
+            0.23995800002012402,
+            0.24670799996238202
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 89,
+          "medianMs": 0.25012499996228144,
+          "minMs": 0.23237500002142042,
+          "samplesMs": [
+            0.27029099996434525,
+            0.30316700000548735,
+            0.25012499996228144,
+            0.2397909999708645,
+            0.23237500002142042
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "insertion-24-symbols16": {
+          "bytes": 89,
+          "medianMs": 0.222124999971129,
+          "minMs": 0.1543330000131391,
+          "samplesMs": [
+            0.3341660000151023,
+            0.28858300001593307,
+            0.222124999971129,
+            0.1543330000131391,
+            0.1586249999818392
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "fixture/apng_file.png",
+      "category": "fixture",
+      "inputBytes": 63435,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 63435,
+          "medianMs": 17.42099999997299,
+          "minMs": 16.82600000000093,
+          "samplesMs": [
+            17.42099999997299,
+            16.82600000000093,
+            17.150874999992084,
+            17.79416599997785,
+            17.809124999970663
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        },
+        "insertion-32-symbols16": {
+          "bytes": 63435,
+          "medianMs": 13.742874999996275,
+          "minMs": 13.429166999994777,
+          "samplesMs": [
+            13.901667000027373,
+            13.429166999994777,
+            13.563083000015467,
+            13.742874999996275,
+            14.447083999984898
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        },
+        "insertion-24-symbols16": {
+          "bytes": 63435,
+          "medianMs": 12.7110410000314,
+          "minMs": 12.356999999959953,
+          "samplesMs": [
+            12.728332999977283,
+            12.472999999998137,
+            12.7110410000314,
+            12.356999999959953,
+            13.418459000007715
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        }
+      }
+    }
+  ],
+  "totals": [
+    {
+      "name": "insertion-before",
+      "bytes": 7922695,
+      "medianMs": 18323.95475300007,
+      "minMs": 18056.445044000022
+    },
+    {
+      "name": "insertion-32-symbols16",
+      "bytes": 7929545,
+      "medianMs": 16965.27104199985,
+      "minMs": 16769.484293999947
+    },
+    {
+      "name": "insertion-24-symbols16",
+      "bytes": 7935891,
+      "medianMs": 16355.555541999918,
+      "minMs": 16228.814206999936
+    }
+  ],
+  "bundles": {
+    "insertion-before": {
+      "sha256": "1a435cac3cbad233cdf0a3323d2b26b2b23aff42c48276221cea880f313a65cc",
+      "encoderSha256": "6ee5cd648795abaf84406732005ee9209b666f9dbf8ff473c4e33d0001dcb812",
+      "deflater": {
+        "kind": "libdeflater",
+        "compression": 11,
+        "fastOptimal": true
+      }
+    },
+    "insertion-32-symbols16": {
+      "sha256": "55f00d1f5f3bdc200e568c261ccc9571e1272b0e81663661c3fdff5518f716e8",
+      "encoderSha256": "8490753ffcf34fbbc2666506dfabf23e3bb7240e3dc42499b94fa307ec7aa4c3",
+      "deflater": {
+        "kind": "libdeflater",
+        "compression": 11,
+        "fastOptimal": true
+      }
+    },
+    "insertion-24-symbols16": {
+      "sha256": "4bec47b39a9f10fcc78c5f50383f7fe3f92836261d28524b0cb23bb98acc6f44",
+      "encoderSha256": "7067295f904427f732970a9b73e6241b723c144eb5317bc9201152eae448e442",
+      "deflater": {
+        "kind": "libdeflater",
+        "compression": 11,
+        "fastOptimal": true
+      }
+    }
+  }
+}

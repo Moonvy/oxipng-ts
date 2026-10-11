@@ -20,6 +20,22 @@ for (let i = 0; i < args.length; i += 2) {
 for (const key of ['runs', 'warmup']) if (!Number.isSafeInteger(settings[key]) || settings[key] < (key === 'runs' ? 1 : 0)) throw Error(`Invalid --${key}`);
 if (!['pilot', 'sample', 'extended', 'validation', 'fixtures', 'fixtures-all'].includes(settings.corpus)) throw Error('Invalid --corpus');
 const configs = [
+  { name: 'insertion-before', compression: 11, filters: 'default', keepPresetDeflater: true, insertionDepth: 64 },
+  { name: 'insertion-current', compression: 11, filters: 'default', keepPresetDeflater: true, maxGrowthPercent: 2 },
+  ...[48, 32, 16, 8].map(insertionDepth => ({
+    name: `insertion-${insertionDepth}`, compression: 11, filters: 'default',
+    keepPresetDeflater: true, insertionDepth, maxGrowthPercent: 2,
+  })),
+  ...[32, 16].flatMap(insertionDepth => [750, 875].map(dominantPermille => ({
+    name: `insertion-${insertionDepth}-guard${dominantPermille}`, compression: 11, filters: 'default',
+    keepPresetDeflater: true, insertionDepth, dominantPermille, maxGrowthPercent: 2,
+  }))),
+  ...[32, 16].flatMap(insertionDepth => [8, 16].map(minSymbols => ({
+    name: `insertion-${insertionDepth}-symbols${minSymbols}`, compression: 11, filters: 'default',
+    keepPresetDeflater: true, insertionDepth, dominantPermille: 875, minSymbols, maxGrowthPercent: 2,
+  }))),
+  { name: 'insertion-24-symbols16', compression: 11, filters: 'default',
+    keepPresetDeflater: true, insertionDepth: 24, dominantPermille: 875, minSymbols: 16, maxGrowthPercent: 2 },
   { name: 'budget-before', compression: 11, filters: 'default' },
   { name: 'budget-current', compression: 11, filters: 'default', keepPresetDeflater: true, maxGrowthPercent: 5 },
   { name: 'baseline-o2', compression: 11, filters: 'default' },
@@ -92,6 +108,30 @@ try {
   const variants = [];
   for (const config of selected) {
     let contents = source;
+    if (config.insertionDepth !== undefined) {
+      // Replace the whole per-block insertion policy so both the original
+      // depth-64 baseline and screened guards remain reproducible after tuning.
+      const block = /let end = optimalBlockEnd\(data, start\);[\s\S]*?(?=\n    cacheCount = 0;)/;
+      if (!block.test(contents)) throw Error('Optimal block declaration changed');
+      let budget = `let end = optimalBlockEnd(data, start);
+    let insertionDepth = fastOptimal && level === 11 ? ${config.insertionDepth} : depth;`;
+      if (config.dominantPermille !== undefined) budget += `
+    if (fastOptimal && level === 11) {
+      for (let s = 0; s < 256; s++) {
+        if (blockHistogram[s] * 1000 >= (end - start) * ${config.dominantPermille}) { insertionDepth = depth; break; }
+      }
+    }`;
+      if (config.minSymbols !== undefined) budget += `
+    if (fastOptimal && level === 11) {
+      let symbols = 0;
+      for (let s = 0; s < 256; s++) if (blockHistogram[s] * 1024 >= end - start) symbols++;
+      if (symbols <= ${config.minSymbols}) insertionDepth = depth;
+    }`;
+      contents = contents.replace(block, budget);
+      const insertion = /insertTree\(data, view, p, end, (?:depth|insertionDepth), nice, distance, next - p\);/;
+      if (!insertion.test(contents)) throw Error('Tree insertion call changed');
+      contents = contents.replace(insertion, 'insertTree(data, view, p, end, insertionDepth, nice, distance, next - p);');
+    }
     if (config.depth !== undefined) {
       const old = 'const depth = level >= 12 ? 128 : level >= 11 ? 64 : 32;';
       if (!contents.includes(old)) throw Error('Encoder depth declaration changed');
@@ -135,6 +175,10 @@ try {
     if (config.filters === 'sub-bigrams') opts.filters = [api.NONE, api.SUB, api.Bigrams];
     if (config.fastEvaluation !== undefined) opts.fastEvaluation = config.fastEvaluation;
     if (config.bruteLevel !== undefined) opts.filters = opts.filters.map(f => f.kind === 'brute' ? api.Brute(f.numLines, config.bruteLevel) : f);
+    (report.bundles ??= {})[config.name] = {
+      sha256: createHash('sha256').update(readFileSync(outfile)).digest('hex'),
+      encoderSha256: createHash('sha256').update(contents).digest('hex'), deflater: opts.deflater,
+    };
     variants.push({ config, api, opts });
   }
   for (const file of files) {
@@ -165,7 +209,7 @@ try {
         console.log(`  ${output.length} B / ${variant.samplesMs.at(-1).toFixed(1)} ms`);
       }
     }
-    const baseline = cases.find(v => v.config.name === 'budget-before') ?? cases.find(v => v.config.name === 'before-o2') ?? cases.find(v => v.config.name === 'baseline-o2');
+    const baseline = cases.find(v => v.config.name === 'insertion-before') ?? cases.find(v => v.config.name === 'budget-before') ?? cases.find(v => v.config.name === 'before-o2') ?? cases.find(v => v.config.name === 'baseline-o2');
     const row = { name: file.name, category: file.category, inputBytes: input.length, candidates: Object.fromEntries(cases.map(v => [v.config.name, {
       bytes: v.output.length, medianMs: median(v.samplesMs), minMs: Math.min(...v.samplesMs), samplesMs: v.samplesMs,
       sha256: createHash('sha256').update(v.output).digest('hex'), ...(baseline ? { matchesBaseline: v.output.equals(baseline.output) } : {}),
@@ -174,8 +218,11 @@ try {
     save();
     if (baseline) for (const variant of cases) {
       const limit = variant.config.maxGrowthPercent;
-      if (limit !== undefined && variant.output.length > baseline.output.length * (1 + limit / 100))
-        throw Error(`Size budget exceeded: ${file.name}, ${variant.config.name}, ${baseline.output.length} -> ${variant.output.length} B (limit ${limit}%)`);
+      if (limit !== undefined && variant.output.length > baseline.output.length * (1 + limit / 100)) {
+        (report.budgetFailures ??= []).push({ name: file.name, candidate: variant.config.name,
+          baselineBytes: baseline.output.length, bytes: variant.output.length, maxGrowthPercent: limit });
+        save();
+      }
     }
   }
   report.totals = selected.map(config => ({ name: config.name,
@@ -186,4 +233,5 @@ try {
   report.complete = true;
   save();
   console.table(report.totals);
+  if (report.budgetFailures?.length) throw Error(`Size budget exceeded in ${report.budgetFailures.length} comparisons; see ${settings.output}`);
 } finally { rmSync(work, { recursive: true, force: true }); }

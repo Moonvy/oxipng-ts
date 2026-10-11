@@ -17,7 +17,8 @@ export interface ZopfliOptions {
  * option is preserved so the CLI/API surface matches oxipng.
  */
 export type Deflater =
-  // fastOptimal limits level-11 parsing for the default preset's speed budget.
+  // fastOptimal limits level-11 parsing and match-interior tree insertion
+  // for the default preset's speed budget, protecting low-entropy streams.
   // Explicit compression levels retain their original parsing unless opted in.
   | { kind: 'libdeflater'; compression: number; fastOptimal?: boolean }
   | { kind: 'zopfli'; options: ZopfliOptions };

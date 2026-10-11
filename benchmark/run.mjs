@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Compare Rust, Node, and native builds discovered in dist/bin.
-// node benchmark/run.mjs [--minimal] [--opt 2] [--runs 3] [--warmup 0] [--output-dir DIR]
+// node benchmark/run.mjs [--minimal] [--opt 2] [--runs 3] [--warmup 0] [--output-dir DIR] [--node-cli PATH]
 import { spawn, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { cpus, homedir, tmpdir } from 'node:os';
@@ -12,7 +12,7 @@ import { createProgress, duration } from './progress.mjs';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const here = join(root, 'benchmark');
 const binDir = join(root, 'dist', 'bin');
-const tsCliPath = join(root, 'dist', 'js', 'cli.js');
+const tsCliPath = argValue('--node-cli', join(root, 'dist', 'js', 'cli.js'));
 const startupImagePath = join(root, 'test', 'files', 'fully_optimized.png');
 const startupRuns = 3;
 const executable = name => process.platform === 'win32' ? `${name}.exe` : name;

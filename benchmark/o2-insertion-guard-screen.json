@@ -1,0 +1,1098 @@
+{
+  "generatedAt": "2026-10-11T15:26:56.197Z",
+  "environment": {
+    "cpu": "Apple M1",
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v24.21.0"
+  },
+  "settings": {
+    "runs": 1,
+    "warmup": 0,
+    "corpus": "extended",
+    "candidates": "insertion-before,insertion-32-guard750,insertion-16-guard750,insertion-32-guard875,insertion-16-guard875",
+    "output": "benchmark/o2-insertion-guard-screen.json"
+  },
+  "encoderSha256": "4652663f37d778fe37277f0b16838a207541a0c584d36c05da0a18ce742a7847",
+  "optimizerSha256": "4b90ecf4bc86e28c7df6f05531d7e241383ecb301386de09ad46d6affd04b236",
+  "timing": "In-process API; alternating/rotating candidates; PNG checks outside timing; all bundles built identically",
+  "complete": true,
+  "configurations": [
+    {
+      "name": "insertion-before",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 64
+    },
+    {
+      "name": "insertion-32-guard750",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 32,
+      "dominantPermille": 750,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "insertion-32-guard875",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 32,
+      "dominantPermille": 875,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "insertion-16-guard750",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 16,
+      "dominantPermille": 750,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "insertion-16-guard875",
+      "compression": 11,
+      "filters": "default",
+      "keepPresetDeflater": true,
+      "insertionDepth": 16,
+      "dominantPermille": 875,
+      "maxGrowthPercent": 2
+    }
+  ],
+  "rows": [
+    {
+      "name": "Anime.png",
+      "category": "screenshot",
+      "inputBytes": 1220437,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 831762,
+          "medianMs": 1058.5337920000002,
+          "minMs": 1058.5337920000002,
+          "samplesMs": [
+            1058.5337920000002
+          ],
+          "sha256": "0d9a2e90b44a3b4b904d996cc8f2e7fb1ced9fd176a50c07ec6b772638d8b60c",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 832274,
+          "medianMs": 986.4275419999997,
+          "minMs": 986.4275419999997,
+          "samplesMs": [
+            986.4275419999997
+          ],
+          "sha256": "e90da9c85f90a6a80f5aa8c7fd10050ee97ef021dfd608dddb42549bd511982a",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 832356,
+          "medianMs": 977.2809159999997,
+          "minMs": 977.2809159999997,
+          "samplesMs": [
+            977.2809159999997
+          ],
+          "sha256": "7d461ae9fcde7e4aac182ddbaff4d5b87fa5256f6d151d2940657b629cdca826",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 834695,
+          "medianMs": 924.7331669999999,
+          "minMs": 924.7331669999999,
+          "samplesMs": [
+            924.7331669999999
+          ],
+          "sha256": "c8540995ea2380e57454e7255a223b55cc15b3497d53ca0491e31fe14b77f4d5",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 835229,
+          "medianMs": 909.3994590000002,
+          "minMs": 909.3994590000002,
+          "samplesMs": [
+            909.3994590000002
+          ],
+          "sha256": "3a1b423524a3e3d2906567275b0717994de2b70d36c6ecd8e04d75df13751b6e",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Game.png",
+      "category": "screenshot",
+      "inputBytes": 4107582,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 3861490,
+          "medianMs": 6815.849166999999,
+          "minMs": 6815.849166999999,
+          "samplesMs": [
+            6815.849166999999
+          ],
+          "sha256": "b7b7bd42bec94aee9c2ea6eb6c4949a264c2235c509b87a4ca05325bb5027dc8",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 3864224,
+          "medianMs": 6125.975832999999,
+          "minMs": 6125.975832999999,
+          "samplesMs": [
+            6125.975832999999
+          ],
+          "sha256": "313468143f1f8624880ac5486165e65313d11b415b1de5a154664ef8e905fc76",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 3865067,
+          "medianMs": 5882.832208,
+          "minMs": 5882.832208,
+          "samplesMs": [
+            5882.832208
+          ],
+          "sha256": "affb9155a978f5957282953314c38db2d72bbb13db68710778f0463ce6f2bde3",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 3874370,
+          "medianMs": 5642.338374999999,
+          "minMs": 5642.338374999999,
+          "samplesMs": [
+            5642.338374999999
+          ],
+          "sha256": "8cc999a0425600d528624dc791c9979db9de0700ff44aa1667c57e6a01f96a32",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 3878695,
+          "medianMs": 4969.798959000003,
+          "minMs": 4969.798959000003,
+          "samplesMs": [
+            4969.798959000003
+          ],
+          "sha256": "37b8f04db0eeca6ad0049a2b2fd13ed239c49d30a0dbbce5531b73f85265d450",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Icon0.png",
+      "category": "screenshot",
+      "inputBytes": 811487,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 580339,
+          "medianMs": 1341.1418330000015,
+          "minMs": 1341.1418330000015,
+          "samplesMs": [
+            1341.1418330000015
+          ],
+          "sha256": "17149348ad09a8dff925b6c0418f6c2badafefc04753b7a505e0dbd62df6c390",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 580606,
+          "medianMs": 1307.061542000003,
+          "minMs": 1307.061542000003,
+          "samplesMs": [
+            1307.061542000003
+          ],
+          "sha256": "ca0033b808d8c09c0efeffee91806c7916b9ffc682330487599eef8a6c4f61df",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 580689,
+          "medianMs": 1277.432332999997,
+          "minMs": 1277.432332999997,
+          "samplesMs": [
+            1277.432332999997
+          ],
+          "sha256": "93cee50b09a6f2d528cde7004fdd2835c0b6da96ee89e9d8e8142cc6f3dd22cb",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 581509,
+          "medianMs": 1241.7386250000054,
+          "minMs": 1241.7386250000054,
+          "samplesMs": [
+            1241.7386250000054
+          ],
+          "sha256": "e3e52858537c8e1f605ba87dcca37678958938419688570fc14fa280dde03c8b",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 582319,
+          "medianMs": 1219.534249999997,
+          "minMs": 1219.534249999997,
+          "samplesMs": [
+            1219.534249999997
+          ],
+          "sha256": "2ff6840a2092cc17c7e9e64016e8a42cbfa4e928bdcb07423df394e31e4913ff",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Icon1.png",
+      "category": "screenshot",
+      "inputBytes": 757550,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 571901,
+          "medianMs": 1276.0294580000045,
+          "minMs": 1276.0294580000045,
+          "samplesMs": [
+            1276.0294580000045
+          ],
+          "sha256": "5f2c8b10696bd5d03029dcedc8bf628cfbb957ad2c5921276f5ab8729c38eeab",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 572099,
+          "medianMs": 1220.6702910000022,
+          "minMs": 1220.6702910000022,
+          "samplesMs": [
+            1220.6702910000022
+          ],
+          "sha256": "ff22ed2820cfabc770ecea6069c6ae322078501ac338ca8afa142721b2f05713",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 572155,
+          "medianMs": 1221.3887909999976,
+          "minMs": 1221.3887909999976,
+          "samplesMs": [
+            1221.3887909999976
+          ],
+          "sha256": "952b162d0deadea5e3db9589f5a5de9cd9f73d87505fae80527b27961ba1c770",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 573727,
+          "medianMs": 1181.922166999997,
+          "minMs": 1181.922166999997,
+          "samplesMs": [
+            1181.922166999997
+          ],
+          "sha256": "592d606d85fdcedb88803fe39d37e6e20078eb1b904df05fba7fb2908113747f",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 573892,
+          "medianMs": 1174.0787920000002,
+          "minMs": 1174.0787920000002,
+          "samplesMs": [
+            1174.0787920000002
+          ],
+          "sha256": "7ed8cf7e8f2e6ea8fb6eaeddb5c6841140e9924aa7ed40b563c7272004848614",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Icon2.png",
+      "category": "screenshot",
+      "inputBytes": 827230,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 579562,
+          "medianMs": 1420.9757920000047,
+          "minMs": 1420.9757920000047,
+          "samplesMs": [
+            1420.9757920000047
+          ],
+          "sha256": "9f6ee6fbbc6e6bb8fffba87150849bb5caf43208d8e04d12896f8c2803b1faa7",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 579814,
+          "medianMs": 1387.1165419999961,
+          "minMs": 1387.1165419999961,
+          "samplesMs": [
+            1387.1165419999961
+          ],
+          "sha256": "69369e55c5f32f36bf6a87fadcca7ce5a377e947367e813e4946ac9477117db4",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 579888,
+          "medianMs": 1360.8996669999979,
+          "minMs": 1360.8996669999979,
+          "samplesMs": [
+            1360.8996669999979
+          ],
+          "sha256": "f5b7443024348d91adf0e4dd09518ec4b959b4999d03b84c8795cca5fe2691f8",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 581497,
+          "medianMs": 1358.7307499999952,
+          "minMs": 1358.7307499999952,
+          "samplesMs": [
+            1358.7307499999952
+          ],
+          "sha256": "03a54cefb1550bcd50a5f89a218e549492086683cbd6b57d45a88e0e047b5e95",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 582536,
+          "medianMs": 1280.9503330000007,
+          "minMs": 1280.9503330000007,
+          "samplesMs": [
+            1280.9503330000007
+          ],
+          "sha256": "2dee2ccd99e8b101d9c9a6fa829018c1bb59301a743b477d7455f27eca960168",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "Web.png",
+      "category": "screenshot",
+      "inputBytes": 1337550,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 909096,
+          "medianMs": 2979.8624169999966,
+          "minMs": 2979.8624169999966,
+          "samplesMs": [
+            2979.8624169999966
+          ],
+          "sha256": "d62393ec186f2fd9ac57adf27aa4200bdc9404f9404bd5aaf3e04d42b71bf7e4",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 910360,
+          "medianMs": 2863.713334,
+          "minMs": 2863.713334,
+          "samplesMs": [
+            2863.713334
+          ],
+          "sha256": "8c8261930cec3b72959bc043e2ffc159e61264fba9c9a664b48c0f4befad850d",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 911437,
+          "medianMs": 2838.122249999993,
+          "minMs": 2838.122249999993,
+          "samplesMs": [
+            2838.122249999993
+          ],
+          "sha256": "912ac9215da1dbd38b6b86291ce69a4ffa73775e806b8fbb0bde4a107a04d68a",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 912771,
+          "medianMs": 2885.5079170000026,
+          "minMs": 2885.5079170000026,
+          "samplesMs": [
+            2885.5079170000026
+          ],
+          "sha256": "87ea134f49af4d63923bdb1a01ffcbe13f655236435c44ada7246a20f9511a09",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 916597,
+          "medianMs": 2567.363709000012,
+          "minMs": 2567.363709000012,
+          "samplesMs": [
+            2567.363709000012
+          ],
+          "sha256": "785069c0775f7cfca10607159a72ece20b7bf7c1a5d3a4c48f007dc473f874c2",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "icon-samll.png",
+      "category": "screenshot",
+      "inputBytes": 8563,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 6373,
+          "medianMs": 43.45587499999965,
+          "minMs": 43.45587499999965,
+          "samplesMs": [
+            43.45587499999965
+          ],
+          "sha256": "99a9d8f1728f7e48e9fb7c66761173eb2675479673d2df88ba6d4c1e9f8865e1",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 6380,
+          "medianMs": 25.576249999998254,
+          "minMs": 25.576249999998254,
+          "samplesMs": [
+            25.576249999998254
+          ],
+          "sha256": "18443b2aac0d466e0a78ad741c3e8667d14486196dea1b3052bfef681a6a9539",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 6380,
+          "medianMs": 24.873959000004106,
+          "minMs": 24.873959000004106,
+          "samplesMs": [
+            24.873959000004106
+          ],
+          "sha256": "18443b2aac0d466e0a78ad741c3e8667d14486196dea1b3052bfef681a6a9539",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 6397,
+          "medianMs": 24.009208000003127,
+          "minMs": 24.009208000003127,
+          "samplesMs": [
+            24.009208000003127
+          ],
+          "sha256": "b1f57edeb7a29127873546c5f6a64a350a6f651c08292540b935520a498f9a68",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 6399,
+          "medianMs": 19.41608300000371,
+          "minMs": 19.41608300000371,
+          "samplesMs": [
+            19.41608300000371
+          ],
+          "sha256": "e55b27d22256a07be33b09aa88a25d9504e1ee1e8cf8910db910262b2eb8bfae",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "icon-small2.png",
+      "category": "screenshot",
+      "inputBytes": 78637,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 42002,
+          "medianMs": 291.8503340000025,
+          "minMs": 291.8503340000025,
+          "samplesMs": [
+            291.8503340000025
+          ],
+          "sha256": "f660efd30267addc8ccfd85a2bdbaf0525fe9ab1ac8e70a28b5ca497b050b96d",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 42291,
+          "medianMs": 266.6204160000052,
+          "minMs": 266.6204160000052,
+          "samplesMs": [
+            266.6204160000052
+          ],
+          "sha256": "4aae356109091b8c064b6f20b72b5af8801a33b5327ac4796f4fa20dcee31559",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 42295,
+          "medianMs": 263.82825000000594,
+          "minMs": 263.82825000000594,
+          "samplesMs": [
+            263.82825000000594
+          ],
+          "sha256": "8d53486d9b99c94b158b861e201edac3d54db1b412a1dcaeb8f9305cf81f444b",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 42662,
+          "medianMs": 245.153999999995,
+          "minMs": 245.153999999995,
+          "samplesMs": [
+            245.153999999995
+          ],
+          "sha256": "e4cbde5b87a4b5b0d1fd54bab6f6679195a41fcdc13dbd31c9a30c10c9ec27a1",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 42665,
+          "medianMs": 278.23745800000324,
+          "minMs": 278.23745800000324,
+          "samplesMs": [
+            278.23745800000324
+          ],
+          "sha256": "f823bb8c8a5e3f11184f5e38eefd7da826c10b05f631045ad0db0ae27386f2ed",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "generated/gradient.png",
+      "category": "generated",
+      "inputBytes": 521263,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 24141,
+          "medianMs": 880.1917499999981,
+          "minMs": 880.1917499999981,
+          "samplesMs": [
+            880.1917499999981
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 24141,
+          "medianMs": 887.7309589999932,
+          "minMs": 887.7309589999932,
+          "samplesMs": [
+            887.7309589999932
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard875": {
+          "bytes": 24141,
+          "medianMs": 884.9234579999902,
+          "minMs": 884.9234579999902,
+          "samplesMs": [
+            884.9234579999902
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        },
+        "insertion-16-guard750": {
+          "bytes": 24141,
+          "medianMs": 865.8188749999972,
+          "minMs": 865.8188749999972,
+          "samplesMs": [
+            865.8188749999972
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        },
+        "insertion-16-guard875": {
+          "bytes": 24141,
+          "medianMs": 863.6431660000089,
+          "minMs": 863.6431660000089,
+          "samplesMs": [
+            863.6431660000089
+          ],
+          "sha256": "b513f32f5158757c8fb5d957f5cfac8e5e66973fa2a38025549f17532a9c83b4",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "generated/shapes.png",
+      "category": "generated",
+      "inputBytes": 8382,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 3966,
+          "medianMs": 197.89825000001292,
+          "minMs": 197.89825000001292,
+          "samplesMs": [
+            197.89825000001292
+          ],
+          "sha256": "2fc0f819fd3da75c7f560b6be4baa18e2d5eb9b770b33f7faca9092652f50445",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 4169,
+          "medianMs": 158.5904579999915,
+          "minMs": 158.5904579999915,
+          "samplesMs": [
+            158.5904579999915
+          ],
+          "sha256": "d4a5db8b5448fda642b5c3380f60ab0b64b47c18aac603c1d8ba133bf8da6832",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 4179,
+          "medianMs": 158.60541699999885,
+          "minMs": 158.60541699999885,
+          "samplesMs": [
+            158.60541699999885
+          ],
+          "sha256": "e528d2d2b22a01884d8ede95b98129397786edc88f9d860050d9c6431bbd387c",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 4314,
+          "medianMs": 122.98479099999531,
+          "minMs": 122.98479099999531,
+          "samplesMs": [
+            122.98479099999531
+          ],
+          "sha256": "475ad9851bda755858ee955d9845bcd4725ff7b7737f58465db139f0a7be03cd",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 4336,
+          "medianMs": 121.5346669999999,
+          "minMs": 121.5346669999999,
+          "samplesMs": [
+            121.5346669999999
+          ],
+          "sha256": "d0f624c9f619a56051edf7e440d3d5f894993567ddd5963f7f4d97647d8a3abc",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "generated/photo.png",
+      "category": "generated",
+      "inputBytes": 354331,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 222579,
+          "medianMs": 488.103500000012,
+          "minMs": 488.103500000012,
+          "samplesMs": [
+            488.103500000012
+          ],
+          "sha256": "49bb6a68110adbf10f07817db5c1966f787d2112973d6d32cd4db46846f2b990",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 222560,
+          "medianMs": 482.88408300001174,
+          "minMs": 482.88408300001174,
+          "samplesMs": [
+            482.88408300001174
+          ],
+          "sha256": "25a888142b265e89739fbdecefd2df22611394e537d11420b34d3fa3443bbab2",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 222560,
+          "medianMs": 485.40829200000735,
+          "minMs": 485.40829200000735,
+          "samplesMs": [
+            485.40829200000735
+          ],
+          "sha256": "25a888142b265e89739fbdecefd2df22611394e537d11420b34d3fa3443bbab2",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 222728,
+          "medianMs": 450.6923749999987,
+          "minMs": 450.6923749999987,
+          "samplesMs": [
+            450.6923749999987
+          ],
+          "sha256": "800799b9860780167028b6bd6bb64038aa5bab573f03f59167b4432c5cb51ab8",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 222728,
+          "medianMs": 453.70941699999094,
+          "minMs": 453.70941699999094,
+          "samplesMs": [
+            453.70941699999094
+          ],
+          "sha256": "800799b9860780167028b6bd6bb64038aa5bab573f03f59167b4432c5cb51ab8",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/palette_8_should_be_palette_8.png",
+      "category": "fixture",
+      "inputBytes": 32558,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 30688,
+          "medianMs": 144.78049999999348,
+          "minMs": 144.78049999999348,
+          "samplesMs": [
+            144.78049999999348
+          ],
+          "sha256": "f13eb9c8a4224318c8966367a0cfceeb0ce9b237ca3d7d8ea0ced84b6b27b254",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 30758,
+          "medianMs": 141.06062499999825,
+          "minMs": 141.06062499999825,
+          "samplesMs": [
+            141.06062499999825
+          ],
+          "sha256": "68a45a375ecd533461b5b40cf42ecc259451616f9ef2dd19105ea14f4a6fea29",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 30758,
+          "medianMs": 143.0322499999893,
+          "minMs": 143.0322499999893,
+          "samplesMs": [
+            143.0322499999893
+          ],
+          "sha256": "68a45a375ecd533461b5b40cf42ecc259451616f9ef2dd19105ea14f4a6fea29",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 30835,
+          "medianMs": 130.58595799999603,
+          "minMs": 130.58595799999603,
+          "samplesMs": [
+            130.58595799999603
+          ],
+          "sha256": "c1d4cc3fddffc585e9ab4178952dc4ee87fbc54f705bf5acc20af4b6733a4460",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 30835,
+          "medianMs": 134.04254200001014,
+          "minMs": 134.04254200001014,
+          "samplesMs": [
+            134.04254200001014
+          ],
+          "sha256": "c1d4cc3fddffc585e9ab4178952dc4ee87fbc54f705bf5acc20af4b6733a4460",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/rgb_trns_8_should_be_palette_8.png",
+      "category": "fixture",
+      "inputBytes": 40736,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 30688,
+          "medianMs": 130.68649999999616,
+          "minMs": 130.68649999999616,
+          "samplesMs": [
+            130.68649999999616
+          ],
+          "sha256": "f13eb9c8a4224318c8966367a0cfceeb0ce9b237ca3d7d8ea0ced84b6b27b254",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 30758,
+          "medianMs": 123.92270800001279,
+          "minMs": 123.92270800001279,
+          "samplesMs": [
+            123.92270800001279
+          ],
+          "sha256": "68a45a375ecd533461b5b40cf42ecc259451616f9ef2dd19105ea14f4a6fea29",
+          "matchesBaseline": false
+        },
+        "insertion-32-guard875": {
+          "bytes": 30758,
+          "medianMs": 122.63045799999963,
+          "minMs": 122.63045799999963,
+          "samplesMs": [
+            122.63045799999963
+          ],
+          "sha256": "68a45a375ecd533461b5b40cf42ecc259451616f9ef2dd19105ea14f4a6fea29",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 30835,
+          "medianMs": 115.07799999999406,
+          "minMs": 115.07799999999406,
+          "samplesMs": [
+            115.07799999999406
+          ],
+          "sha256": "c1d4cc3fddffc585e9ab4178952dc4ee87fbc54f705bf5acc20af4b6733a4460",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard875": {
+          "bytes": 30835,
+          "medianMs": 129.45458400000643,
+          "minMs": 129.45458400000643,
+          "samplesMs": [
+            129.45458400000643
+          ],
+          "sha256": "c1d4cc3fddffc585e9ab4178952dc4ee87fbc54f705bf5acc20af4b6733a4460",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/rgba_16_should_be_rgba_16.png",
+      "category": "fixture",
+      "inputBytes": 88684,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 82292,
+          "medianMs": 707.6106250000012,
+          "minMs": 707.6106250000012,
+          "samplesMs": [
+            707.6106250000012
+          ],
+          "sha256": "74f075611127aa5a16f67ae15b1912a01855d8466ace27d21e9ca835e6133d35",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 82292,
+          "medianMs": 715.3592920000083,
+          "minMs": 715.3592920000083,
+          "samplesMs": [
+            715.3592920000083
+          ],
+          "sha256": "74f075611127aa5a16f67ae15b1912a01855d8466ace27d21e9ca835e6133d35",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard875": {
+          "bytes": 82367,
+          "medianMs": 701.9683750000113,
+          "minMs": 701.9683750000113,
+          "samplesMs": [
+            701.9683750000113
+          ],
+          "sha256": "1c69b2d10c60cd9cd00117711a038805aeb8f7f05509c2cef4c193029a93551b",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 82292,
+          "medianMs": 706.465750000003,
+          "minMs": 706.465750000003,
+          "samplesMs": [
+            706.465750000003
+          ],
+          "sha256": "74f075611127aa5a16f67ae15b1912a01855d8466ace27d21e9ca835e6133d35",
+          "matchesBaseline": true
+        },
+        "insertion-16-guard875": {
+          "bytes": 82737,
+          "medianMs": 690.7890000000043,
+          "minMs": 690.7890000000043,
+          "samplesMs": [
+            690.7890000000043
+          ],
+          "sha256": "e61e8472edb42acb9cf24df050df2689b9a66c244c5cbff16708851885cfb449",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/interlaced_rgba_16_should_be_rgba_16.png",
+      "category": "fixture",
+      "inputBytes": 113711,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 82292,
+          "medianMs": 710.7670000000071,
+          "minMs": 710.7670000000071,
+          "samplesMs": [
+            710.7670000000071
+          ],
+          "sha256": "74f075611127aa5a16f67ae15b1912a01855d8466ace27d21e9ca835e6133d35",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 82292,
+          "medianMs": 730.9541670000035,
+          "minMs": 730.9541670000035,
+          "samplesMs": [
+            730.9541670000035
+          ],
+          "sha256": "74f075611127aa5a16f67ae15b1912a01855d8466ace27d21e9ca835e6133d35",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard875": {
+          "bytes": 82367,
+          "medianMs": 704.7620000000024,
+          "minMs": 704.7620000000024,
+          "samplesMs": [
+            704.7620000000024
+          ],
+          "sha256": "1c69b2d10c60cd9cd00117711a038805aeb8f7f05509c2cef4c193029a93551b",
+          "matchesBaseline": false
+        },
+        "insertion-16-guard750": {
+          "bytes": 82292,
+          "medianMs": 714.8766670000041,
+          "minMs": 714.8766670000041,
+          "samplesMs": [
+            714.8766670000041
+          ],
+          "sha256": "74f075611127aa5a16f67ae15b1912a01855d8466ace27d21e9ca835e6133d35",
+          "matchesBaseline": true
+        },
+        "insertion-16-guard875": {
+          "bytes": 82737,
+          "medianMs": 693.7292089999974,
+          "minMs": 693.7292089999974,
+          "samplesMs": [
+            693.7292089999974
+          ],
+          "sha256": "e61e8472edb42acb9cf24df050df2689b9a66c244c5cbff16708851885cfb449",
+          "matchesBaseline": false
+        }
+      }
+    },
+    {
+      "name": "fixture/small_files.png",
+      "category": "fixture",
+      "inputBytes": 90,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 89,
+          "medianMs": 0.8219580000004498,
+          "minMs": 0.8219580000004498,
+          "samplesMs": [
+            0.8219580000004498
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 89,
+          "medianMs": 0.663457999995444,
+          "minMs": 0.663457999995444,
+          "samplesMs": [
+            0.663457999995444
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard875": {
+          "bytes": 89,
+          "medianMs": 0.6760000000067521,
+          "minMs": 0.6760000000067521,
+          "samplesMs": [
+            0.6760000000067521
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "insertion-16-guard750": {
+          "bytes": 89,
+          "medianMs": 0.590541999990819,
+          "minMs": 0.590541999990819,
+          "samplesMs": [
+            0.590541999990819
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        },
+        "insertion-16-guard875": {
+          "bytes": 89,
+          "medianMs": 0.5256660000013653,
+          "minMs": 0.5256660000013653,
+          "samplesMs": [
+            0.5256660000013653
+          ],
+          "sha256": "55e7beec4a547ed4c62027cb23c32c49ff135b1dba66cc88a186181f057f04eb",
+          "matchesBaseline": true
+        }
+      }
+    },
+    {
+      "name": "fixture/apng_file.png",
+      "category": "fixture",
+      "inputBytes": 63435,
+      "candidates": {
+        "insertion-before": {
+          "bytes": 63435,
+          "medianMs": 21.239583000002312,
+          "minMs": 21.239583000002312,
+          "samplesMs": [
+            21.239583000002312
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard750": {
+          "bytes": 63435,
+          "medianMs": 20.85800000000745,
+          "minMs": 20.85800000000745,
+          "samplesMs": [
+            20.85800000000745
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        },
+        "insertion-32-guard875": {
+          "bytes": 63435,
+          "medianMs": 17.965750000003027,
+          "minMs": 17.965750000003027,
+          "samplesMs": [
+            17.965750000003027
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        },
+        "insertion-16-guard750": {
+          "bytes": 63435,
+          "medianMs": 20.411999999996624,
+          "minMs": 20.411999999996624,
+          "samplesMs": [
+            20.411999999996624
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        },
+        "insertion-16-guard875": {
+          "bytes": 63435,
+          "medianMs": 15.110750000007101,
+          "minMs": 15.110750000007101,
+          "samplesMs": [
+            15.110750000007101
+          ],
+          "sha256": "ce0905f339f44370c0fecc226ef4b422d86f06a3ec4f194e5cfb9d0b50aafb2e",
+          "matchesBaseline": true
+        }
+      }
+    }
+  ],
+  "totals": [
+    {
+      "name": "insertion-before",
+      "bytes": 7922695,
+      "medianMs": 18509.798334000032,
+      "minMs": 18509.798334000032
+    },
+    {
+      "name": "insertion-32-guard750",
+      "bytes": 7928542,
+      "medianMs": 17445.185500000025,
+      "minMs": 17445.185500000025
+    },
+    {
+      "name": "insertion-32-guard875",
+      "bytes": 7930921,
+      "medianMs": 17066.630374000004,
+      "minMs": 17066.630374000004
+    },
+    {
+      "name": "insertion-16-guard750",
+      "bytes": 7948589,
+      "medianMs": 16631.639166999972,
+      "minMs": 16631.639166999972
+    },
+    {
+      "name": "insertion-16-guard875",
+      "bytes": 7960205,
+      "medianMs": 15521.318044000047,
+      "minMs": 15521.318044000047
+    }
+  ],
+  "budgetFailures": [
+    {
+      "name": "generated/shapes.png",
+      "candidate": "insertion-32-guard750",
+      "baselineBytes": 3966,
+      "bytes": 4169,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "generated/shapes.png",
+      "candidate": "insertion-32-guard875",
+      "baselineBytes": 3966,
+      "bytes": 4179,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "generated/shapes.png",
+      "candidate": "insertion-16-guard750",
+      "baselineBytes": 3966,
+      "bytes": 4314,
+      "maxGrowthPercent": 2
+    },
+    {
+      "name": "generated/shapes.png",
+      "candidate": "insertion-16-guard875",
+      "baselineBytes": 3966,
+      "bytes": 4336,
+      "maxGrowthPercent": 2
+    }
+  ]
+}

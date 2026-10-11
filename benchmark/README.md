@@ -181,6 +181,11 @@ See [PRESETS.md](PRESETS.md) for the complete Rust/Node `-o 0–6` CLI matrix,
 filter/compression/depth/pass experiments, and additional PNG/APNG validation.
 The subsequent default `-o 2` budget change, including the seven-file sample
 corpus and broader fixture checks, is recorded in [DEFAULT-O2.md](DEFAULT-O2.md).
+
+The current match-interior insertion budget, its per-image 2% size check,
+five-run API comparison and fresh-process CLI measurements are recorded in
+[O2-INSERTION.md](O2-INSERTION.md). Use `--node-cli PATH` with `benchmark/run.mjs`
+to compare a saved CLI build, and `--output-dir` to preserve existing reports.
 These scripts write separate artifacts and preserve the main CLI report:
 
 ```sh

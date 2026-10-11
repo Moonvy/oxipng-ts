@@ -1,0 +1,112 @@
+{
+  "generatedAt": "2026-10-11T15:44:09.919Z",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M1",
+    "node": "v24.21.0"
+  },
+  "options": {
+    "opt": "2",
+    "runs": 3,
+    "warmup": 0,
+    "startupRuns": 3,
+    "timeAggregation": "drop-fastest-mean"
+  },
+  "totals": {
+    "files": 8,
+    "originalBytes": 9149036,
+    "nativeBytes": 7080182,
+    "nativeMs": 8846.562292000004,
+    "nativeStartupMs": 3.1434579999999954,
+    "tsBytes": 7382525,
+    "tsCliMs": 15393.393646999997,
+    "tsCliStartupMs": 42.101834,
+    "sizeOverheadPercent": 4.2702715834140985,
+    "slowdown": 1.7400424186150059
+  },
+  "rows": [
+    {
+      "name": "Anime.png",
+      "originalSize": 1220437,
+      "nativeSize": 808313,
+      "nativeMs": 651.408062,
+      "tsSize": 831762,
+      "tsCliMs": 1084.6478749999999,
+      "sizeDelta": 23449
+    },
+    {
+      "name": "Game.png",
+      "originalSize": 4107582,
+      "nativeSize": 3683431,
+      "nativeMs": 4235.717375000001,
+      "tsSize": 3861490,
+      "tsCliMs": 6625.672895999998,
+      "sizeDelta": 178059
+    },
+    {
+      "name": "Icon0.png",
+      "originalSize": 811487,
+      "nativeSize": 559103,
+      "nativeMs": 879.9092915000037,
+      "tsSize": 580339,
+      "tsCliMs": 1386.8097705,
+      "sizeDelta": 21236
+    },
+    {
+      "name": "Icon1.png",
+      "originalSize": 757550,
+      "nativeSize": 551303,
+      "nativeMs": 755.177062499999,
+      "tsSize": 571901,
+      "tsCliMs": 1304.6337295000012,
+      "sizeDelta": 20598
+    },
+    {
+      "name": "Icon2.png",
+      "originalSize": 827230,
+      "nativeSize": 554704,
+      "nativeMs": 1004.8303334999982,
+      "tsSize": 579562,
+      "tsCliMs": 1516.4045419999966,
+      "sizeDelta": 24858
+    },
+    {
+      "name": "Web.png",
+      "originalSize": 1337550,
+      "nativeSize": 878403,
+      "nativeMs": 1156.4143129999975,
+      "tsSize": 909096,
+      "tsCliMs": 2992.653104499994,
+      "sizeDelta": 30693
+    },
+    {
+      "name": "icon-samll.png",
+      "originalSize": 8563,
+      "nativeSize": 6098,
+      "nativeMs": 14.88833350000641,
+      "tsSize": 6373,
+      "tsCliMs": 98.7567085000046,
+      "sizeDelta": 275
+    },
+    {
+      "name": "icon-small2.png",
+      "originalSize": 78637,
+      "nativeSize": 38827,
+      "nativeMs": 148.21752099999867,
+      "tsSize": 42002,
+      "tsCliMs": 383.81502100000216,
+      "sizeDelta": 3175
+    }
+  ],
+  "native": {
+    "bin": "oxipng",
+    "version": "oxipng 10.2.1",
+    "startupMs": 3.1434579999999954
+  },
+  "ts": {
+    "name": "oxipng-ts",
+    "version": "0.1.0",
+    "cliStartupMs": 42.101834
+  }
+}
