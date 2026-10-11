@@ -1,6 +1,6 @@
 {
   "name": "oxipng-ts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A lossless PNG/APNG compression optimizer written in TypeScript, runnable in the browser and Node.js",
   "type": "module",
   "license": "MIT",
